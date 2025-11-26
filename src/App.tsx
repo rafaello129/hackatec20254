@@ -2,6 +2,11 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "./Layout";
 import Feed from "./pages/Feed";
 import React from "react";
+import PerfilEmpresarial from "./pages/Profile";
+import InventarioInteligente from "./pages/Inventory";
+import GestionProductosServicios from "./pages/ProductsAndServices";
+import Finanzas from "./pages/Finance";
+import CRMClientes from "./pages/Clients";
 
 // Placeholder temporal para las páginas que aún no creamos
 function Placeholder({ title }: { title: string }) {
@@ -22,7 +27,7 @@ export default function App() {
   return (
     <Layout>
       <Routes>
-        <Route path="/" element={<Feed />} />
+        <Route path="/" element={<Feed />} />        
         <Route path="/explorar" element={<Placeholder title="Explorar" />} />
         <Route path="/oportunidades" element={<Placeholder title="Centro de Oportunidades" />} />
         <Route path="/operaciones" element={<Placeholder title="Mis Operaciones" />} />
@@ -32,6 +37,12 @@ export default function App() {
         <Route path="/publicar" element={<Placeholder title="Publicar" />} />
         <Route path="/supply-planner" element={<Placeholder title="Supply Planner" />} />
         <Route path="*" element={<Placeholder title="Página no encontrada" />} />
+        <Route path="/perfil" element={<PerfilEmpresarial />} />
+        <Route path="/inventario" element={<InventarioInteligente />} />
+        <Route path="/productos" element={<GestionProductosServicios />} />
+        <Route path="/finanzas" element={<Finanzas />} />
+        <Route path="/clientes" element={<CRMClientes />} />
+        
       </Routes>
     </Layout>
   );
