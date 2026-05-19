@@ -1,33 +1,33 @@
-import KpiCard from "@/components/common/KpiCard";
-import SectionCard from "@/components/common/SectionCard";
-
-const bars = [58, 63, 61, 70, 66, 76, 81];
+import PageIntro from "@/components/common/PageIntro";
+import CashflowChart from "./components/CashflowChart";
+import CooperativeFinancePanel from "./components/CooperativeFinancePanel";
+import FinanceAlertPanel from "./components/FinanceAlertPanel";
+import FinanceKpiCards from "./components/FinanceKpiCards";
+import FinanceSectionTabs from "./components/FinanceSectionTabs";
+import FinancialHealthPanel from "./components/FinancialHealthPanel";
+import RevenueExpensePanel from "./components/RevenueExpensePanel";
+import { useFinance } from "./hooks/useFinance";
 
 export default function FinanceSummaryPage() {
-  return (
-    <div className="space-y-4">
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <KpiCard label="Ingresos" value="$1,248,300" hint="+12.4% trimestral" />
-        <KpiCard label="Egresos" value="$842,110" hint="-3.2% mensual" />
-        <KpiCard label="Flujo disponible" value="$406,190" hint="Disponible para operación" />
-        <KpiCard label="Cuentas por cobrar" value="$119,040" hint="23 facturas pendientes" />
-      </div>
+  const { alerts, cashflowPoints, cooperativeRecords, kpis, summary } = useFinance();
 
-      <SectionCard title="Tendencia financiera (simulada)">
-        <div className="grid grid-cols-7 items-end gap-2">
-          {bars.map((height, index) => (
-            <div key={`${height}-${index}`} className="space-y-1">
-              <div className="h-32 rounded-md bg-[#f3f4ed] p-1">
-                <div
-                  className="w-full rounded-sm bg-[#799833]"
-                  style={{ height: `${height}%`, marginTop: `${100 - height}%` }}
-                />
-              </div>
-              <p className="text-center text-xs font-semibold text-[#42493f]">S{index + 1}</p>
-            </div>
-          ))}
-        </div>
-      </SectionCard>
+  return (
+    <div className="w-full max-w-full space-y-6 overflow-hidden">
+      <PageIntro
+        title="Resumen financiero"
+        description={`Vista ejecutiva del periodo ${summary.period.label}: flujo, margen, cobranza y valor generado por cooperativos.`}
+      />
+      <FinanceSectionTabs />
+      <FinanceKpiCards kpis={kpis} />
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.75fr)] xl:items-start">
+        <CashflowChart points={cashflowPoints} />
+        <RevenueExpensePanel summary={summary} />
+      </div>
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] xl:items-start">
+        <FinancialHealthPanel summary={summary} />
+        <FinanceAlertPanel alerts={alerts} limit={3} />
+      </div>
+      <CooperativeFinancePanel records={cooperativeRecords} />
     </div>
   );
 }

@@ -3,18 +3,18 @@ import type { Customer, CustomerInteraction } from "@/types/customer.types";
 import CustomerStatusBadge from "./CustomerStatusBadge";
 
 const segmentLabels: Record<Customer["segment"], string> = {
-  enterprise: "Enterprise",
+  enterprise: "Cuenta clave",
   pyme: "PyME",
-  microbusiness: "Microbusiness",
-  distributor: "Distributor",
-  supplier: "Supplier",
-  strategic_partner: "Strategic Partner",
+  microbusiness: "Microtienda",
+  distributor: "Distribuidor",
+  supplier: "Proveedor",
+  strategic_partner: "Socio estratégico",
 };
 
 const interactionChannelLabels: Record<CustomerInteraction["channel"], string> = {
-  email: "Email",
+  email: "Correo",
   call: "Llamada",
-  meeting: "Reunion",
+  meeting: "Reunión",
   whatsapp: "WhatsApp",
 };
 
@@ -35,7 +35,7 @@ export default function CustomerDetailPanel({ customer, interactions }: Customer
     return (
       <section className="rounded-lg border border-[#c2c9bc] bg-white p-4">
         <h3 className="font-['Hanken_Grotesk'] text-lg font-semibold text-[#1a1c18]">Detalle de cliente</h3>
-        <p className="mt-2 text-sm text-[#42493f]">Selecciona una cuenta para revisar su perfil y sus ultimas interacciones.</p>
+        <p className="mt-2 text-sm text-[#42493f]">Selecciona una cuenta para revisar su perfil y sus últimas interacciones.</p>
       </section>
     );
   }

@@ -28,12 +28,12 @@ const STATUS_OPTIONS: Array<{ value: CustomerStatusFilter; label: string }> = [
 
 const SEGMENT_OPTIONS: Array<{ value: CustomerSegmentFilter; label: string }> = [
   { value: "all", label: "Todos los segmentos" },
-  { value: "enterprise", label: "Enterprise" },
+  { value: "enterprise", label: "Cuenta clave" },
   { value: "pyme", label: "PyME" },
-  { value: "microbusiness", label: "Microbusiness" },
-  { value: "distributor", label: "Distributor" },
-  { value: "supplier", label: "Supplier" },
-  { value: "strategic_partner", label: "Strategic Partner" },
+  { value: "microbusiness", label: "Microtienda" },
+  { value: "distributor", label: "Distribuidor" },
+  { value: "supplier", label: "Proveedor" },
+  { value: "strategic_partner", label: "Socio estratégico" },
 ];
 
 export function useCustomers() {

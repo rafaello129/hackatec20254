@@ -20,14 +20,14 @@ export default function InventoryAlertPanel({ alerts, resolveItemName }: Invento
         <span className="rounded-full bg-[#e8e9e2] px-2.5 py-1 text-xs font-semibold text-[#42493f]">{alerts.length}</span>
       </div>
 
-      <ul className="space-y-2.5">
+      <ul className="grid gap-2">
         {alerts.map((alert) => {
           const mapped = severityMap[alert.severity];
           const Icon = mapped.icon;
           const cooperativeHint = /cooperativ|conjunta|acuerdo/i.test(alert.recommendation);
           return (
             <li key={alert.id} className="rounded-lg border border-[#e2e3dc] bg-[#f9faf3] p-3">
-              <div className="mb-1 flex items-center justify-between gap-2">
+              <div className="mb-1 flex items-start justify-between gap-2">
                 <div className="flex items-center gap-2">
                   <span className={`inline-flex h-7 w-7 items-center justify-center rounded-md ${mapped.tone}`}>
                     <Icon className="h-4 w-4" />
@@ -42,7 +42,7 @@ export default function InventoryAlertPanel({ alerts, resolveItemName }: Invento
                 </span>
               </div>
 
-              <p className="text-sm text-[#42493f]">{alert.description}</p>
+              <p className="line-clamp-2 text-xs leading-5 text-[#42493f]">{alert.description}</p>
               <div className="mt-2 rounded-md border border-[#e2e3dc] bg-white p-2 text-xs text-[#1a1c18]">
                 <span className="font-semibold">Recomendacion: </span>
                 {alert.recommendation}

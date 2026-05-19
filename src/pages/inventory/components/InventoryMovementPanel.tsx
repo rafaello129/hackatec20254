@@ -27,23 +27,23 @@ export default function InventoryMovementPanel({ movements, resolveItemName }: I
   return (
     <section className="rounded-lg border border-[#c2c9bc] bg-white p-4">
       <div className="mb-3 flex items-center justify-between">
-        <h3 className="font-['Hanken_Grotesk'] text-lg font-semibold text-[#1a1c18]">Movimientos recientes</h3>
+        <h3 className="font-['Hanken_Grotesk'] text-lg font-semibold text-[#1a1c18]">Activity Log</h3>
         <span className="rounded-full bg-[#e8e9e2] px-2.5 py-1 text-xs font-semibold text-[#42493f]">{movements.length}</span>
       </div>
 
-      <ul className="space-y-2.5">
+      <ul className="max-h-[390px] space-y-2 overflow-y-auto pr-1">
         {movements.map((movement) => {
           const mapped = movementStyleMap[movement.type];
           const Icon = mapped.icon;
           return (
-            <li key={movement.id} className="rounded-lg border border-[#e2e3dc] bg-[#f9faf3] p-3">
+            <li key={movement.id} className="rounded-lg border border-[#e2e3dc] bg-[#f9faf3] p-2.5">
               <div className="mb-1 flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
                   <span className={`inline-flex h-7 w-7 items-center justify-center rounded-md ${mapped.className}`}>
                     <Icon className="h-4 w-4" />
                   </span>
                   <div>
-                    <p className="text-sm font-semibold text-[#1a1c18]">{resolveItemName(movement.itemId)}</p>
+                    <p className="line-clamp-1 text-sm font-semibold text-[#1a1c18]">{resolveItemName(movement.itemId)}</p>
                     <p className="text-xs text-[#42493f]">{mapped.label}</p>
                   </div>
                 </div>
@@ -52,7 +52,7 @@ export default function InventoryMovementPanel({ movements, resolveItemName }: I
                   {movement.quantity}
                 </span>
               </div>
-              <p className="text-sm text-[#42493f]">{movement.reason}</p>
+              <p className="line-clamp-2 text-xs leading-5 text-[#42493f]">{movement.reason}</p>
               <div className="mt-1 flex items-center justify-between text-xs text-[#42493f]">
                 <span>{formatDate(movement.date)}</span>
                 <span>{movement.responsible}</span>

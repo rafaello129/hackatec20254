@@ -3,7 +3,7 @@ import type { CustomerInsight } from "@/types/customer.types";
 
 const insightIconMap: Record<CustomerInsight["type"], { icon: typeof AlertTriangle; tone: string }> = {
   risk: { icon: AlertTriangle, tone: "bg-[#ffdad6] text-[#93000a]" },
-  upsell: { icon: TrendingUp, tone: "bg-[#D6D979] text-[#3E5902]" },
+  upsell: { icon: TrendingUp, tone: "bg-[#c5f17a] text-[#3E5902]" },
   follow_up: { icon: UserRoundSearch, tone: "bg-[#e8e9e2] text-[#42493f]" },
   reactivation: { icon: RefreshCcw, tone: "bg-[#fff2cc] text-[#7a5d00]" },
 };
@@ -22,8 +22,8 @@ export default function CustomerInsightsPanel({ insights }: CustomerInsightsPane
   return (
     <section className="rounded-lg border border-[#c2c9bc] bg-white p-4">
       <div className="mb-3 flex items-center justify-between gap-2">
-        <h3 className="font-['Hanken_Grotesk'] text-lg font-semibold text-[#1a1c18]">Insights CRM</h3>
-        <span className="rounded-full bg-[#D6D979] px-2.5 py-1 text-xs font-semibold text-[#3E5902]">{insights.length} activos</span>
+        <h3 className="font-['Hanken_Grotesk'] text-lg font-semibold text-[#1a1c18]">Insights comerciales</h3>
+        <span className="rounded-full bg-[#c5f17a] px-2.5 py-1 text-xs font-semibold text-[#3E5902]">{insights.length} activos</span>
       </div>
 
       <ul className="space-y-2.5">

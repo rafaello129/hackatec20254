@@ -59,12 +59,12 @@ export function useCooperativeDetail(opportunityId?: string) {
     const order = ["published", "negotiation", "in_agreement", "active", "in_delivery", "completed"];
     const currentIndex = order.includes(status) ? order.indexOf(status) : 0;
     return [
-      { key: "published", label: "Publicada", state: currentIndex > 0 ? "done" : currentIndex === 0 ? "current" : "pending" },
+      { key: "published", label: "Creada", state: currentIndex > 0 ? "done" : currentIndex === 0 ? "current" : "pending" },
       { key: "negotiation", label: "Negociación", state: currentIndex > 1 ? "done" : currentIndex === 1 ? "current" : "pending" },
-      { key: "in_agreement", label: "Acuerdo", state: currentIndex > 2 ? "done" : currentIndex === 2 ? "current" : "pending" },
+      { key: "in_agreement", label: "Acuerdo / fondeo", state: currentIndex > 2 ? "done" : currentIndex === 2 ? "current" : "pending" },
       { key: "active", label: "Ejecución", state: currentIndex > 3 ? "done" : currentIndex === 3 ? "current" : "pending" },
       { key: "in_delivery", label: "Entrega", state: currentIndex > 4 ? "done" : currentIndex === 4 ? "current" : "pending" },
-      { key: "completed", label: "Finalización", state: currentIndex > 5 ? "done" : currentIndex === 5 ? "current" : "pending" },
+      { key: "completed", label: "Finalizada", state: currentIndex > 5 ? "done" : currentIndex === 5 ? "current" : "pending" },
     ] as const;
   }, [opportunity?.status]);
 

@@ -33,8 +33,8 @@ export default function InventoryFilters({
   onClearFilters,
 }: InventoryFiltersProps) {
   return (
-    <div className="space-y-3 rounded-lg border border-[#e2e3dc] bg-[#f9faf3] p-3">
-      <div className="grid gap-3 xl:grid-cols-[1.3fr_1fr_1fr_auto]">
+    <div className="space-y-2 rounded-lg border border-[#e2e3dc] bg-[#f9faf3] p-3">
+      <div className="grid min-w-0 gap-3 lg:grid-cols-[minmax(220px,1fr)_180px_180px_auto]">
         <label className="relative block">
           <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#42493f]" />
           <input
@@ -49,7 +49,7 @@ export default function InventoryFilters({
         <select
           value={statusFilter}
           onChange={(event) => onStatusChange(event.target.value as InventoryStatusFilter)}
-          className="h-10 rounded-lg border border-[#c2c9bc] bg-white px-3 text-sm text-[#1a1c18] outline-none transition focus:border-[#4F7302] focus:ring-2 focus:ring-[#4F7302]/20"
+          className="h-10 min-w-0 rounded-lg border border-[#c2c9bc] bg-white px-3 text-sm text-[#1a1c18] outline-none transition focus:border-[#4F7302] focus:ring-2 focus:ring-[#4F7302]/20"
         >
           {statusOptions.map((option) => (
             <option key={option.value} value={option.value}>
@@ -61,7 +61,7 @@ export default function InventoryFilters({
         <select
           value={categoryFilter}
           onChange={(event) => onCategoryChange(event.target.value as InventoryCategoryFilter)}
-          className="h-10 rounded-lg border border-[#c2c9bc] bg-white px-3 text-sm text-[#1a1c18] outline-none transition focus:border-[#4F7302] focus:ring-2 focus:ring-[#4F7302]/20"
+          className="h-10 min-w-0 rounded-lg border border-[#c2c9bc] bg-white px-3 text-sm text-[#1a1c18] outline-none transition focus:border-[#4F7302] focus:ring-2 focus:ring-[#4F7302]/20"
         >
           {categoryOptions.map((option) => (
             <option key={option.value} value={option.value}>

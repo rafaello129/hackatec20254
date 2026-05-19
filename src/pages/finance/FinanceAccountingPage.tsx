@@ -1,59 +1,100 @@
+import { Search, X } from "lucide-react";
+import PageIntro from "@/components/common/PageIntro";
 import SectionCard from "@/components/common/SectionCard";
-import StatusBadge from "@/components/common/StatusBadge";
+import type { AccountingEntryType, AccountingStatus } from "@/types/finance.types";
+import AccountingTable from "./components/AccountingTable";
+import FinanceAlertPanel from "./components/FinanceAlertPanel";
+import FinanceSectionTabs from "./components/FinanceSectionTabs";
+import RevenueExpensePanel from "./components/RevenueExpensePanel";
+import { useFinance } from "./hooks/useFinance";
 
-const entries = [
-  { date: "2026-05-16", concept: "Cobro contrato GreenLeaf", type: "Ingreso", amount: "$48,200", account: "Bancos MXN" },
-  { date: "2026-05-16", concept: "Pago de nómina operativa", type: "Egreso", amount: "$18,940", account: "Nómina" },
-  { date: "2026-05-15", concept: "Ajuste inventario cíclico", type: "Ajuste", amount: "$3,150", account: "Inventario" },
+const accountingTypes: Array<{ value: AccountingEntryType | "all"; label: string }> = [
+  { value: "all", label: "Todos los tipos" },
+  { value: "income", label: "Ingreso" },
+  { value: "expense", label: "Egreso" },
+  { value: "adjustment", label: "Ajuste" },
+  { value: "transfer", label: "Transferencia" },
+  { value: "tax", label: "Impuesto" },
+  { value: "cooperative_contribution", label: "Aportación cooperativa" },
+];
+
+const accountingStatuses: Array<{ value: AccountingStatus | "all"; label: string }> = [
+  { value: "all", label: "Todos los estados" },
+  { value: "registered", label: "Registrado" },
+  { value: "pending", label: "Pendiente" },
+  { value: "reconciled", label: "Conciliado" },
+  { value: "canceled", label: "Cancelado" },
 ];
 
 export default function FinanceAccountingPage() {
-  return (
-    <div className="grid gap-4 xl:grid-cols-[1.6fr_1fr]">
-      <SectionCard title="Movimientos contables">
-        <div className="overflow-x-auto">
-          <table className="min-w-full text-left text-sm">
-            <thead className="border-b border-[#e2e3dc] text-xs uppercase tracking-[0.06em] text-[#42493f]">
-              <tr>
-                <th className="px-2 py-3">Fecha</th>
-                <th className="px-2 py-3">Concepto</th>
-                <th className="px-2 py-3">Tipo</th>
-                <th className="px-2 py-3">Monto</th>
-                <th className="px-2 py-3">Cuenta</th>
-              </tr>
-            </thead>
-            <tbody>
-              {entries.map((entry) => (
-                <tr key={`${entry.date}-${entry.concept}`} className="border-b border-[#f0f1ea]">
-                  <td className="px-2 py-3 text-[#42493f]">{entry.date}</td>
-                  <td className="px-2 py-3 font-semibold text-[#1a1c18]">{entry.concept}</td>
-                  <td className="px-2 py-3">
-                    <StatusBadge
-                      label={entry.type}
-                      tone={entry.type === "Ingreso" ? "success" : entry.type === "Egreso" ? "danger" : "warning"}
-                    />
-                  </td>
-                  <td className="px-2 py-3 text-[#1a1c18]">{entry.amount}</td>
-                  <td className="px-2 py-3 text-[#42493f]">{entry.account}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </SectionCard>
+  const {
+    accountingSearchText,
+    accountingStatusFilter,
+    accountingTypeFilter,
+    alerts,
+    clearAccountingFilters,
+    filteredAccountingEntries,
+    setAccountingSearchText,
+    setAccountingStatusFilter,
+    setAccountingTypeFilter,
+    summary,
+  } = useFinance();
 
-      <SectionCard title="Estado contable">
-        <div className="space-y-3 text-sm">
-          <div className="rounded-lg border border-[#e2e3dc] bg-[#f9faf3] p-3">
-            <p className="font-semibold text-[#1a1c18]">Cierre mensual</p>
-            <p className="text-[#42493f]">Progreso 74% · 3 validaciones pendientes.</p>
+  return (
+    <div className="w-full max-w-full space-y-6 overflow-hidden">
+      <PageIntro
+        title="Contabilidad"
+        description="Movimientos contables simulados para ingresos, egresos, aportaciones cooperativas y conciliación operativa."
+      />
+      <FinanceSectionTabs />
+
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_320px] xl:items-start">
+        <SectionCard title="Movimientos contables">
+          <div className="mb-4 grid gap-3 lg:grid-cols-[minmax(0,1fr)_180px_180px_auto]">
+            <label className="relative">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#42493f]" />
+              <input
+                value={accountingSearchText}
+                onChange={(event) => setAccountingSearchText(event.target.value)}
+                placeholder="Buscar por concepto, módulo o entidad..."
+                className="w-full rounded-lg border border-[#c2c9bc] bg-white py-2 pl-9 pr-3 text-sm text-[#1a1c18] outline-none focus:border-[#4F7302]"
+              />
+            </label>
+            <select
+              value={accountingTypeFilter}
+              onChange={(event) => setAccountingTypeFilter(event.target.value as AccountingEntryType | "all")}
+              className="rounded-lg border border-[#c2c9bc] bg-white px-3 py-2 text-sm text-[#1a1c18] outline-none focus:border-[#4F7302]"
+            >
+              {accountingTypes.map((type) => (
+                <option key={type.value} value={type.value}>{type.label}</option>
+              ))}
+            </select>
+            <select
+              value={accountingStatusFilter}
+              onChange={(event) => setAccountingStatusFilter(event.target.value as AccountingStatus | "all")}
+              className="rounded-lg border border-[#c2c9bc] bg-white px-3 py-2 text-sm text-[#1a1c18] outline-none focus:border-[#4F7302]"
+            >
+              {accountingStatuses.map((status) => (
+                <option key={status.value} value={status.value}>{status.label}</option>
+              ))}
+            </select>
+            <button
+              type="button"
+              onClick={clearAccountingFilters}
+              className="inline-flex items-center justify-center gap-2 rounded-lg border border-[#c2c9bc] px-3 py-2 text-sm font-semibold text-[#42493f] hover:bg-[#f3f4ed]"
+            >
+              <X className="h-4 w-4" />
+              Limpiar
+            </button>
           </div>
-          <div className="rounded-lg border border-[#e2e3dc] bg-[#f9faf3] p-3">
-            <p className="font-semibold text-[#1a1c18]">Conciliación bancaria</p>
-            <p className="text-[#42493f]">Última conciliación: 14 de mayo de 2026.</p>
-          </div>
+          <AccountingTable entries={filteredAccountingEntries} />
+        </SectionCard>
+
+        <div className="min-w-0 space-y-4">
+          <RevenueExpensePanel summary={summary} compact />
+          <FinanceAlertPanel alerts={alerts} limit={2} />
         </div>
-      </SectionCard>
+      </div>
     </div>
   );
 }

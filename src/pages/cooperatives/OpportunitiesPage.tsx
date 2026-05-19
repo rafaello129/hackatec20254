@@ -24,7 +24,7 @@ export default function OpportunitiesPage() {
     <div className="space-y-6">
       <PageIntro
         title="Oportunidades cooperativas"
-        description="Marketplace de compra, venta, campañas, distribución y logística entre empresas."
+        description="Mercado de compras textiles, ventas compartidas, campañas de moda, distribución y logística entre tiendas de ropa."
         actions={
           <button
             type="button"
@@ -51,7 +51,7 @@ export default function OpportunitiesPage() {
       />
 
       {isLoading ? (
-        <div className="rounded-lg border border-[#c2c9bc] bg-white p-8 text-sm text-[#42493f]">Cargando marketplace...</div>
+        <div className="rounded-lg border border-[#c2c9bc] bg-white p-8 text-sm text-[#42493f]">Cargando mercado...</div>
       ) : (
         <OpportunityList opportunities={filteredOpportunities} />
       )}

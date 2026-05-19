@@ -74,7 +74,7 @@ export function useCooperatives() {
   }, [opportunities, searchText, statusFilter, typeFilter]);
 
   const featuredOpportunities = useMemo(
-    () => opportunities.filter((opportunity) => opportunity.status !== "canceled").slice(0, 3),
+    () => opportunities.filter((opportunity) => opportunity.status !== "canceled").slice(0, 4),
     [opportunities],
   );
 

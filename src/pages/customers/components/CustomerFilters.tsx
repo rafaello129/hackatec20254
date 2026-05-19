@@ -1,4 +1,4 @@
-import { Filter, Search, X } from "lucide-react";
+import { Filter, X } from "lucide-react";
 import type { CustomerSegmentFilter, CustomerStatusFilter } from "@/pages/customers/hooks/useCustomers";
 
 interface FilterOption<T extends string> {
@@ -7,42 +7,27 @@ interface FilterOption<T extends string> {
 }
 
 interface CustomerFiltersProps {
-  searchText: string;
   statusFilter: CustomerStatusFilter;
   segmentFilter: CustomerSegmentFilter;
   statusOptions: Array<FilterOption<CustomerStatusFilter>>;
   segmentOptions: Array<FilterOption<CustomerSegmentFilter>>;
-  onSearchChange: (value: string) => void;
   onStatusChange: (value: CustomerStatusFilter) => void;
   onSegmentChange: (value: CustomerSegmentFilter) => void;
   onClearFilters: () => void;
 }
 
 export default function CustomerFilters({
-  searchText,
   statusFilter,
   segmentFilter,
   statusOptions,
   segmentOptions,
-  onSearchChange,
   onStatusChange,
   onSegmentChange,
   onClearFilters,
 }: CustomerFiltersProps) {
   return (
     <div className="space-y-3 rounded-lg border border-[#e2e3dc] bg-[#f9faf3] p-3">
-      <div className="grid gap-3 xl:grid-cols-[1.3fr_1fr_1fr_auto]">
-        <label className="relative block">
-          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#42493f]" />
-          <input
-            type="text"
-            value={searchText}
-            placeholder="Buscar por cliente, empresa o account manager"
-            onChange={(event) => onSearchChange(event.target.value)}
-            className="h-10 w-full rounded-lg border border-[#c2c9bc] bg-white pl-9 pr-3 text-sm text-[#1a1c18] outline-none transition focus:border-[#4F7302] focus:ring-2 focus:ring-[#4F7302]/20"
-          />
-        </label>
-
+      <div className="grid gap-3 xl:grid-cols-[1fr_1fr_auto]">
         <select
           value={statusFilter}
           onChange={(event) => onStatusChange(event.target.value as CustomerStatusFilter)}
@@ -79,7 +64,7 @@ export default function CustomerFilters({
 
       <p className="inline-flex items-center gap-2 text-xs text-[#42493f]">
         <Filter className="h-3.5 w-3.5" />
-        Usa los filtros para enfocar retencion, expansion y seguimiento comercial.
+        Usa los filtros para enfocar retención, expansión y seguimiento comercial.
       </p>
     </div>
   );

@@ -52,9 +52,9 @@ export default function InventoryDetailPanel({ item, movements }: InventoryDetai
         <InventoryStatusBadge status={item.status} />
       </div>
 
-      <p className="mb-3 text-sm text-[#1a1c18]">{item.description}</p>
+      <p className="mb-3 line-clamp-2 text-sm text-[#1a1c18]">{item.description}</p>
 
-      <dl className="space-y-2 text-sm text-[#42493f]">
+      <dl className="grid gap-2 text-sm text-[#42493f] sm:grid-cols-2">
         <div className="flex items-center gap-2">
           <Package className="h-4 w-4 text-[#799833]" />
           <span>
@@ -115,7 +115,7 @@ export default function InventoryDetailPanel({ item, movements }: InventoryDetai
       <div className="mt-3">
         <p className="mb-1 text-xs font-semibold uppercase tracking-[0.06em] text-[#42493f]">Ultimos movimientos del item</p>
         <ul className="space-y-1.5">
-          {movements.map((movement) => (
+          {movements.slice(0, 3).map((movement) => (
             <li key={movement.id} className="rounded-md border border-[#e2e3dc] bg-[#f9faf3] px-2.5 py-2 text-xs text-[#42493f]">
               {movement.date} · {movement.type} · {movement.quantity} ({movement.reason})
             </li>

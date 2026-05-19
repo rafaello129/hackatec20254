@@ -37,6 +37,10 @@ export interface CooperativeOpportunity {
   relatedInventoryItems: string[];
   createdAt: string;
   updatedAt: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  originImageUrl?: string;
+  originImageAlt?: string;
 }
 
 export interface CooperativeParticipant {

@@ -9,7 +9,7 @@ const tabs = [
 
 export default function CooperativesSectionTabs() {
   return (
-    <nav className="inline-flex rounded-lg border border-[#c2c9bc] bg-white p-1">
+    <nav className="inline-flex flex-wrap rounded-lg border border-[#c2c9bc] bg-white p-1">
       {tabs.map((tab) => (
         <NavLink
           key={tab.to}

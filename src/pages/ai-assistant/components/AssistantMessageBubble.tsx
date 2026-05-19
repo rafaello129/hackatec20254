@@ -1,0 +1,45 @@
+import { Bot, ShieldCheck, User } from "lucide-react";
+import type { AssistantMessage } from "@/types/assistant.types";
+
+const moduleLabels: Record<AssistantMessage["relatedModule"], string> = {
+  customers: "Clientes",
+  inventory: "Inventario",
+  cooperatives: "Cooperativos",
+  finance: "Finanzas",
+  general: "General",
+};
+
+export default function AssistantMessageBubble({ message }: { message: AssistantMessage }) {
+  const isUser = message.role === "user";
+  const isSystem = message.role === "system";
+  const Icon = isUser ? User : isSystem ? ShieldCheck : Bot;
+
+  return (
+    <div className={`flex gap-3 ${isUser ? "justify-end" : "justify-start"}`}>
+      {!isUser ? (
+        <span className="mt-1 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#022601] text-white">
+          <Icon className="h-4 w-4" />
+        </span>
+      ) : null}
+      <article
+        className={`max-w-[82%] rounded-lg border px-4 py-3 ${
+          isUser
+            ? "border-[#799833] bg-[#D6D979]/60 text-[#1a1c18]"
+            : isSystem
+              ? "border-[#e2e3dc] bg-[#f3f4ed] text-[#42493f]"
+              : "border-[#c2c9bc] bg-white text-[#1a1c18]"
+        }`}
+      >
+        <div className="mb-1 flex flex-wrap items-center gap-2">
+          <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#42493f]">
+            {isUser ? "Tu consulta" : isSystem ? "Sistema" : "Asistente"}
+          </span>
+          <span className="rounded-full bg-[#f3f4ed] px-2 py-0.5 text-xs font-semibold text-[#3E5902]">
+            {moduleLabels[message.relatedModule]}
+          </span>
+        </div>
+        <p className="whitespace-pre-line text-sm leading-6">{message.content}</p>
+      </article>
+    </div>
+  );
+}

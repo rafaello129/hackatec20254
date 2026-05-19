@@ -36,7 +36,7 @@ export default function OpportunityFilters({
         <input
           type="text"
           value={searchText}
-          placeholder="Buscar oportunidad, empresa o tag"
+          placeholder="Buscar oportunidad, boutique, taller o colección"
           onChange={(event) => onSearchChange(event.target.value)}
           className="h-10 w-full rounded-lg border border-[#c2c9bc] bg-white pl-9 pr-3 text-sm text-[#1a1c18] outline-none focus:border-[#4F7302] focus:ring-2 focus:ring-[#4F7302]/20"
         />

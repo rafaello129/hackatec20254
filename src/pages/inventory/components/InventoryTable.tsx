@@ -34,19 +34,16 @@ interface InventoryTableProps {
 
 export default function InventoryTable({ items, selectedItemId, onSelectItem }: InventoryTableProps) {
   return (
-    <div className="overflow-x-auto rounded-lg border border-[#e2e3dc]">
-      <table className="min-w-[1200px] w-full text-left text-sm">
+    <div className="max-w-full overflow-x-auto rounded-lg border border-[#e2e3dc]">
+      <table className="min-w-[760px] w-full table-fixed text-left text-sm">
         <thead className="bg-[#f3f4ed] text-xs uppercase tracking-[0.06em] text-[#42493f]">
           <tr>
-            <th className="px-3 py-3">Producto</th>
-            <th className="px-3 py-3">SKU</th>
-            <th className="px-3 py-3">Categoria</th>
-            <th className="px-3 py-3">Cantidad</th>
-            <th className="px-3 py-3">Estado</th>
-            <th className="px-3 py-3">Valor estimado</th>
-            <th className="px-3 py-3">Proveedor</th>
-            <th className="px-3 py-3">Ultima actualizacion</th>
-            <th className="px-3 py-3 text-right">Acciones</th>
+            <th className="w-[30%] px-3 py-3">Producto</th>
+            <th className="w-[16%] px-3 py-3">SKU</th>
+            <th className="w-[18%] px-3 py-3">Categoría</th>
+            <th className="w-[15%] px-3 py-3">Cantidad</th>
+            <th className="w-[13%] px-3 py-3">Estado</th>
+            <th className="w-[8%] px-3 py-3 text-right">Acción</th>
           </tr>
         </thead>
         <tbody>
@@ -60,25 +57,18 @@ export default function InventoryTable({ items, selectedItemId, onSelectItem }: 
                   isSelected ? "bg-[#f3f4ed]" : "bg-white"
                 }`}
               >
-                <td className="px-3 py-3">
-                  <p className="font-semibold text-[#1a1c18]">{item.name}</p>
-                  <p className="text-xs text-[#42493f]">{item.location}</p>
+                <td className="px-3 py-2.5">
+                  <p className="truncate font-semibold text-[#1a1c18]">{item.name}</p>
                 </td>
-                <td className="px-3 py-3 text-[#42493f]">{item.sku}</td>
-                <td className="px-3 py-3 text-[#42493f]">{categoryLabels[item.category]}</td>
-                <td className="px-3 py-3">
-                  <p className="font-semibold text-[#1a1c18]">
-                    {item.quantity} {item.unit}
-                  </p>
-                  <InventoryStockLevel quantity={item.quantity} minStock={item.minStock} maxStock={item.maxStock} />
+                <td className="px-3 py-2.5 text-[#42493f]"><span className="block truncate">{item.sku}</span></td>
+                <td className="px-3 py-2.5 text-[#42493f]"><span className="block truncate">{categoryLabels[item.category]}</span></td>
+                <td className="px-3 py-2.5">
+                  <p className="truncate font-semibold text-[#1a1c18]">{item.quantity} {item.unit}</p>
                 </td>
-                <td className="px-3 py-3">
+                <td className="px-3 py-2.5">
                   <InventoryStatusBadge status={item.status} />
                 </td>
-                <td className="px-3 py-3 font-semibold text-[#1a1c18]">{formatCurrency(item.estimatedValue)}</td>
-                <td className="px-3 py-3 text-[#42493f]">{item.supplier}</td>
-                <td className="px-3 py-3 text-[#42493f]">{formatDate(item.lastUpdated)}</td>
-                <td className="px-3 py-3">
+                <td className="px-3 py-2.5">
                   <div className="flex items-center justify-end gap-1">
                     <button
                       type="button"
@@ -91,20 +81,6 @@ export default function InventoryTable({ items, selectedItemId, onSelectItem }: 
                     >
                       <Eye className="h-4 w-4" />
                     </button>
-                    <button
-                      type="button"
-                      aria-label={`Reponer ${item.name}`}
-                      className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-[#c2c9bc] bg-white text-[#42493f] hover:bg-[#f3f4ed]"
-                    >
-                      <PackagePlus className="h-4 w-4" />
-                    </button>
-                    <button
-                      type="button"
-                      aria-label={`Mover stock de ${item.name}`}
-                      className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-[#c2c9bc] bg-white text-[#42493f] hover:bg-[#f3f4ed]"
-                    >
-                      <Warehouse className="h-4 w-4" />
-                    </button>
                   </div>
                 </td>
               </tr>
@@ -112,7 +88,7 @@ export default function InventoryTable({ items, selectedItemId, onSelectItem }: 
           })}
           {items.length === 0 ? (
             <tr>
-              <td colSpan={9} className="px-3 py-8 text-center text-sm text-[#42493f]">
+              <td colSpan={6} className="px-3 py-8 text-center text-sm text-[#42493f]">
                 No se encontraron productos con los filtros actuales.
               </td>
             </tr>

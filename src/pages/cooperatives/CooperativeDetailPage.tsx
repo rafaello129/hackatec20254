@@ -1,36 +1,47 @@
 import { useParams } from "react-router-dom";
+import ContributionsTable from "./components/ContributionsTable";
 import CooperativeActivityPanel from "./components/CooperativeActivityPanel";
-import CooperativeDetailHeader from "./components/CooperativeDetailHeader";
-import CooperativeSummaryPanel from "./components/CooperativeSummaryPanel";
+import CooperativeDiscussionPanel from "./components/CooperativeDiscussionPanel";
+import CooperativeHealthPanel from "./components/CooperativeHealthPanel";
+import CooperativeHeroCard from "./components/CooperativeHeroCard";
+import CooperativeMetricsGrid from "./components/CooperativeMetricsGrid";
+import CooperativeOriginCard from "./components/CooperativeOriginCard";
+import CooperativeProgressPanel from "./components/CooperativeProgressPanel";
 import CooperativeTimeline from "./components/CooperativeTimeline";
-import NegotiationPanel from "./components/NegotiationPanel";
-import ParticipantsPanel from "./components/ParticipantsPanel";
+import TopParticipantsPanel from "./components/TopParticipantsPanel";
 import { useCooperativeDetail } from "./hooks/useCooperativeDetail";
 
 export default function CooperativeDetailPage() {
   const { id } = useParams();
-  const { isLoading, opportunity, participants, activities, messages, timeline } = useCooperativeDetail(id);
+  const { isLoading, opportunity, agreement, participants, activities, messages, timeline } = useCooperativeDetail(id);
 
   if (isLoading) {
-    return <div className="rounded-lg border border-[#c2c9bc] bg-white p-8 text-sm text-[#42493f]">Cargando detalle cooperativo...</div>;
+    return <div className="rounded-lg border border-[#c2c9bc] bg-white p-6 text-[#42493f]">Cargando detalle cooperativo...</div>;
   }
 
   if (!opportunity) {
-    return <div className="rounded-lg border border-[#c2c9bc] bg-white p-8 text-sm text-[#42493f]">No encontramos esta oportunidad cooperativa.</div>;
+    return <div className="rounded-lg border border-[#c2c9bc] bg-white p-6 text-[#42493f]">No encontramos esta oportunidad cooperativa.</div>;
   }
 
   return (
-    <div className="space-y-6">
-      <CooperativeDetailHeader opportunity={opportunity} />
-      <CooperativeTimeline items={timeline} />
-      <div className="grid gap-4 xl:grid-cols-[1.2fr_1fr] xl:items-start">
-        <CooperativeSummaryPanel opportunity={opportunity} />
-        <ParticipantsPanel participants={participants} />
-      </div>
-      <div className="grid gap-4 xl:grid-cols-[1fr_1fr] xl:items-start">
-        <NegotiationPanel messages={messages} />
+    <div className="grid w-full max-w-full gap-6 overflow-hidden xl:grid-cols-[minmax(0,1fr)_340px] xl:items-start">
+      <main className="min-w-0 space-y-6">
+        <CooperativeHeroCard opportunity={opportunity} agreement={agreement} />
+        <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-stretch">
+          <CooperativeMetricsGrid opportunity={opportunity} agreement={agreement} />
+          <CooperativeProgressPanel opportunity={opportunity} />
+        </div>
+        {agreement ? <ContributionsTable contributions={agreement.contributions} participants={participants} /> : null}
+        <CooperativeTimeline items={timeline} />
+        <CooperativeDiscussionPanel messages={messages} />
+      </main>
+
+      <aside className="min-w-0 space-y-6">
+        <CooperativeHealthPanel opportunity={opportunity} />
+        <TopParticipantsPanel participants={participants} />
+        <CooperativeOriginCard opportunity={opportunity} />
         <CooperativeActivityPanel activities={activities} />
-      </div>
+      </aside>
     </div>
   );
 }
