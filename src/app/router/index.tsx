@@ -7,6 +7,7 @@ import CooperativesPage from "@/pages/cooperatives/CooperativesPage";
 import OpportunitiesPage from "@/pages/cooperatives/OpportunitiesPage";
 import CooperativeDetailPage from "@/pages/cooperatives/CooperativeDetailPage";
 import CooperativeAgreementPage from "@/pages/cooperatives/CooperativeAgreementPage";
+import CreateCooperativePage from "@/pages/cooperatives/create/CreateCooperativePage";
 import FinancePage from "@/pages/finance/FinancePage";
 import FinanceSummaryPage from "@/pages/finance/FinanceSummaryPage";
 import FinanceAccountingPage from "@/pages/finance/FinanceAccountingPage";
@@ -24,6 +25,7 @@ export default function AppRouter() {
         <Route path="/inventory" element={<InventoryPage />} />
 
         <Route path="/cooperatives" element={<CooperativesPage />} />
+        <Route path="/cooperatives/create" element={<CreateCooperativePage />} />
         <Route path="/cooperatives/opportunities" element={<OpportunitiesPage />} />
         <Route path="/cooperatives/:id" element={<CooperativeDetailPage />} />
         <Route path="/cooperatives/:id/agreement" element={<CooperativeAgreementPage />} />

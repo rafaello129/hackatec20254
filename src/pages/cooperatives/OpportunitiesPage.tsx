@@ -1,5 +1,6 @@
 import { Plus } from "lucide-react";
 import PageIntro from "@/components/common/PageIntro";
+import { Link } from "react-router-dom";
 import CooperativesSectionTabs from "./components/CooperativesSectionTabs";
 import OpportunityFilters from "./components/OpportunityFilters";
 import OpportunityList from "./components/OpportunityList";
@@ -26,14 +27,13 @@ export default function OpportunitiesPage() {
         title="Oportunidades cooperativas"
         description="Mercado de compras textiles, ventas compartidas, campañas de moda, distribución y logística entre tiendas de ropa."
         actions={
-          <button
-            type="button"
-            disabled
-            className="inline-flex items-center gap-2 rounded-lg bg-[#4F7302] px-4 py-2 text-sm font-semibold text-white opacity-80"
-          >
-            <Plus className="h-4 w-4" />
-            Crear oportunidad
-          </button>
+            <Link
+              to="/cooperatives/create"
+              className="inline-flex items-center gap-2 rounded-lg bg-[#4F7302] px-4 py-2 text-sm font-semibold text-white"
+            >
+              <Plus className="h-4 w-4" />
+              Crear oportunidad
+            </Link>
         }
       />
 

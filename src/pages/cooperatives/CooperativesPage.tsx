@@ -53,14 +53,13 @@ export default function CooperativesPage() {
               Ver mercado
               <ArrowUpRight className="h-4 w-4" />
             </Link>
-            <button
-              type="button"
-              disabled
-              className="inline-flex items-center gap-2 rounded-lg bg-[#4F7302] px-4 py-2 text-sm font-semibold text-white opacity-80"
+            <Link
+              to="/cooperatives/create"
+              className="inline-flex items-center gap-2 rounded-lg bg-[#4F7302] px-4 py-2 text-sm font-semibold text-white"
             >
               <Plus className="h-4 w-4" />
               Crear oportunidad
-            </button>
+            </Link>
           </>
         }
       />
