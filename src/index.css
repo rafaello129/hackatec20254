@@ -1,1 +1,45 @@
+@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&family=Inter:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
+
+:root {
+  --oe-bg: #f9faf3;
+  --oe-sidebar: #022601;
+  --oe-primary: #4f7302;
+  --oe-primary-hover: #3e5902;
+  --oe-accent: #799833;
+  --oe-soft: #d6d979;
+  --oe-text: #1a1c18;
+  --oe-text-muted: #42493f;
+  --oe-border: #c2c9bc;
+  --oe-card: #ffffff;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--oe-bg);
+  color: var(--oe-text);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Hanken Grotesk", Inter, system-ui, sans-serif;
+  letter-spacing: 0;
+}
