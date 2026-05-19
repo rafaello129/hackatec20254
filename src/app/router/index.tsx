@@ -12,6 +12,7 @@ import FinanceSummaryPage from "@/pages/finance/FinanceSummaryPage";
 import FinanceAccountingPage from "@/pages/finance/FinanceAccountingPage";
 import FinanceInvoicingPage from "@/pages/finance/FinanceInvoicingPage";
 import AIAssistantPage from "@/pages/ai-assistant/AIAssistantPage";
+import SettingsPage from "@/pages/settings/SettingsPage";
 import NotFoundPage from "@/pages/not-found/NotFoundPage";
 
 export default function AppRouter() {
@@ -35,6 +36,7 @@ export default function AppRouter() {
         </Route>
 
         <Route path="/ai-assistant" element={<AIAssistantPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
       </Route>
 
       <Route path="*" element={<NotFoundPage />} />

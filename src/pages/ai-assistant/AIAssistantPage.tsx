@@ -1,8 +1,6 @@
-import SectionCard from "@/components/common/SectionCard";
 import AssistantChatPanel from "./components/AssistantChatPanel";
 import AssistantContextPanel from "./components/AssistantContextPanel";
 import AssistantHeader from "./components/AssistantHeader";
-import AssistantInsightCards from "./components/AssistantInsightCards";
 import AssistantRecommendationPanel from "./components/AssistantRecommendationPanel";
 import AssistantRiskPanel from "./components/AssistantRiskPanel";
 import { useAssistant } from "./hooks/useAssistant";
@@ -13,7 +11,6 @@ export default function AIAssistantPage() {
     handleQuickAction,
     handleSendMessage,
     inputValue,
-    insights,
     isLoading,
     messages,
     quickActions,
@@ -23,14 +20,10 @@ export default function AIAssistantPage() {
   } = useAssistant();
 
   return (
-    <div className="space-y-6">
+    <div className="w-full max-w-full space-y-5 overflow-hidden">
       <AssistantHeader />
 
-      <SectionCard title="Insights ejecutivos">
-        <AssistantInsightCards insights={insights} />
-      </SectionCard>
-
-      <div className="grid gap-4 xl:grid-cols-[1.55fr_0.95fr]">
+      <div className="grid w-full max-w-full gap-4 xl:grid-cols-[minmax(0,1fr)_340px] xl:items-start">
         <AssistantChatPanel
           messages={messages}
           inputValue={inputValue}
@@ -41,11 +34,11 @@ export default function AIAssistantPage() {
           onRunAction={handleQuickAction}
         />
 
-        <div className="space-y-4">
+        <aside className="min-w-0 space-y-4">
           <AssistantContextPanel context={businessContext} />
           <AssistantRiskPanel risks={risks} />
           <AssistantRecommendationPanel recommendations={recommendations} />
-        </div>
+        </aside>
       </div>
     </div>
   );

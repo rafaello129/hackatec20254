@@ -35,6 +35,31 @@ export const assistantMessagesMock: AssistantMessage[] = [
     relatedModule: "general",
     metadata: { source: "mock", confidence: 0.92 },
   },
+  {
+    id: "msg-1003",
+    role: "user",
+    content: "Que accion conviene tomar primero para mejorar flujo sin frenar cooperativos?",
+    createdAt: "2026-05-18T08:42:00",
+    relatedModule: "finance",
+  },
+  {
+    id: "msg-1004",
+    role: "assistant",
+    content:
+      "Primero priorizaria la cobranza vencida de BioPack Peninsula y, en paralelo, abriria compra conjunta de empaque. Esa combinacion libera flujo y evita que inventario limite acuerdos activos.",
+    createdAt: "2026-05-18T08:43:00",
+    relatedModule: "finance",
+    metadata: { source: "mock", confidence: 0.9 },
+  },
+  {
+    id: "msg-1005",
+    role: "assistant",
+    content:
+      "Tambien hay una senal comercial: la venta conjunta regional sureste ya fue rentable. Puede convertirse en playbook para campaña compartida con clientes enterprise activos.",
+    createdAt: "2026-05-18T08:44:00",
+    relatedModule: "cooperatives",
+    metadata: { source: "mock", confidence: 0.88 },
+  },
 ];
 
 export const assistantQuickActionsMock: AssistantQuickAction[] = [

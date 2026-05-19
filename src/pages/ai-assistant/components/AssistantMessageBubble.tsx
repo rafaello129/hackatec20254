@@ -15,26 +15,26 @@ export default function AssistantMessageBubble({ message }: { message: Assistant
   const Icon = isUser ? User : isSystem ? ShieldCheck : Bot;
 
   return (
-    <div className={`flex gap-3 ${isUser ? "justify-end" : "justify-start"}`}>
+    <div className={`flex gap-2.5 ${isUser ? "justify-end" : "justify-start"}`}>
       {!isUser ? (
-        <span className="mt-1 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#022601] text-white">
+        <span className="mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#022601] text-white">
           <Icon className="h-4 w-4" />
         </span>
       ) : null}
       <article
-        className={`max-w-[82%] rounded-lg border px-4 py-3 ${
+        className={`max-w-[86%] rounded-lg border px-3.5 py-3 shadow-[0_1px_0_rgba(26,28,24,0.04)] ${
           isUser
-            ? "border-[#799833] bg-[#D6D979]/60 text-[#1a1c18]"
+            ? "border-[#D6D979] bg-[#eef3d3] text-[#1a1c18]"
             : isSystem
               ? "border-[#e2e3dc] bg-[#f3f4ed] text-[#42493f]"
               : "border-[#c2c9bc] bg-white text-[#1a1c18]"
         }`}
       >
-        <div className="mb-1 flex flex-wrap items-center gap-2">
-          <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[#42493f]">
+        <div className="mb-1.5 flex flex-wrap items-center gap-2">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#42493f]">
             {isUser ? "Tu consulta" : isSystem ? "Sistema" : "Asistente"}
           </span>
-          <span className="rounded-full bg-[#f3f4ed] px-2 py-0.5 text-xs font-semibold text-[#3E5902]">
+          <span className="rounded-full bg-white px-2 py-0.5 text-[11px] font-semibold text-[#3E5902]">
             {moduleLabels[message.relatedModule]}
           </span>
         </div>

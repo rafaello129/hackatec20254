@@ -22,16 +22,16 @@ export default function AssistantComposer({ value, onChange, onSend, isLoading }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-lg border border-[#c2c9bc] bg-white p-3">
-      <div className="flex gap-3">
+    <form onSubmit={handleSubmit} className="rounded-lg border border-[#c2c9bc] bg-white p-2.5 shadow-[0_1px_0_rgba(26,28,24,0.04)]">
+      <div className="flex min-w-0 gap-2">
         <textarea
           value={value}
           onChange={(event) => onChange(event.target.value)}
           onKeyDown={handleKeyDown}
-          rows={2}
+          rows={1}
           disabled={isLoading}
           placeholder="Pregunta sobre clientes, inventario, cooperativos o finanzas..."
-          className="min-h-12 flex-1 resize-none bg-transparent text-sm text-[#1a1c18] outline-none placeholder:text-[#73796e] disabled:opacity-60"
+          className="min-h-11 min-w-0 flex-1 resize-none bg-transparent px-1 py-2 text-sm leading-6 text-[#1a1c18] outline-none placeholder:text-[#73796e] disabled:opacity-60"
         />
         <button
           type="submit"

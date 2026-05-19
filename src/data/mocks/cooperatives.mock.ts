@@ -215,9 +215,9 @@ const buildDistributionPlan = (opportunityId: string): DistributionPlan => {
 export const postAgreementServicesMock: PostAgreementService[] = [
   { id: "svc-001", type: "delivery", title: "Entrega boutique", description: "Rutas compartidas para entregas el mismo día, cambios de talla y devoluciones.", status: "active", estimatedCost: 52000, provider: "Ruta Boutique MX" },
   { id: "svc-002", type: "digital_sale", title: "Venta digital multitienda", description: "Catálogo compartido para vender colecciones de varias boutiques en una sola experiencia.", status: "available", estimatedCost: 38000, provider: "ModaCloud SaaS" },
-  { id: "svc-003", type: "distribution_calculation", title: "Cálculo de reparto", description: "Asignación proporcional de ventas, prendas y costos por aportación.", status: "active", estimatedCost: 14000, provider: "BizFlow Engine" },
+  { id: "svc-003", type: "distribution_calculation", title: "Cálculo de reparto", description: "Asignación proporcional de ventas, prendas y costos por aportación.", status: "active", estimatedCost: 14000, provider: "péek Engine" },
   { id: "svc-004", type: "tracking", title: "Seguimiento de pedidos", description: "Monitoreo de estado por pedido, tienda, talla y nivel de servicio.", status: "pending", estimatedCost: 19000, provider: "TrackModa Logistics" },
-  { id: "svc-005", type: "documents", title: "Documentos y comprobantes", description: "Repositorio de acuerdos, fichas técnicas, comprobantes y evidencias de entrega.", status: "available", estimatedCost: 9000, provider: "BizFlow Docs" },
+  { id: "svc-005", type: "documents", title: "Documentos y comprobantes", description: "Repositorio de acuerdos, fichas técnicas, comprobantes y evidencias de entrega.", status: "available", estimatedCost: 9000, provider: "péek Docs" },
 ];
 
 export const cooperativeDocumentsMock: CooperativeDocument[] = [

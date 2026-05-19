@@ -31,66 +31,70 @@ const navItems: NavItem[] = [
   { to: "/ai-assistant", label: "Asistente IA", icon: Bot },
 ];
 
+const utilityNavItems: NavItem[] = [{ to: "/settings", label: "Configuración", icon: Settings }];
+const allNavItems = [...navItems, ...utilityNavItems];
+
 const baseNavItem =
   "group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors";
+
+function SidebarNavLink({ item, closeMobile, end = false }: { item: NavItem; closeMobile?: () => void; end?: boolean }) {
+  const Icon = item.icon;
+
+  return (
+    <NavLink
+      to={item.to}
+      onClick={closeMobile}
+      end={end}
+      className={({ isActive }) =>
+        `${baseNavItem} ${
+          isActive ? "bg-[#0f3a0f] text-white" : "text-white/75 hover:bg-white/10 hover:text-white"
+        }`
+      }
+    >
+      {({ isActive }) => (
+        <>
+          <span
+            className={`absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r ${
+              isActive ? "bg-[#799833]" : "bg-transparent"
+            }`}
+          />
+          <Icon className="h-4 w-4 shrink-0" />
+          <span>{item.label}</span>
+        </>
+      )}
+    </NavLink>
+  );
+}
 
 function SidebarContent({ closeMobile }: { closeMobile?: () => void }) {
   return (
     <div className="flex h-full flex-col">
       <div className="border-b border-white/10 px-5 pb-5 pt-6">
-        <p className="font-['Hanken_Grotesk'] text-xl font-bold text-white">BizFlow</p>
-        <p className="text-xs font-medium uppercase tracking-[0.08em] text-white/70">
-          Enterprise Suite
-        </p>
+        <div className="flex items-center gap-3">
+          <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[#D6D979]/35 bg-[#0f3a0f]">
+            <span className="block h-7 w-7 overflow-hidden">
+              <img src="/Vector.svg" alt="péek" className="h-full w-auto max-w-none" />
+            </span>
+          </span>
+          <div>
+            <p className="font-['Hanken_Grotesk'] text-xl font-bold text-white">péek</p>
+            <p className="text-xs font-medium uppercase tracking-[0.08em] text-white/70">
+              Enterprise Suite
+            </p>
+          </div>
+        </div>
       </div>
 
       <nav className="flex-1 space-y-1 px-3 py-4">
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          return (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              onClick={closeMobile}
-              end={item.to === "/"}
-              className={({ isActive }) =>
-                `${baseNavItem} ${
-                  isActive
-                    ? "bg-[#0f3a0f] text-white"
-                    : "text-white/75 hover:bg-white/10 hover:text-white"
-                }`
-              }
-            >
-              {({ isActive }) => (
-                <>
-                  <span
-                    className={`absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r ${
-                      isActive ? "bg-[#799833]" : "bg-transparent"
-                    }`}
-                  />
-                  <Icon className="h-4 w-4 shrink-0" />
-                  <span>{item.label}</span>
-                </>
-              )}
-            </NavLink>
-          );
-        })}
+        {navItems.map((item) => (
+          <SidebarNavLink key={item.to} item={item} closeMobile={closeMobile} end={item.to === "/"} />
+        ))}
       </nav>
 
-      <div className="mx-4 rounded-lg border border-[#3E5902] bg-[#0f3a0f] px-4 py-3">
-        <p className="text-xs uppercase tracking-[0.08em] text-[#D6D979]">Hackatec MVP</p>
-        <p className="mt-1 text-sm font-medium text-white/85">Modo Demo Empresarial</p>
-      </div>
-
-      <div className="mt-4 border-t border-white/10 px-3 py-4">
-        <button
-          type="button"
-          disabled
-          className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-white/65"
-        >
-          <Settings className="h-4 w-4" />
-          Configuración
-        </button>
+      <div className="space-y-1 border-t border-white/10 px-3 py-4">
+        {utilityNavItems.map((item) => (
+          <SidebarNavLink key={item.to} item={item} closeMobile={closeMobile} />
+        ))}
         <button
           type="button"
           disabled
@@ -109,7 +113,7 @@ export default function AppShell() {
   const location = useLocation();
 
   const sectionLabel = useMemo(() => {
-    const matched = navItems.find((item) =>
+    const matched = allNavItems.find((item) =>
       item.to === "/"
         ? location.pathname === "/"
         : location.pathname === item.to || location.pathname.startsWith(`${item.to}/`),
@@ -149,7 +153,7 @@ export default function AppShell() {
             </button>
 
             <div className="hidden items-center gap-2 text-sm text-[#42493f] md:flex">
-              <span>BizFlow</span>
+              <span>péek</span>
               <span className="text-[#73796e]">/</span>
               <span className="font-medium text-[#1a1c18]">{sectionLabel}</span>
             </div>
