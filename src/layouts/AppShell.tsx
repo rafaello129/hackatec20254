@@ -9,6 +9,7 @@ import {
   LayoutGrid,
   LifeBuoy,
   Menu,
+  Network,
   Package,
   Search,
   Settings,
@@ -25,6 +26,7 @@ type NavItem = {
 const navItems: NavItem[] = [
   { to: "/", label: "Home", icon: House },
   { to: "/customers", label: "Clientes", icon: Users },
+  { to: "/business-network", label: "Red de negocios", icon: Network },
   { to: "/inventory", label: "Inventario", icon: Package },
   { to: "/cooperatives", label: "Cooperativos", icon: Handshake },
   { to: "/finance", label: "Finanzas", icon: LayoutGrid },

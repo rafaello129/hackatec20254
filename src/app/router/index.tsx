@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import AppShell from "@/layouts/AppShell";
 import HomePage from "@/pages/home/HomePage";
+import BusinessNetworkPage from "@/pages/business-network/BusinessNetworkPage";
 import CustomersPage from "@/pages/customers/CustomersPage";
 import InventoryPage from "@/pages/inventory/InventoryPage";
 import CooperativesPage from "@/pages/cooperatives/CooperativesPage";
@@ -21,6 +22,7 @@ export default function AppRouter() {
     <Routes>
       <Route element={<AppShell />}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/business-network" element={<BusinessNetworkPage />} />
         <Route path="/customers" element={<CustomersPage />} />
         <Route path="/inventory" element={<InventoryPage />} />
 
