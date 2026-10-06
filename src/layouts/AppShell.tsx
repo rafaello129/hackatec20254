@@ -6,6 +6,7 @@ import {
   Bot,
   Handshake,
   House,
+  Landmark,
   LayoutGrid,
   LifeBuoy,
   Menu,
@@ -30,6 +31,7 @@ const navItems: NavItem[] = [
   { to: "/inventory", label: "Inventario", icon: Package },
   { to: "/cooperatives", label: "Cooperativos", icon: Handshake },
   { to: "/finance", label: "Finanzas", icon: LayoutGrid },
+  { to: "/support-programs", label: "Apoyos y convocatorias", icon: Landmark },
   { to: "/ai-assistant", label: "Asistente IA", icon: Bot },
 ];
 

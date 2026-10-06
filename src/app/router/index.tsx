@@ -16,6 +16,7 @@ import FinanceInvoicingPage from "@/pages/finance/FinanceInvoicingPage";
 import AIAssistantPage from "@/pages/ai-assistant/AIAssistantPage";
 import SettingsPage from "@/pages/settings/SettingsPage";
 import NotFoundPage from "@/pages/not-found/NotFoundPage";
+import SupportProgramsPage from "@/pages/support-programs/SupportProgramsPage";
 
 export default function AppRouter() {
   return (
@@ -25,6 +26,7 @@ export default function AppRouter() {
         <Route path="/business-network" element={<BusinessNetworkPage />} />
         <Route path="/customers" element={<CustomersPage />} />
         <Route path="/inventory" element={<InventoryPage />} />
+        <Route path="/support-programs" element={<SupportProgramsPage />} />
 
         <Route path="/cooperatives" element={<CooperativesPage />} />
         <Route path="/cooperatives/create" element={<CreateCooperativePage />} />
