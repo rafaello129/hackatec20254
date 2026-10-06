@@ -163,7 +163,7 @@ export default function HomePage() {
       {/* Featured Banner */}
       <div className="relative overflow-hidden rounded-lg min-h-[250px] text-white shadow-lg">
         <img
-          src="/home.png"
+          src={`${import.meta.env.BASE_URL}home.png`}
           alt="Colección Primavera"
           className="absolute inset-0 h-full w-full object-cover"
         />
