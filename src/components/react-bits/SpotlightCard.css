@@ -1,0 +1,6 @@
+/* React Bits Spotlight Card, adapted to inherit the application's card styling. */
+.rb-spotlight-card { position: relative; isolation: isolate; --mouse-x: 50%; --mouse-y: 50%; }
+.rb-spotlight-card::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), var(--spotlight-color), transparent 80%); opacity: 0; transition: opacity .25s ease; pointer-events: none; z-index: -1; }
+@media (hover: hover) and (pointer: fine) { .rb-spotlight-card:hover::before { opacity: .8; } }
+.rb-spotlight-card:focus-within::before { opacity: .6; }
+@media (prefers-reduced-motion: reduce) { .rb-spotlight-card::before { transition: none; background: var(--spotlight-color); } .rb-spotlight-card:hover::before, .rb-spotlight-card:focus-within::before { opacity: .25; } }

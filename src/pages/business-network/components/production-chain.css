@@ -1,0 +1,45 @@
+.production-chain-summary { width: 206px; max-width: 100%; }
+.production-chain-summary > div:first-child { display: flex; justify-content: space-between; align-items: center; gap: 14px; font-size: 11px; color: #60665b; }
+.production-chain-summary > div:first-child > span:last-child { display: flex; align-items: center; gap: 5px; color: #8c641c; }
+.production-chain-track { display: flex; gap: 4px; margin-top: 9px; }
+.production-chain-track span { flex: 1; height: 4px; border-radius: 2px; background: #c9cfc1; }
+.production-chain-track [data-status=completed] { background: #4f7302; }
+.production-chain-track [data-status=optimized] { background: #6997aa; }
+.production-chain-track [data-status=unresolved] { background: #d4a344; }
+.network-chain .network-chain-steps { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; padding: 4px 0 0; margin: 0; list-style: none; }
+.network-chain .network-chain-steps .production-stage { position: relative; min-width: 0; padding: 0; border: 0; background: transparent; display: flex; flex-direction: column; }
+.production-stage-node { position: relative; display: flex; align-items: center; gap: 9px; height: 50px; margin-bottom: 16px; }
+.production-stage:not(:last-child) .production-stage-node::after { content: ""; position: absolute; left: 78px; right: -14px; top: 24px; height: 1px; background: #c4ccba; }
+.production-stage-icon { height: 46px; width: 46px; flex-shrink: 0; display: grid; place-items: center; border: 1px solid #c8d7b5; border-radius: 50%; background: #e8efdf; color: #4f7302; }
+.production-stage-index { color: #6b7361; font-size: 10px; font-weight: 600; }
+.production-stage[data-status=optimized] .production-stage-icon { background: #eaf2f5; border-color: #c9dce4; color: #3e768c; }
+.production-stage[data-status=pending] .production-stage-icon { background: #f0f1ec; border-style: dashed; color: #777e6e; }
+.production-stage[data-status=unresolved] .production-stage-icon { background: #fff0d2; border-color: #e3c17d; color: #9b6f1b; }
+.production-stage-body { display: flex; flex-direction: column; flex: 1; min-width: 0; padding: 15px 12px 0; background: white; border: 1px solid #d9dfd2; border-radius: 8px; transition: border-color .15s, box-shadow .15s; }
+.production-stage-body:hover { border-color: #99ad81; box-shadow: 0 3px 10px #253a0910; }
+.production-stage[data-status=unresolved] .production-stage-body { background: #fffaf0; border-color: #e3c990; }
+.production-stage[data-selected=true] .production-stage-body { border-color: #4f7302; box-shadow: 0 0 0 1px #4f7302; }
+.network-chain .production-stage h3 { font-size: 14px; font-weight: 600; line-height: 1.4; margin: 0 0 9px; }
+.production-stage-status { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; color: #4f7302; font-weight: 500; }
+.production-status-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.production-stage[data-status=optimized] .production-stage-status { color: #3e768c; }
+.production-stage[data-status=pending] .production-stage-status { color: #73796e; }
+.production-stage[data-status=unresolved] .production-stage-status { color: #9b6f1b; }
+.network-chain .production-stage .production-stage-partner { font-size: 13px; line-height: 1.5; font-weight: 600; color: #30382a; margin: 18px 0 5px; min-height: 39px; overflow-wrap: anywhere; }
+.network-chain .production-stage .production-stage-description { font-size: 11px; line-height: 1.6; color: #6b7361; margin: 0 0 16px; min-height: 36px; overflow-wrap: anywhere; }
+.production-stage-action { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 42px; width: 100%; margin-top: auto; border-top: 1px solid #e5e9de; color: #4f7302; font-size: 11px; font-weight: 600; }
+.production-stage-action:hover { color: #263d02; }
+@media (min-width: 651px) and (max-width: 1200px) {
+  .network-chain .network-chain-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 16px; }
+  .production-stage:nth-child(3n) .production-stage-node::after { display: none; }
+}
+@media (max-width: 650px) {
+  .production-chain-summary { width: 100%; }
+  .network-chain .network-chain-steps { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .network-chain .network-chain-steps .production-stage { display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 14px; padding-bottom: 18px; }
+  .production-stage-node { height: 100%; margin: 0; flex-direction: column; gap: 7px; align-items: center; }
+  .production-stage:not(:last-child) .production-stage-node::after { left: 22px; right: auto; top: 76px; bottom: -18px; width: 1px; height: auto; }
+  .production-stage-body { padding: 14px 16px 0; }
+  .network-chain .production-stage .production-stage-partner { min-height: 0; margin-top: 14px; }
+  .network-chain .production-stage .production-stage-description { min-height: 0; margin-bottom: 14px; }
+}
