@@ -58,21 +58,21 @@ export default function BusinessNetworkPage() {
 
   return (
     <div className="network-page">
-      <section className="network-hero" aria-labelledby="network-page-title">
+      <section className="network-hero network-hero-compact" aria-labelledby="network-page-title">
         <DotGrid className="network-hero-grid" dotColor="#b8c6ad" activeColor="#799833" spacing={28} />
-        <AnimatedContent className="network-hero-content" distance={16} duration={0.56}>
+        <AnimatedContent className="network-hero-content" distance={12} duration={0.46}>
           <p className="network-hero-eyebrow"><Network size={14} /> Inteligencia de red empresarial</p>
           <h1 id="network-page-title">Red de negocios</h1>
-          <p>Convierte un objetivo empresarial en una cadena de procesos, aliados y oportunidades coordinadas.</p>
+          <p>Convierte un objetivo empresarial en procesos, aliados y oportunidades coordinadas.</p>
         </AnimatedContent>
-        <AnimatedContent className="network-hero-signal" direction="horizontal" reverse distance={18} duration={0.52} delay={0.12}>
+        <AnimatedContent className="network-hero-signal network-hero-signal-compact" direction="horizontal" reverse distance={14} duration={0.44} delay={0.08}>
           <span><span className="network-live-dot" /> Red activa</span>
           <strong>{plans.length}</strong>
           <small>{plans.length === 1 ? "planteamiento" : "planteamientos"}</small>
         </AnimatedContent>
       </section>
 
-      <AnimatedContent distance={18} duration={0.5} delay={0.06}>
+      <AnimatedContent distance={12} duration={0.42} delay={0.04}>
         <NetworkPlanLauncher plans={plans} activeId={activeId} onSelect={(id) => { selectPlan(id); resetWorkspace(); }} onCreate={(data) => { addPlan(data); resetWorkspace(); }} />
       </AnimatedContent>
 
@@ -81,31 +81,37 @@ export default function BusinessNetworkPage() {
       {isLoading || !project ? (
         <p role="status" className="py-8 text-sm text-[#42493f]">Cargando red de negocios...</p>
       ) : (
-        <section ref={developmentSection} className="network-development" aria-label={`Desarrollo de ${project.title}`}>
-          <AnimatedContent className="network-development-heading" distance={12} duration={0.42}>
-            <div><p className="network-eyebrow">DESARROLLO DEL NEGOCIO</p><h2>{project.title}</h2></div>
-            <span className="network-development-status" data-status={project.status}>{statusLabel}</span>
-          </AnimatedContent>
+        <section ref={developmentSection} className="network-development network-development-compact" aria-label={`Desarrollo de ${project.title}`}>
+          <div className="network-development-toolbar">
+            <AnimatedContent className="network-development-heading network-development-heading-compact" distance={10} duration={0.38}>
+              <div>
+                <p className="network-eyebrow">PROYECTO ACTIVO</p>
+                <div className="network-active-project-line">
+                  <h2>{project.title}</h2>
+                  <span className="network-development-status" data-status={project.status}>{statusLabel}</span>
+                </div>
+              </div>
+            </AnimatedContent>
+            <PillNav items={views} activeId={view} onChange={setView} ariaLabel="Vistas del planteamiento" />
+          </div>
 
-          <PillNav items={views} activeId={view} onChange={setView} ariaLabel="Vistas del planteamiento" />
-
-          <FadeContent key={`${activeId}-${view}`} className="network-development-content" duration={0.28} distance={8}>
+          <FadeContent key={`${activeId}-${view}`} className="network-development-content" duration={0.24} distance={6}>
             {view === "overview" && (
-              <section className="network-project network-project-bento" aria-labelledby="network-project-title">
-                <div className="network-project-bento-main">
-                  <div className="network-project-heading">
+              <section className="network-project network-project-bento network-project-bento-compact" aria-labelledby="network-project-title">
+                <div className="network-project-bento-main network-project-bento-main-compact">
+                  <div className="network-project-heading network-project-heading-compact">
                     <div>
                       <p className="network-eyebrow"><Network size={14} /> Business brief</p>
                       <h2 id="network-project-title">Objetivo y alcance</h2>
                     </div>
-                    <button className="network-edit" aria-expanded={editing} aria-controls="network-project-editor" onClick={() => setEditing(!editing)}>
-                      <Pencil size={15} /> Editar proyecto <ChevronDown size={15} className={editing ? "rotate-180" : ""} />
+                    <button className="network-edit network-edit-compact" aria-expanded={editing} aria-controls="network-project-editor" onClick={() => setEditing(!editing)}>
+                      <Pencil size={14} /> Editar <ChevronDown size={14} className={editing ? "rotate-180" : ""} />
                     </button>
                   </div>
                   <p className="network-project-objective">{project.description}</p>
                 </div>
 
-                <dl className="network-project-facts network-project-bento-facts">
+                <dl className="network-project-facts network-project-bento-facts network-project-bento-facts-compact">
                   <div><dt>Volumen</dt><dd>{project.quantity.toLocaleString("es-MX")} <small>unidades</small></dd></div>
                   <div><dt>Categoría</dt><dd>{project.category}</dd></div>
                   <div><dt>Destino</dt><dd>{project.targetLocation}</dd></div>
