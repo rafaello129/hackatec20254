@@ -89,19 +89,13 @@ function SidebarItem({
 function Sidebar({ closeMobile }: { closeMobile?: () => void }) {
   return (
     <div className="peek-sidebar flex h-full flex-col px-4 pb-5 pt-7">
-      <div className="mb-3 flex h-12 items-center gap-2.5">
-        <span className="grid h-[34px] w-[34px] place-items-center rounded-[10px] bg-[#9AC84B]">
+      <div className="mb-4 flex h-12 items-center">
+        <div className="inline-flex h-11 items-center rounded-[13px] bg-[#B6E251] px-3 shadow-[0_8px_20px_rgba(0,0,0,.14)]">
           <img
-            src={import.meta.env.BASE_URL + "Vector.svg"}
-            alt=""
-            className="h-5 w-5 object-contain brightness-0"
+            src={import.meta.env.BASE_URL + "brand/maak-logo.svg"}
+            alt="MÁAK"
+            className="h-7 w-auto object-contain"
           />
-        </span>
-        <div className="leading-none">
-          <p className="text-[18px] font-bold text-white">PÉEK</p>
-          <p className="mt-1 text-[10px] font-medium uppercase tracking-[0.08em] text-white/75">
-            Mi negocio
-          </p>
         </div>
       </div>
 
@@ -191,7 +185,7 @@ function GlobalAssistantShortcut() {
   return (
     <Link
       to="/ai-assistant"
-      aria-label="Abrir asistente PÉEK"
+      aria-label="Abrir asistente MÁAK"
       className="peek-dark-surface fixed bottom-6 right-6 z-30 flex min-h-[82px] min-w-[272px] items-center gap-[14px] rounded-[42px] bg-[#022601] px-[20px] py-[16px] text-white shadow-[0_12px_32px_rgba(0,30,8,0.28)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_16px_38px_rgba(0,30,8,0.32)] max-sm:bottom-4 max-sm:right-4 max-sm:min-w-[258px] max-sm:px-[18px]"
     >
       <span className="grid h-[34px] w-[34px] shrink-0 place-items-center rounded-full bg-white/8">
@@ -202,7 +196,7 @@ function GlobalAssistantShortcut() {
           ¿Necesitas ayuda?
         </span>
         <span className="mt-[6px] block whitespace-nowrap text-[12px] font-medium leading-none text-white/90">
-          Pregúntale a PÉEK
+          Pregúntale a MÁAK
         </span>
       </span>
     </Link>
