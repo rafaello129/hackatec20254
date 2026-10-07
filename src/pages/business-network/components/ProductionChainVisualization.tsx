@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { type CSSProperties, useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
   Check,
@@ -62,12 +62,24 @@ export default function ProductionChainVisualization({
   const activeStep = steps.find((step) => step.id === activeStepId) ?? bottleneck ?? steps[0];
   const resolved = steps.filter((step) => step.status === "completed" || step.status === "optimized").length;
   const pending = steps.length - resolved;
+  const backgroundColumns = Math.max(9, steps.length + 3);
+
+  const backgroundHexes = useMemo(() => {
+    return Array.from({ length: backgroundColumns }, (_, columnIndex) => {
+      const column = columnIndex + 1;
+      const rows = column % 2 === 0 ? [1, 3] : [2];
+      return rows.map((row) => ({ id: `bg-${column}-${row}`, column, row }));
+    }).flat();
+  }, [backgroundColumns]);
 
   if (!activeStep) return null;
 
   const ActiveIcon = icons[activeStep.label] ?? Check;
   const isBottleneck = activeStep.id === bottleneck?.id;
   const activeIndex = steps.findIndex((step) => step.id === activeStep.id);
+  const gridStyle = {
+    gridTemplateColumns: `repeat(${backgroundColumns}, var(--hex-step-x))`,
+  } as CSSProperties;
 
   const detail = (
     <SpotlightCard
@@ -137,40 +149,60 @@ export default function ProductionChainVisualization({
 
       <AnimatedContent className="production-flow-board" distance={10} duration={0.4}>
         <div className="production-honeycomb-viewport">
-          <ol className="production-honeycomb" aria-label="Flujo de etapas de la cadena productiva">
-            {steps.map((step, index) => {
-              const Icon = icons[step.label] ?? Check;
-              const active = step.id === activeStep.id;
-              const blocked = step.id === bottleneck?.id;
+          <div className="production-honeycomb-scene">
+            <div className="production-honeycomb-background" style={gridStyle} aria-hidden="true">
+              {backgroundHexes.map((cell) => (
+                <span
+                  key={cell.id}
+                  className="production-bg-hex"
+                  style={{ gridColumnStart: cell.column, gridRowStart: cell.row }}
+                />
+              ))}
+            </div>
 
-              return (
-                <li
-                  key={step.id}
-                  className="production-honeycomb-item"
-                  data-status={step.status}
-                  data-active={active}
-                  data-bottleneck={blocked}
-                >
-                  <button
-                    type="button"
-                    className="production-hex"
-                    onClick={() => setActiveStepId(step.id)}
-                    aria-pressed={active}
-                    aria-label={`Etapa ${index + 1}, ${step.label}, ${statuses[step.status]}, ${step.partnerName}`}
+            <ol
+              className="production-honeycomb"
+              style={gridStyle}
+              aria-label="Flujo de etapas de la cadena productiva"
+            >
+              {steps.map((step, index) => {
+                const Icon = icons[step.label] ?? Check;
+                const active = step.id === activeStep.id;
+                const blocked = step.id === bottleneck?.id;
+                const column = index + 2;
+                const row = column % 2 === 0 ? 1 : 2;
+
+                return (
+                  <li
+                    key={step.id}
+                    className="production-honeycomb-item"
+                    data-status={step.status}
+                    data-active={active}
+                    data-bottleneck={blocked}
+                    style={{ gridColumnStart: column, gridRowStart: row }}
                   >
-                    <span className="production-hex-index">{String(index + 1).padStart(2, "0")}</span>
-                    <span className="production-hex-icon"><Icon size={22} /></span>
-                    <strong>{step.label === "Distribucion" ? "Distribución" : step.label}</strong>
-                    <small>{step.partnerName}</small>
-                    <span className="production-hex-status">
-                      {step.status === "completed" && <Check size={10} />}
-                      {statuses[step.status]}
-                    </span>
-                  </button>
-                </li>
-              );
-            })}
-          </ol>
+                    <button
+                      type="button"
+                      className="production-hex"
+                      onClick={() => setActiveStepId(step.id)}
+                      aria-pressed={active}
+                      aria-label={`Etapa ${index + 1}, ${step.label}, ${statuses[step.status]}, ${step.partnerName}`}
+                    >
+                      <span className="production-hex-index">{String(index + 1).padStart(2, "0")}</span>
+                      <span className="production-hex-icon"><Icon size={22} /></span>
+                      <strong>{step.label === "Distribucion" ? "Distribución" : step.label}</strong>
+                      <small>{step.partnerName}</small>
+                      <span className="production-hex-status">
+                        {step.status === "completed" && <Check size={10} />}
+                        {statuses[step.status]}
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+
           <div className="production-flow-direction" aria-hidden="true">
             <span>Inicio</span>
             <span className="production-flow-direction-line" />
