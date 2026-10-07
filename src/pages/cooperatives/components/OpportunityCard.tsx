@@ -94,9 +94,9 @@ export default function OpportunityCard({ opportunity, variant = "standard" }: O
     return (
       <Link
         to={`/cooperatives/${opportunity.id}`}
-        className="group flex items-center gap-4 rounded-[18px] border border-transparent bg-[#FAFAF7] p-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#DDE6D8] hover:bg-white hover:shadow-sm"
+        className="group flex min-h-[126px] items-center gap-5 rounded-[20px] border border-transparent bg-[#FAFAF7] p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#DDE6D8] hover:bg-white hover:shadow-sm"
       >
-        <div className="relative h-[76px] w-[76px] shrink-0 overflow-hidden rounded-[16px] bg-[#EEF1EB]">
+        <div className="relative h-[96px] w-[96px] shrink-0 overflow-hidden rounded-[18px] bg-[#EEF1EB]">
           {opportunity.imageUrl ? (
             <img
               src={opportunity.imageUrl}
@@ -106,7 +106,7 @@ export default function OpportunityCard({ opportunity, variant = "standard" }: O
             />
           ) : (
             <div className="grid h-full w-full place-items-center bg-[#EDF4E8] text-[#2E7439]">
-              <Handshake className="h-5 w-5" />
+              <Handshake className="h-6 w-6" />
             </div>
           )}
         </div>
@@ -116,8 +116,8 @@ export default function OpportunityCard({ opportunity, variant = "standard" }: O
             <OpportunityTypeBadge type={opportunity.type} />
             <OpportunityStatusBadge status={opportunity.status} />
           </div>
-          <h3 className="mt-2 line-clamp-2 text-[13px] font-semibold leading-[1.2] text-[#28322B]">{opportunity.title}</h3>
-          <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-[#748078]">
+          <h3 className="mt-2.5 line-clamp-2 text-[15px] font-semibold leading-[1.22] text-[#28322B]">{opportunity.title}</h3>
+          <div className="mt-3 flex flex-wrap items-center gap-x-3.5 gap-y-1.5 text-[11.5px] text-[#748078]">
             <span>{opportunity.creatorCompany}</span>
             <span className="h-1 w-1 rounded-full bg-[#C5CCC6]" />
             <span><strong className="font-semibold text-[#344039]">{progress}%</strong> comprometido</span>
@@ -127,9 +127,9 @@ export default function OpportunityCard({ opportunity, variant = "standard" }: O
         </div>
 
         <div className="hidden shrink-0 text-right sm:block">
-          <p className="text-[10px] text-[#87918A]">Meta</p>
-          <p className="mt-1 text-sm font-semibold text-[#35523B]">{formatCurrency(opportunity.targetAmount)}</p>
-          <ArrowUpRight className="ml-auto mt-3 h-4 w-4 text-[#98A29B] transition-transform group-hover:translate-x-0.5" />
+          <p className="text-[11px] text-[#87918A]">Meta</p>
+          <p className="mt-1 text-[16px] font-semibold text-[#35523B]">{formatCurrency(opportunity.targetAmount)}</p>
+          <ArrowUpRight className="ml-auto mt-4 h-5 w-5 text-[#98A29B] transition-transform group-hover:translate-x-0.5" />
         </div>
       </Link>
     );
