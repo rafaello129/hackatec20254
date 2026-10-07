@@ -62,14 +62,22 @@ export default function ProductionChainVisualization({
   const activeStep = steps.find((step) => step.id === activeStepId) ?? bottleneck ?? steps[0];
   const resolved = steps.filter((step) => step.status === "completed" || step.status === "optimized").length;
   const pending = steps.length - resolved;
-  const backgroundColumns = Math.max(9, steps.length + 3);
+
+  const backgroundColumns = Math.max(15, steps.length + 9);
+  const backgroundHalfRows = 7;
 
   const backgroundHexes = useMemo(() => {
-    return Array.from({ length: backgroundColumns }, (_, columnIndex) => {
-      const column = columnIndex + 1;
-      const rows = column % 2 === 0 ? [1, 3] : [2];
-      return rows.map((row) => ({ id: `bg-${column}-${row}`, column, row }));
-    }).flat();
+    const cells: { id: string; column: number; row: number }[] = [];
+
+    for (let column = 1; column <= backgroundColumns; column += 1) {
+      for (let row = 1; row <= backgroundHalfRows; row += 1) {
+        if ((column + row) % 2 === 0) {
+          cells.push({ id: `bg-${column}-${row}`, column, row });
+        }
+      }
+    }
+
+    return cells;
   }, [backgroundColumns]);
 
   if (!activeStep) return null;
@@ -77,8 +85,11 @@ export default function ProductionChainVisualization({
   const ActiveIcon = icons[activeStep.label] ?? Check;
   const isBottleneck = activeStep.id === bottleneck?.id;
   const activeIndex = steps.findIndex((step) => step.id === activeStep.id);
+  const chainStartColumn = Math.floor((backgroundColumns - steps.length) / 2) + 1;
+
   const gridStyle = {
     gridTemplateColumns: `repeat(${backgroundColumns}, var(--hex-step-x))`,
+    gridTemplateRows: `repeat(${backgroundHalfRows}, var(--hex-step-y))`,
   } as CSSProperties;
 
   const detail = (
@@ -150,7 +161,7 @@ export default function ProductionChainVisualization({
       <AnimatedContent className="production-flow-board" distance={10} duration={0.4}>
         <div className="production-honeycomb-viewport">
           <div className="production-honeycomb-scene">
-            <div className="production-honeycomb-background" style={gridStyle} aria-hidden="true">
+            <div className="production-honeycomb-plane production-honeycomb-background" style={gridStyle} aria-hidden="true">
               {backgroundHexes.map((cell) => (
                 <span
                   key={cell.id}
@@ -161,7 +172,7 @@ export default function ProductionChainVisualization({
             </div>
 
             <ol
-              className="production-honeycomb"
+              className="production-honeycomb-plane production-honeycomb"
               style={gridStyle}
               aria-label="Flujo de etapas de la cadena productiva"
             >
@@ -169,8 +180,8 @@ export default function ProductionChainVisualization({
                 const Icon = icons[step.label] ?? Check;
                 const active = step.id === activeStep.id;
                 const blocked = step.id === bottleneck?.id;
-                const column = index + 2;
-                const row = column % 2 === 0 ? 1 : 2;
+                const column = chainStartColumn + index;
+                const row = column % 2 === 0 ? 4 : 3;
 
                 return (
                   <li
@@ -201,13 +212,6 @@ export default function ProductionChainVisualization({
                 );
               })}
             </ol>
-          </div>
-
-          <div className="production-flow-direction" aria-hidden="true">
-            <span>Inicio</span>
-            <span className="production-flow-direction-line" />
-            <ArrowRight size={13} />
-            <span>Resultado</span>
           </div>
         </div>
 
