@@ -7,12 +7,41 @@ import {
   getFinanceKpis,
   getFinanceSummary,
   getInvoices,
+  getMoneyMovements,
+  getReceivables,
+  getSalesExpenseSeries,
 } from "@/services/finance.service";
-import type { AccountingEntryType, AccountingStatus, InvoiceStatus } from "@/types/finance.types";
+import type {
+  AccountingEntryType,
+  AccountingStatus,
+  ExpenseBreakdownItem,
+  ExpenseCategory,
+  InvoiceStatus,
+  MoneyMovement,
+  MoneyMovementFilter,
+  MoneyPeriod,
+} from "@/types/finance.types";
 
 type AccountingTypeFilter = AccountingEntryType | "all";
 type AccountingStatusFilter = AccountingStatus | "all";
 type InvoiceStatusFilter = InvoiceStatus | "all";
+
+export interface NewExpenseInput {
+  amount: number;
+  category: ExpenseCategory;
+  description: string;
+  date: string;
+}
+
+const expenseLabels: Record<ExpenseCategory, string> = {
+  products: "Productos o mercancía",
+  materials: "Materiales",
+  transport: "Transporte",
+  services: "Servicios",
+  rent: "Renta y local",
+  marketing: "Publicidad",
+  other: "Otros",
+};
 
 export function useFinance() {
   const summary = useMemo(() => getFinanceSummary(), []);
@@ -23,12 +52,103 @@ export function useFinance() {
   const alerts = useMemo(() => getFinanceAlerts(), []);
   const cooperativeRecords = useMemo(() => getCooperativeFinancialRecords(), []);
 
+  const initialMoneyMovements = useMemo(() => getMoneyMovements(), []);
+  const receivables = useMemo(() => getReceivables(), []);
+  const salesExpenseSeries = useMemo(() => getSalesExpenseSeries(), []);
+
+  const [moneyMovements, setMoneyMovements] =
+    useState<MoneyMovement[]>(initialMoneyMovements);
+  const [period, setPeriod] = useState<MoneyPeriod>("month");
+  const [movementFilter, setMovementFilter] =
+    useState<MoneyMovementFilter>("all");
+
   const [accountingSearchText, setAccountingSearchText] = useState("");
-  const [accountingTypeFilter, setAccountingTypeFilter] = useState<AccountingTypeFilter>("all");
-  const [accountingStatusFilter, setAccountingStatusFilter] = useState<AccountingStatusFilter>("all");
+  const [accountingTypeFilter, setAccountingTypeFilter] =
+    useState<AccountingTypeFilter>("all");
+  const [accountingStatusFilter, setAccountingStatusFilter] =
+    useState<AccountingStatusFilter>("all");
   const [invoiceSearchText, setInvoiceSearchText] = useState("");
-  const [invoiceStatusFilter, setInvoiceStatusFilter] = useState<InvoiceStatusFilter>("all");
-  const [selectedInvoiceId, setSelectedInvoiceId] = useState(invoices[0]?.id ?? "");
+  const [invoiceStatusFilter, setInvoiceStatusFilter] =
+    useState<InvoiceStatusFilter>("all");
+  const [selectedInvoiceId, setSelectedInvoiceId] = useState(
+    invoices[0]?.id ?? "",
+  );
+
+  const moneySummary = useMemo(() => {
+    const sales = moneyMovements
+      .filter((movement) => movement.type === "income")
+      .reduce((sum, movement) => sum + movement.amount, 0);
+
+    const expenses = moneyMovements
+      .filter((movement) => movement.type === "expense")
+      .reduce((sum, movement) => sum + movement.amount, 0);
+
+    const receivable = receivables.reduce(
+      (sum, item) => sum + item.amount,
+      0,
+    );
+
+    return {
+      sales,
+      expenses,
+      approximateProfit: Math.max(0, sales - expenses),
+      receivable,
+      pendingPayments: receivables.length,
+    };
+  }, [moneyMovements, receivables]);
+
+  const filteredMoneyMovements = useMemo(
+    () =>
+      moneyMovements.filter(
+        (movement) =>
+          movementFilter === "all" || movement.type === movementFilter,
+      ),
+    [moneyMovements, movementFilter],
+  );
+
+  const expenseBreakdown = useMemo<ExpenseBreakdownItem[]>(() => {
+    const grouped = new Map<ExpenseCategory, number>();
+
+    moneyMovements
+      .filter((movement) => movement.type === "expense")
+      .forEach((movement) => {
+        const category =
+          movement.category === "sale"
+            ? "other"
+            : (movement.category as ExpenseCategory);
+        grouped.set(category, (grouped.get(category) ?? 0) + movement.amount);
+      });
+
+    return [...grouped.entries()]
+      .map(([category, amount]) => ({
+        category,
+        label: expenseLabels[category],
+        amount,
+      }))
+      .sort((a, b) => b.amount - a.amount);
+  }, [moneyMovements]);
+
+  const baseExpenses = useMemo(
+    () =>
+      initialMoneyMovements
+        .filter((movement) => movement.type === "expense")
+        .reduce((sum, movement) => sum + movement.amount, 0),
+    [initialMoneyMovements],
+  );
+
+  const chartData = useMemo(() => {
+    const points = salesExpenseSeries[period].map((point) => ({ ...point }));
+    const additionalExpenses = Math.max(0, moneySummary.expenses - baseExpenses);
+
+    if (additionalExpenses > 0 && points.length > 0) {
+      points[points.length - 1] = {
+        ...points[points.length - 1],
+        expenses: points[points.length - 1].expenses + additionalExpenses,
+      };
+    }
+
+    return points;
+  }, [baseExpenses, moneySummary.expenses, period, salesExpenseSeries]);
 
   const filteredAccountingEntries = useMemo(() => {
     const query = accountingSearchText.trim().toLowerCase();
@@ -36,15 +156,28 @@ export function useFinance() {
     return accountingEntries.filter((entry) => {
       const matchesText =
         !query ||
-        [entry.concept, entry.category, entry.relatedEntity, entry.sourceModule, entry.notes].some((value) =>
-          value.toLowerCase().includes(query),
-        );
-      const matchesType = accountingTypeFilter === "all" || entry.type === accountingTypeFilter;
-      const matchesStatus = accountingStatusFilter === "all" || entry.status === accountingStatusFilter;
+        [
+          entry.concept,
+          entry.category,
+          entry.relatedEntity,
+          entry.sourceModule,
+          entry.notes,
+        ].some((value) => value.toLowerCase().includes(query));
+      const matchesType =
+        accountingTypeFilter === "all" ||
+        entry.type === accountingTypeFilter;
+      const matchesStatus =
+        accountingStatusFilter === "all" ||
+        entry.status === accountingStatusFilter;
 
       return matchesText && matchesType && matchesStatus;
     });
-  }, [accountingEntries, accountingSearchText, accountingStatusFilter, accountingTypeFilter]);
+  }, [
+    accountingEntries,
+    accountingSearchText,
+    accountingStatusFilter,
+    accountingTypeFilter,
+  ]);
 
   const filteredInvoices = useMemo(() => {
     const query = invoiceSearchText.trim().toLowerCase();
@@ -52,19 +185,42 @@ export function useFinance() {
     return invoices.filter((invoice) => {
       const matchesText =
         !query ||
-        [invoice.folio, invoice.customerName, invoice.notes, invoice.relatedOpportunityId ?? ""].some((value) =>
-          value.toLowerCase().includes(query),
-        );
-      const matchesStatus = invoiceStatusFilter === "all" || invoice.status === invoiceStatusFilter;
+        [
+          invoice.folio,
+          invoice.customerName,
+          invoice.notes,
+          invoice.relatedOpportunityId ?? "",
+        ].some((value) => value.toLowerCase().includes(query));
+      const matchesStatus =
+        invoiceStatusFilter === "all" ||
+        invoice.status === invoiceStatusFilter;
 
       return matchesText && matchesStatus;
     });
   }, [invoiceSearchText, invoiceStatusFilter, invoices]);
 
   const selectedInvoice = useMemo(
-    () => invoices.find((invoice) => invoice.id === selectedInvoiceId) ?? filteredInvoices[0] ?? invoices[0],
+    () =>
+      invoices.find((invoice) => invoice.id === selectedInvoiceId) ??
+      filteredInvoices[0] ??
+      invoices[0],
     [filteredInvoices, invoices, selectedInvoiceId],
   );
+
+  function registerExpense(input: NewExpenseInput) {
+    const movement: MoneyMovement = {
+      id: `money-local-${Date.now()}`,
+      date: input.date,
+      type: "expense",
+      amount: Math.max(0, input.amount),
+      category: input.category,
+      description: input.description.trim() || expenseLabels[input.category],
+      detail: expenseLabels[input.category],
+      source: "manual",
+    };
+
+    setMoneyMovements((current) => [movement, ...current]);
+  }
 
   function clearAccountingFilters() {
     setAccountingSearchText("");
@@ -102,5 +258,17 @@ export function useFinance() {
     setSelectedInvoiceId,
     clearAccountingFilters,
     clearInvoiceFilters,
+
+    moneySummary,
+    moneyMovements,
+    filteredMoneyMovements,
+    period,
+    setPeriod,
+    movementFilter,
+    setMovementFilter,
+    chartData,
+    receivables,
+    expenseBreakdown,
+    registerExpense,
   };
 }

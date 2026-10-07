@@ -6,6 +6,10 @@ import {
   financeKpisMock,
   financeSummaryMock,
   invoicesMock,
+  moneyMovementsMock,
+  receivablesMock,
+  expenseBreakdownMock,
+  salesExpenseSeriesMock,
 } from "@/data/mocks/finance.mock";
 
 export function getFinanceSummary() {
@@ -42,4 +46,21 @@ export function getInvoiceById(id: string) {
 
 export function getAccountingEntryById(id: string) {
   return accountingEntriesMock.find((entry) => entry.id === id);
+}
+
+
+export function getMoneyMovements() {
+  return moneyMovementsMock;
+}
+
+export function getReceivables() {
+  return receivablesMock;
+}
+
+export function getExpenseBreakdown() {
+  return expenseBreakdownMock;
+}
+
+export function getSalesExpenseSeries() {
+  return salesExpenseSeriesMock;
 }
