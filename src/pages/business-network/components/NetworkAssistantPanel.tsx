@@ -6,7 +6,7 @@ import type { NetworkAssistantMessage } from "@/types/businessNetwork.types";
 export default function NetworkAssistantPanel({messages,defaultOpen=false}:{messages:NetworkAssistantMessage[];defaultOpen?:boolean}) {
   return <GlassSurface className="network-analysis-surface" width="100%" borderRadius={14} blur={16} backgroundOpacity={0.76} saturation={1.15}>
     <details className="network-analysis" open={defaultOpen||undefined}>
-      <summary><span className="network-ai-mark"><Bot size={17}/><ShinyText text="péek AI" speed={5.5}/></span>
+      <summary><span className="network-ai-mark"><Bot size={17}/><ShinyText text="MÁAK AI" speed={5.5}/></span>
         <span className="network-analysis-title">Análisis del proyecto</span><ChevronDown size={16} className="network-analysis-chevron"/>
       </summary>
       <div className="network-analysis-body" aria-live="polite">
