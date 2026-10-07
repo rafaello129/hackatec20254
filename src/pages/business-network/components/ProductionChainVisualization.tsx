@@ -114,15 +114,19 @@ export default function ProductionChainVisualization({
           <p>Visualiza el avance de punta a punta y enfócate en la etapa que requiere atención.</p>
         </div>
 
-        <div className="production-flow-summary" aria-label="Resumen de la cadena">
-          <div>
+        <div className="production-flow-summary production-flow-summary-compact" aria-label={`${resolved} de ${steps.length} etapas resueltas, ${pending} pendientes`}>
+          <div className="production-summary-progress">
+            <span className="production-summary-label">Avance</span>
             <strong>{resolved}/{steps.length}</strong>
-            <span>resueltas</span>
+            <span className="production-summary-mini-track" aria-hidden="true">
+              <span style={{ width: `${steps.length ? (resolved / steps.length) * 100 : 0}%` }} />
+            </span>
           </div>
-          <div data-warning={pending > 0}>
-            <CircleAlert size={15} />
+          <span className="production-summary-divider" aria-hidden="true" />
+          <div className="production-summary-pending" data-warning={pending > 0}>
+            <CircleAlert size={14} />
             <strong>{pending}</strong>
-            <span>pendientes</span>
+            <span>{pending === 1 ? "pendiente" : "pendientes"}</span>
           </div>
         </div>
       </div>
