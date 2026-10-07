@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ArrowUpRight, FileText, Plus, Search } from "lucide-react";
+import SpotlightCard from "@/components/react-bits/SpotlightCard";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import type { NetworkPlan } from "@/services/businessNetwork.service";
 import type { NetworkProject } from "@/types/businessNetwork.types";
@@ -11,6 +12,7 @@ export default function NetworkPlanLauncher({ plans, activeId, onSelect, onCreat
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const visible = plans.filter((plan) => plan.project.title.toLocaleLowerCase("es").includes(query.trim().toLocaleLowerCase("es")));
+
   return (
     <section className="network-launcher" aria-label="Inicio de planteamientos">
       <div className="network-launcher-intro">
@@ -33,8 +35,13 @@ export default function NetworkPlanLauncher({ plans, activeId, onSelect, onCreat
               const maxInput = form.elements.namedItem("maximum") as HTMLInputElement;
               maxInput.setCustomValidity(maximum < minimum ? "El máximo debe ser igual o mayor al mínimo." : "");
               if (!form.reportValidity()) return;
-              onCreate({ title: String(values.get("title")).trim(), description: String(values.get("description")).trim(), category: String(values.get("category")).trim(),
-                targetLocation: String(values.get("location")).trim(), quantity: Number(values.get("quantity")), budgetMin: minimum, budgetMax: maximum });
+              onCreate({
+                title: String(values.get("title")).trim(),
+                description: String(values.get("description")).trim(),
+                category: String(values.get("category")).trim(),
+                targetLocation: String(values.get("location")).trim(),
+                quantity: Number(values.get("quantity")), budgetMin: minimum, budgetMax: maximum,
+              });
               setOpen(false);
             }}>
               <label>Nombre del planteamiento<input autoFocus name="title" required maxLength={120} pattern=".*\S.*" placeholder="Ej. Servicio de entregas locales" /></label>
@@ -52,12 +59,26 @@ export default function NetworkPlanLauncher({ plans, activeId, onSelect, onCreat
           </DialogContent>
         </Dialog>
       </div>
+
       <div className="network-plan-directory">
-        <div className="network-plan-directory-heading"><h3>Planteamientos existentes</h3>{plans.length > 1 && <label className="network-partner-search"><Search size={16} /><span className="sr-only">Buscar planteamientos</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar planteamiento" /></label>}</div>
+        <div className="network-plan-directory-heading">
+          <h3>Planteamientos existentes</h3>
+          {plans.length > 1 && <label className="network-partner-search"><Search size={16} /><span className="sr-only">Buscar planteamientos</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar planteamiento" /></label>}
+        </div>
         <div className="network-plan-list">
-          {visible.map(({ project, partners }) => <button key={project.id} className="network-plan-item" aria-pressed={activeId === project.id} onClick={() => onSelect(project.id)}>
-            <FileText size={20} /><span><strong>{project.title}</strong><small>{project.category} · {project.targetLocation}</small><span className="network-plan-meta">{project.status === "draft" ? "Borrador" : "En desarrollo"} · {partners.filter((p) => p.connected).length} aliados conectados</span></span><ArrowUpRight size={16} />
-          </button>)}
+          {visible.map(({ project, partners }) => (
+            <SpotlightCard key={project.id} className={`network-plan-spotlight ${activeId === project.id ? "network-plan-spotlight-active" : ""}`} spotlightColor="rgba(121, 152, 51, 0.13)">
+              <button className="network-plan-item" aria-pressed={activeId === project.id} onClick={() => onSelect(project.id)}>
+                <FileText size={20} />
+                <span>
+                  <strong>{project.title}</strong>
+                  <small>{project.category} · {project.targetLocation}</small>
+                  <span className="network-plan-meta">{project.status === "draft" ? "Borrador" : project.status === "ready" ? "Red lista" : "En desarrollo"} · {partners.filter((p) => p.connected).length} aliados conectados</span>
+                </span>
+                <ArrowUpRight size={16} />
+              </button>
+            </SpotlightCard>
+          ))}
           {!visible.length && <p className="network-directory-empty">No hay planteamientos con ese nombre.</p>}
         </div>
       </div>
