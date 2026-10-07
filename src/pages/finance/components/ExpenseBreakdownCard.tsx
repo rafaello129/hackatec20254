@@ -12,7 +12,7 @@ export default function ExpenseBreakdownCard({
   items: ExpenseBreakdownItem[];
 }) {
   const visible = items.slice(0, 5);
-  const total = visible.reduce((sum, item) => sum + item.amount, 0);
+  const total = items.reduce((sum, item) => sum + item.amount, 0);
   const max = Math.max(...visible.map((item) => item.amount), 1);
 
   return (
