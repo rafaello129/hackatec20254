@@ -73,7 +73,10 @@ export default function CustomersPage() {
         <>
           <CustomerSummaryCards
             summary={summary}
-            onFilter={setBehaviorFilter}
+            onFilter={(filter) => {
+              setSearchText("");
+              setBehaviorFilter(filter);
+            }}
           />
 
           <section className="grid items-start gap-4 xl:grid-cols-[minmax(0,1.9fr)_360px]">
@@ -120,7 +123,10 @@ export default function CustomersPage() {
               <InactiveCustomersCard
                 customers={inactiveCustomers}
                 onSelect={openCustomer}
-                onViewAll={() => setBehaviorFilter("inactive")}
+                onViewAll={() => {
+                  setSearchText("");
+                  setBehaviorFilter("inactive");
+                }}
               />
             </div>
           </section>
