@@ -8,7 +8,7 @@ export default function VerificationInfoDisclosure() {
         ¿Qué significa esta verificación?
       </summary>
       <p className="mt-3 max-w-3xl text-[10px] leading-5 text-[#718078]">
-        PÉEK revisa la identidad, el origen y la evidencia asociada al producto.
+        MÁAK revisa la identidad, el origen y la evidencia asociada al producto.
         Esta validación pertenece a la plataforma y no sustituye sellos,
         denominaciones de origen ni certificaciones gubernamentales o
         regulatorias.
