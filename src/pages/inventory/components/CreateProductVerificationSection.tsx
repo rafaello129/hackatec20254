@@ -75,6 +75,7 @@ export default function CreateProductVerificationSection({
       <div className="mt-5 grid gap-4 sm:grid-cols-2">
         <Field label="Productor o responsable" icon={Factory}>
           <input
+            id="verification-producer"
             value={value.producerName}
             onChange={(event) => update("producerName", event.target.value)}
             placeholder="Ej. Familia Pech"
@@ -93,6 +94,7 @@ export default function CreateProductVerificationSection({
 
         <Field label="Ubicación" icon={MapPin}>
           <input
+            id="verification-location"
             value={value.location}
             onChange={(event) => update("location", event.target.value)}
             placeholder="Ej. Mérida, Yucatán"
