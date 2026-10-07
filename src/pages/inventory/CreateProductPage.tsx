@@ -10,7 +10,6 @@ import {
   ChevronDown,
   PackagePlus,
   Save,
-  Sparkles,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type {
@@ -22,22 +21,9 @@ import { PRODUCT_CATEGORIES } from "./hooks/useInventory";
 import CreateProductPreview from "./components/CreateProductPreview";
 import ImageSourcePicker from "./components/ImageSourcePicker";
 import CreateProductVerificationSection, {
-  EMPTY_PRODUCT_VERIFICATION_DRAFT,
   type ProductVerificationDraft,
 } from "./components/CreateProductVerificationSection";
 import { useProductVerification } from "./context/ProductVerificationProvider";
-
-const emptyForm: NewProductInput = {
-  name: "",
-  category: "Textiles",
-  description: "",
-  price: 0,
-  cost: 0,
-  quantity: 0,
-  lowStockAt: 5,
-  supplier: "",
-  image: "",
-};
 
 const expoForm: NewProductInput = {
   name: "Bolsa bordada Xtabentún",
@@ -80,17 +66,16 @@ export default function CreateProductPage() {
   const navigate = useNavigate();
   const { addProduct } = useInventoryState();
   const { createProductVerification } = useProductVerification();
-  const [form, setForm] = useState<NewProductInput>(emptyForm);
+  const [form, setForm] = useState<NewProductInput>(expoForm);
   const [verificationDraft, setVerificationDraft] =
-    useState<ProductVerificationDraft>(EMPTY_PRODUCT_VERIFICATION_DRAFT);
+    useState<ProductVerificationDraft>(expoVerification);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitted, setSubmitted] = useState(false);
 
   const isDirty = useMemo(
     () =>
-      JSON.stringify(form) !== JSON.stringify(emptyForm) ||
-      JSON.stringify(verificationDraft) !==
-        JSON.stringify(EMPTY_PRODUCT_VERIFICATION_DRAFT),
+      JSON.stringify(form) !== JSON.stringify(expoForm) ||
+      JSON.stringify(verificationDraft) !== JSON.stringify(expoVerification),
     [form, verificationDraft],
   );
 
@@ -174,22 +159,6 @@ export default function CreateProductPage() {
     }
 
     navigate("/inventory");
-  };
-
-  const loadExpoExample = () => {
-    if (
-      isDirty &&
-      !window.confirm(
-        "Esto reemplazará los datos actuales con el ejemplo para la expo. ¿Continuar?",
-      )
-    ) {
-      return;
-    }
-
-    setForm(expoForm);
-    setVerificationDraft(expoVerification);
-    setErrors({});
-    setSubmitted(false);
   };
 
   const focusFirstError = (next: FieldErrors) => {
@@ -338,23 +307,13 @@ export default function CreateProductPage() {
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              onClick={loadExpoExample}
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-[#D8E1D4] bg-white px-4 text-[10px] font-semibold text-[#49614E] transition hover:bg-[#F5F8F2] motion-reduce:transition-none sm:h-11 sm:text-[11px]"
-            >
-              <Sparkles className="h-4 w-4 text-[#6F8E2B]" />
-              Llenar ejemplo para expo
-            </button>
-            <button
-              type="submit"
-              className="hidden h-11 items-center justify-center gap-2 rounded-full bg-[var(--peek-brand-900)] px-5 text-[12px] font-semibold text-white transition hover:bg-[var(--oe-primary-hover)] motion-reduce:transition-none lg:inline-flex"
-            >
-              <Save className="h-4 w-4" />
-              Guardar producto
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="hidden h-11 items-center justify-center gap-2 rounded-full bg-[var(--peek-brand-900)] px-5 text-[12px] font-semibold text-white transition hover:bg-[var(--oe-primary-hover)] motion-reduce:transition-none lg:inline-flex"
+          >
+            <Save className="h-4 w-4" />
+            Guardar producto
+          </button>
         </div>
       </div>
 
