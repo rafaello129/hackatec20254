@@ -94,9 +94,9 @@ export default function OpportunityCard({ opportunity, variant = "standard" }: O
     return (
       <Link
         to={`/cooperatives/${opportunity.id}`}
-        className="group flex min-h-[126px] items-center gap-5 rounded-[20px] border border-transparent bg-[#FAFAF7] p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#DDE6D8] hover:bg-white hover:shadow-sm"
+        className="group flex min-h-[168px] items-start gap-5 rounded-[20px] border border-transparent bg-[#FAFAF7] p-4.5 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#DDE6D8] hover:bg-white hover:shadow-sm"
       >
-        <div className="relative h-[96px] w-[96px] shrink-0 overflow-hidden rounded-[18px] bg-[#EEF1EB]">
+        <div className="relative h-[112px] w-[112px] shrink-0 overflow-hidden rounded-[18px] bg-[#EEF1EB]">
           {opportunity.imageUrl ? (
             <img
               src={opportunity.imageUrl}
@@ -117,6 +117,10 @@ export default function OpportunityCard({ opportunity, variant = "standard" }: O
             <OpportunityStatusBadge status={opportunity.status} />
           </div>
           <h3 className="mt-2.5 line-clamp-2 text-[15px] font-semibold leading-[1.22] text-[#28322B]">{opportunity.title}</h3>
+          <p className="mt-2 line-clamp-2 text-[12px] leading-[1.45] text-[#7A857E]">
+            {opportunity.description}
+          </p>
+
           <div className="mt-3 flex flex-wrap items-center gap-x-3.5 gap-y-1.5 text-[11.5px] text-[#748078]">
             <span>{opportunity.creatorCompany}</span>
             <span className="h-1 w-1 rounded-full bg-[#C5CCC6]" />
@@ -124,9 +128,30 @@ export default function OpportunityCard({ opportunity, variant = "standard" }: O
             <span className="h-1 w-1 rounded-full bg-[#C5CCC6]" />
             <span>{opportunity.currentParticipants}/{opportunity.requestedParticipants} aliados</span>
           </div>
+
+          <div className="mt-3 rounded-[14px] bg-white/80 px-3.5 py-3 ring-1 ring-[#E8ECE5]">
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-[10px] font-medium text-[#7C867F]">Monto comprometido</span>
+              <span className="text-[11px] font-semibold text-[#35523B]">{progress}%</span>
+            </div>
+            <div className="mt-2 flex items-end justify-between gap-4">
+              <p className="text-[15px] font-semibold leading-none text-[#17231B]">
+                {formatCurrency(opportunity.currentAmount)}
+              </p>
+              <p className="text-[10px] text-[#87918A]">
+                de {formatCurrency(opportunity.targetAmount)}
+              </p>
+            </div>
+            <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-[#EDF1EA]">
+              <div
+                className="h-full rounded-full bg-[linear-gradient(90deg,#0B6C31,#9AC84B)]"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          </div>
         </div>
 
-        <div className="hidden shrink-0 text-right sm:block">
+        <div className="hidden shrink-0 pt-1 text-right sm:block">
           <p className="text-[11px] text-[#87918A]">Meta</p>
           <p className="mt-1 text-[16px] font-semibold text-[#35523B]">{formatCurrency(opportunity.targetAmount)}</p>
           <ArrowUpRight className="ml-auto mt-4 h-5 w-5 text-[#98A29B] transition-transform group-hover:translate-x-0.5" />
