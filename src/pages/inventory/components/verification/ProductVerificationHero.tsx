@@ -38,7 +38,7 @@ export default function ProductVerificationHero({
     pending: {
       eyebrow: "Autenticidad y origen",
       title: "Verificación en revisión",
-      body: "La evidencia fue recibida y está siendo revisada por PÉEK.",
+      body: "La información fue recibida y está siendo revisada por PÉEK.",
       icon: Clock3,
       surface: "border border-[#EAD9A8] bg-[#FFF9E9] text-[#5F4A13]",
       iconSurface: "bg-[#F5DF91] text-[#715405]",
