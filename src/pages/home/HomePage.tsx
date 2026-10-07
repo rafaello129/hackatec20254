@@ -239,7 +239,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="space-y-4 pb-3">
+    <div className="space-y-5 pb-4">
       <section className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h1 className="text-[34px] font-bold leading-tight text-[#17231B] sm:text-[40px]">
@@ -341,8 +341,8 @@ export default function HomePage() {
         })}
       </section>
 
-      <section className="grid items-start gap-5 xl:grid-cols-[1.55fr_1.15fr]">
-        <article className="self-start rounded-[24px] border border-[#E2E6DF] bg-white p-6 sm:p-7">
+      <section className="grid items-stretch gap-5 xl:grid-cols-[1.55fr_1.15fr]">
+        <article className="flex h-full min-h-[440px] flex-col rounded-[24px] border border-[#E2E6DF] bg-white p-6 sm:p-7">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <div className="flex items-center gap-2">
@@ -389,7 +389,7 @@ export default function HomePage() {
           </div>
 
           <TooltipPrimitive.Provider delayDuration={220} skipDelayDuration={400}>
-            <div className="relative mt-7 h-[228px]">
+            <div className="relative mt-7 h-[228px] flex-1">
               <div className="pointer-events-none absolute inset-x-0 top-0 h-[184px]">
                 {[0, 1, 2, 3].map((line) => (
                   <div
@@ -509,7 +509,7 @@ export default function HomePage() {
           </TooltipPrimitive.Provider>
         </article>
 
-        <article className="rounded-[24px] border border-[#E2E6DF] bg-white p-6">
+        <article className="flex h-full min-h-[440px] flex-col rounded-[24px] border border-[#E2E6DF] bg-white p-6 sm:p-7">
           <div className="flex items-start justify-between gap-4">
             <div>
               <h2 className="text-base font-semibold text-[#17231B]">Artesanías más vendidas</h2>
@@ -525,7 +525,7 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="mt-5 space-y-3">
+          <div className="mt-5 flex flex-1 flex-col justify-between gap-3">
             {artisanProducts.map((product, index) => (
               <Link
                 key={product.id}
@@ -583,8 +583,8 @@ export default function HomePage() {
         </article>
       </section>
 
-      <section className="grid items-start gap-5 xl:grid-cols-[1.08fr_1fr]">
-        <article className="rounded-[24px] border border-[#E2E6DF] bg-white p-6">
+      <section className="grid items-stretch gap-5 xl:grid-cols-[1.08fr_1fr]">
+        <article className="flex h-full min-h-[520px] flex-col rounded-[24px] border border-[#E2E6DF] bg-white p-6 sm:p-7">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-base font-semibold text-[#17231B]">Actividad reciente</h2>
@@ -595,7 +595,7 @@ export default function HomePage() {
             </span>
           </div>
 
-          <div className="mt-5 divide-y divide-[#EEF0EB]">
+          <div className="mt-5 flex-1 divide-y divide-[#EEF0EB]">
             {data.recentActivity.map((activity) => (
               <div key={activity.id} className="flex items-center gap-3 py-3.5 first:pt-0 last:pb-0">
                 <span
@@ -625,7 +625,7 @@ export default function HomePage() {
 
         <SpotlightCard
           spotlightColor="rgba(154, 200, 75, 0.18)"
-          className="rounded-[28px] border border-[#DDE4D8] bg-[linear-gradient(145deg,#FFFFFF_0%,#FBFCF8_58%,#F1F7E9_100%)] p-6 sm:p-7"
+          className="flex h-full min-h-[520px] flex-col rounded-[24px] border border-[#DDE4D8] bg-[linear-gradient(145deg,#FFFFFF_0%,#FBFCF8_58%,#F1F7E9_100%)] p-6 sm:p-7"
         >
           <div className="flex items-start justify-between gap-4">
             <div>
@@ -646,7 +646,7 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="mt-6 grid gap-6 md:grid-cols-[0.92fr_1.08fr] md:items-center">
+          <div className="mt-6 grid flex-1 gap-6 md:grid-cols-[0.92fr_1.08fr] md:items-center">
             <div className="flex justify-center">
               <Magnet
                 padding={56}
