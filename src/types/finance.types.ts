@@ -106,3 +106,59 @@ export interface CooperativeFinancialRecord {
   distributionStatus: "pending" | "calculated" | "in_review" | "completed";
   invoiceStatus: InvoiceStatus;
 }
+
+
+export type MoneyMovementType = "income" | "expense";
+export type MoneyPeriod = "week" | "month" | "quarter";
+export type MoneyMovementFilter = "all" | MoneyMovementType;
+
+export type ExpenseCategory =
+  | "products"
+  | "materials"
+  | "transport"
+  | "services"
+  | "rent"
+  | "marketing"
+  | "other";
+
+export interface MoneyMovement {
+  id: string;
+  date: string;
+  type: MoneyMovementType;
+  amount: number;
+  category: ExpenseCategory | "sale";
+  description: string;
+  detail?: string;
+  source: "sale" | "manual" | "product" | "customer";
+  relatedCustomerId?: string;
+  relatedProductId?: string;
+}
+
+export interface MoneySummary {
+  sales: number;
+  expenses: number;
+  approximateProfit: number;
+  receivable: number;
+  pendingPayments: number;
+}
+
+export interface SalesExpensePoint {
+  label: string;
+  sales: number;
+  expenses: number;
+}
+
+export interface ReceivableItem {
+  id: string;
+  customerId?: string;
+  customerName: string;
+  amount: number;
+  dueDate: string;
+  daysPending: number;
+}
+
+export interface ExpenseBreakdownItem {
+  category: ExpenseCategory;
+  label: string;
+  amount: number;
+}
