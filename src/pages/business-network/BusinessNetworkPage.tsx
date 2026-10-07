@@ -98,7 +98,7 @@ export default function BusinessNetworkPage() {
           </div>
 
           <FadeContent key={`${activeId}-${view}`} className="network-development-content" duration={0.24} distance={6}>
-            {view === "overview" && (
+            {view === "analysis" && (
               <section className="network-project network-project-snapshot" aria-label="Resumen del planteamiento">
                 <div className="network-project-snapshot-main">
                   <div className="network-project-snapshot-copy">
@@ -166,7 +166,7 @@ export default function BusinessNetworkPage() {
             {(view === "overview" || view === "processes") && (
               chainSteps.length
                 ? <ProductionChainVisualization steps={chainSteps} onSelectType={showPartners} selectedType={partnerType} />
-                : <div className="network-draft-empty"><GitBranch size={28} /><h3>Procesos por definir</h3><p>Este planteamiento todavía no tiene una cadena operativa ni aliados asignados.</p><button className="network-edit" onClick={() => { setView("overview"); setEditing(true); }}>Revisar datos del planteamiento</button></div>
+                : <div className="network-draft-empty"><GitBranch size={28} /><h3>Procesos por definir</h3><p>Este planteamiento todavía no tiene una cadena operativa ni aliados asignados.</p><button className="network-edit" onClick={() => { setView("analysis"); setEditing(true); }}>Revisar datos del planteamiento</button></div>
             )}
 
             {(view === "overview" || view === "processes") && nextStep && (
