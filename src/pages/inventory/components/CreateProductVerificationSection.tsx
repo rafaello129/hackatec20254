@@ -2,11 +2,11 @@ import type { ReactNode } from "react";
 import {
   Factory,
   Hammer,
-  ImagePlus,
   MapPin,
   Package,
   ShieldCheck,
 } from "lucide-react";
+import ImageSourcePicker from "./ImageSourcePicker";
 
 export interface ProductVerificationDraft {
   producerName: string;
@@ -144,25 +144,13 @@ export default function CreateProductVerificationSection({
         </label>
       </div>
 
-      <div className="mt-4 rounded-[18px] border border-[#E4E9E1] bg-[#FBFCF9] p-4">
-        <div className="flex items-center gap-3">
-          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-[12px] bg-[#EEF4E9] text-[#5A7B12]">
-            <ImagePlus className="h-4 w-4" />
-          </span>
-          <div>
-            <p className="text-[10px] font-semibold text-[#344039]">
-              Evidencia inicial
-            </p>
-            <p className="mt-0.5 text-[9px] text-[#87918A]">
-              Opcional. Por ahora puedes registrar una URL de fotografía.
-            </p>
-          </div>
-        </div>
-        <input
+      <div className="mt-4">
+        <ImageSourcePicker
           value={value.evidenceUrl}
-          onChange={(event) => update("evidenceUrl", event.target.value)}
-          placeholder="https://..."
-          className="mt-3 h-10 w-full rounded-[12px] border border-[#E1E6DE] bg-white px-3 text-[11px] text-[#263129] outline-none placeholder:text-[#A0A9A2] focus:border-[#7DA44B]"
+          onChange={(nextValue) => update("evidenceUrl", nextValue)}
+          title="Evidencia inicial"
+          description="Opcional. Elige una foto del proceso o pega una URL."
+          compact
         />
       </div>
 
