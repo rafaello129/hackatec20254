@@ -139,7 +139,7 @@
 
 .production-honeycomb-background {
   z-index: 0;
-  opacity: .72;
+  opacity: .9;
 }
 
 .production-bg-hex {
@@ -147,20 +147,40 @@
   width: var(--hex-w);
   height: var(--hex-h);
   pointer-events: none;
-  background: rgba(228,235,223,.70);
+  background: rgba(210,222,200,.92);
   clip-path: polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);
 }
 
+.production-bg-hex::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: rgba(244,248,239,.92);
+  clip-path: inherit;
+}
+
 .production-bg-hex:nth-child(4n + 1) {
-  background: rgba(223,233,215,.76);
+  background: rgba(186,210,164,.9);
+}
+
+.production-bg-hex:nth-child(4n + 1)::after {
+  background: rgba(234,243,227,.92);
 }
 
 .production-bg-hex:nth-child(5n + 2) {
-  background: rgba(224,234,238,.70);
+  background: rgba(169,199,214,.9);
+}
+
+.production-bg-hex:nth-child(5n + 2)::after {
+  background: rgba(232,241,246,.92);
 }
 
 .production-bg-hex:nth-child(7n + 3) {
-  background: rgba(238,235,213,.68);
+  background: rgba(220,205,160,.9);
+}
+
+.production-bg-hex:nth-child(7n + 3)::after {
+  background: rgba(246,241,225,.92);
 }
 
 .production-honeycomb {
