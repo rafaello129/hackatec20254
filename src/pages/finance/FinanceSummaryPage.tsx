@@ -14,6 +14,7 @@ export default function FinanceSummaryPage() {
 
   const {
     moneySummary,
+    summaryVisuals,
     chartData,
     period,
     setPeriod,
@@ -57,24 +58,32 @@ export default function FinanceSummaryPage() {
         </div>
       </header>
 
-      <MoneySummaryCards summary={moneySummary} />
+      <MoneySummaryCards summary={moneySummary} visuals={summaryVisuals} />
 
-      <section className="grid items-start gap-4 xl:grid-cols-[minmax(0,1.55fr)_360px]">
-        <SalesExpensesChart
-          points={chartData}
-          period={period}
-          onPeriodChange={setPeriod}
-        />
-        <ReceivablesCard items={receivables} />
+      <section className="grid items-stretch gap-4 xl:grid-cols-12">
+        <div className="xl:col-span-8">
+          <SalesExpensesChart
+            points={chartData}
+            period={period}
+            onPeriodChange={setPeriod}
+          />
+        </div>
+        <div className="xl:col-span-4">
+          <ReceivablesCard items={receivables} />
+        </div>
       </section>
 
-      <section className="grid items-start gap-4 xl:grid-cols-[minmax(0,1.55fr)_360px]">
-        <MoneyMovementList
-          movements={filteredMoneyMovements}
-          filter={movementFilter}
-          onFilterChange={setMovementFilter}
-        />
-        <ExpenseBreakdownCard items={expenseBreakdown} />
+      <section className="grid items-stretch gap-4 xl:grid-cols-12">
+        <div className="xl:col-span-8">
+          <MoneyMovementList
+            movements={filteredMoneyMovements}
+            filter={movementFilter}
+            onFilterChange={setMovementFilter}
+          />
+        </div>
+        <div className="xl:col-span-4">
+          <ExpenseBreakdownCard items={expenseBreakdown} />
+        </div>
       </section>
 
       <AddExpenseModal
