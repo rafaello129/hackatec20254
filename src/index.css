@@ -111,3 +111,42 @@ h6 {
 .peek-dark-surface svg {
   stroke: currentColor;
 }
+
+
+/* Inventory donut motion: staged reveal inspired by React Bits interaction patterns. */
+.peek-inventory-donut {
+  overflow: visible;
+  filter: drop-shadow(0 12px 28px rgba(47, 135, 58, 0.08));
+}
+
+.peek-inventory-ring-segment {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: peek-inventory-ring-intro 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition:
+    stroke-width 220ms ease,
+    opacity 220ms ease,
+    filter 220ms ease;
+}
+
+.peek-inventory-ring-segment:hover {
+  filter: drop-shadow(0 3px 6px rgba(23, 35, 27, 0.12));
+}
+
+@keyframes peek-inventory-ring-intro {
+  from {
+    opacity: 0;
+    transform: scale(0.9) rotate(-10deg);
+  }
+
+  to {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .peek-inventory-ring-segment {
+    animation: none;
+    transition: none;
+  }
+}
