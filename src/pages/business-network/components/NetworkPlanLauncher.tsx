@@ -6,6 +6,7 @@ import type { NetworkPlan } from "@/services/businessNetwork.service";
 import type { NetworkProject } from "@/types/businessNetwork.types";
 import "../business-network-space.css";
 import "../business-network-snapshot.css";
+import "../business-network-home-clients.css";
 
 export default function NetworkPlanLauncher({ plans, activeId, onSelect, onCreate }: {
   plans: NetworkPlan[]; activeId: string; onSelect: (id: string) => void;
@@ -36,7 +37,7 @@ export default function NetworkPlanLauncher({ plans, activeId, onSelect, onCreat
           )}
 
           <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild><button className="network-primary network-primary-compact"><Plus size={15} /> Nuevo</button></DialogTrigger>
+            <DialogTrigger asChild><button className="network-primary network-primary-compact"><Plus size={15} /> Nuevo planteamiento</button></DialogTrigger>
             <DialogContent className="network-create-dialog max-h-[85dvh] overflow-y-auto bg-white sm:max-w-xl">
               <DialogTitle>Nuevo planteamiento</DialogTitle>
               <DialogDescription>Datos iniciales del negocio</DialogDescription>
