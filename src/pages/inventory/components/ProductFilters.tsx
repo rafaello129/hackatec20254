@@ -1,9 +1,10 @@
 import { Search, X } from "lucide-react";
 import type {
   ProductAvailabilityFilter,
+  ProductCategory,
   ProductCategoryFilter,
-} from "../hooks/useInventory";
-import type { ProductCategory } from "@/types/inventory.types";
+  ProductVerificationFilter,
+} from "@/types/inventory.types";
 
 const availabilityOptions: Array<{
   value: ProductAvailabilityFilter;
@@ -19,10 +20,12 @@ interface ProductFiltersProps {
   searchText: string;
   availabilityFilter: ProductAvailabilityFilter;
   categoryFilter: ProductCategoryFilter;
+  verificationFilter: ProductVerificationFilter;
   categories: ProductCategory[];
   onSearchChange: (value: string) => void;
   onAvailabilityChange: (value: ProductAvailabilityFilter) => void;
   onCategoryChange: (value: ProductCategoryFilter) => void;
+  onVerificationChange: (value: ProductVerificationFilter) => void;
   onClear: () => void;
 }
 
@@ -30,21 +33,24 @@ export default function ProductFilters({
   searchText,
   availabilityFilter,
   categoryFilter,
+  verificationFilter,
   categories,
   onSearchChange,
   onAvailabilityChange,
   onCategoryChange,
+  onVerificationChange,
   onClear,
 }: ProductFiltersProps) {
   const hasFilters =
     searchText.trim().length > 0 ||
     availabilityFilter !== "all" ||
-    categoryFilter !== "all";
+    categoryFilter !== "all" ||
+    verificationFilter !== "all";
 
   return (
     <div>
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
-        <label className="relative min-w-0 flex-1">
+      <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_190px_180px]">
+        <label className="relative min-w-0">
           <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#7E8981]" />
           <input
             type="search"
@@ -68,6 +74,22 @@ export default function ProductFilters({
               {category}
             </option>
           ))}
+        </select>
+
+        <select
+          value={verificationFilter}
+          onChange={(event) =>
+            onVerificationChange(
+              event.target.value as ProductVerificationFilter,
+            )
+          }
+          className="h-11 rounded-[14px] border border-[var(--oe-border)] bg-white px-3 text-[11px] font-medium text-[#536057] outline-none transition focus:border-[#9FBF72] focus:ring-2 focus:ring-[var(--peek-accent-lime)]/15"
+        >
+          <option value="all">Toda verificación</option>
+          <option value="verified">Verificados</option>
+          <option value="pending">En revisión</option>
+          <option value="needs_action">Falta información</option>
+          <option value="not_requested">Sin verificar</option>
         </select>
       </div>
 
