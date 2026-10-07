@@ -30,6 +30,15 @@ function ProgramDetail({ program, applied, onApply }: { program: SupportProgram;
         </button>
       </DialogTrigger>
       <DialogContent className="support-detail max-h-[85dvh] overflow-y-auto bg-white sm:max-w-xl">
+        <div className="support-detail-banner">
+          <img src={program.agencyImageUrl} alt={program.agencyImageAlt} />
+          <div className="support-detail-banner-shade" />
+          <div className="support-detail-agency">
+            <span>Organismo potencial · simulación</span>
+            <strong>{program.institution}</strong>
+            <small>{program.agencyRole}</small>
+          </div>
+        </div>
         <div className="support-detail-heading">
           <span className="support-detail-kind">{program.kind}</span>
           <DialogTitle className="pr-6 text-2xl leading-tight">{program.title}</DialogTitle>
@@ -187,14 +196,16 @@ export default function SupportProgramsPage() {
 
           return (
             <article key={program.id} className="support-card" data-source={sourceTone}>
-              <div className="support-card-top">
-                <span className={`support-icon support-icon-${sourceTone}`}><Icon size={21} /></span>
-                <div className="support-card-origin">
-                  <span>{program.source}</span>
+              <div className="support-agency-banner">
+                <img src={program.agencyImageUrl} alt={program.agencyImageAlt} loading="lazy" />
+                <div className="support-agency-banner-shade" />
+                <div className="support-agency-label">
+                  <span>Organismo potencial · simulación</span>
                   <strong>{program.institution}</strong>
+                  <small>{program.agencyRole}</small>
                 </div>
                 <button
-                  className="support-save"
+                  className="support-save support-save-banner"
                   aria-label={`${saved ? "Quitar de guardadas" : "Guardar"}: ${program.title}`}
                   title={saved ? "Quitar de guardadas" : "Guardar convocatoria"}
                   aria-pressed={saved}
@@ -204,31 +215,41 @@ export default function SupportProgramsPage() {
                 </button>
               </div>
 
-              <div className="support-card-heading">
-                <span className={`support-status ${status === "Por cerrar" ? "support-urgent" : status === "Cerrada" ? "support-closed" : ""}`}>{status}</span>
-                <h3>{program.title}</h3>
-                <p>{program.description}</p>
-              </div>
-
-              <div className="support-benefit">
-                <span>{program.kind}</span>
-                <strong>{program.benefit}</strong>
-              </div>
-
-              <div className="support-card-meta">
-                <span><MapPin size={14} /> {program.region}</span>
-                <span>{program.sector}</span>
-              </div>
-
-              <div className="support-card-footer">
-                <div className="support-deadline">
-                  <small>Cierre</small>
-                  <strong>{formatSupportDeadline(program.deadline)}</strong>
+              <div className="support-card-body">
+                <div className="support-card-top">
+                  <span className={`support-icon support-icon-${sourceTone}`}><Icon size={20} /></span>
+                  <div className="support-card-origin">
+                    <span>{program.source}</span>
+                    <strong>{program.kind}</strong>
+                  </div>
+                  <span className={`support-status ${status === "Por cerrar" ? "support-urgent" : status === "Cerrada" ? "support-closed" : ""}`}>{status}</span>
                 </div>
-                {applied && <p className="support-applied"><CheckCircle2 size={14} /> Registrada</p>}
-              </div>
 
-              <ProgramDetail program={program} applied={applied} onApply={() => state.apply(program.id)} />
+                <div className="support-card-heading">
+                  <h3>{program.title}</h3>
+                  <p>{program.description}</p>
+                </div>
+
+                <div className="support-benefit">
+                  <span>Beneficio estimado</span>
+                  <strong>{program.benefit}</strong>
+                </div>
+
+                <div className="support-card-meta">
+                  <span><MapPin size={14} /> {program.region}</span>
+                  <span>{program.sector}</span>
+                </div>
+
+                <div className="support-card-footer">
+                  <div className="support-deadline">
+                    <small>Cierre</small>
+                    <strong>{formatSupportDeadline(program.deadline)}</strong>
+                  </div>
+                  {applied && <p className="support-applied"><CheckCircle2 size={14} /> Registrada</p>}
+                </div>
+
+                <ProgramDetail program={program} applied={applied} onApply={() => state.apply(program.id)} />
+              </div>
             </article>
           );
         })}

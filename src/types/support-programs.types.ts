@@ -14,6 +14,9 @@ export interface SupportProgram {
   deadline: string | null;
   requirements: string[];
   conditions: string;
+  agencyImageUrl: string;
+  agencyImageAlt: string;
+  agencyRole: string;
 }
 
 export interface SupportProgress {

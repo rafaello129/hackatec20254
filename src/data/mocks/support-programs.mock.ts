@@ -6,6 +6,9 @@ export const SUPPORT_DEMO_DATE = "2026-10-06";
 export const supportPrograms: SupportProgram[] = [
   {
     id: "impulso-comercio", title: "Impulso al comercio local", institution: "Fondo Regional de Desarrollo",
+    agencyRole: "Instituto regional de impulso comercial",
+    agencyImageUrl: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=82",
+    agencyImageAlt: "Oficina institucional moderna con equipo de trabajo",
     source: "Gobierno", kind: "Subsidio", region: "Yucatán", sector: "Comercio",
     benefit: "Hasta $80,000 MXN", deadline: "2026-10-20",
     description: "Equipamiento y mejora del punto de venta para pequeños comercios establecidos.",
@@ -14,6 +17,9 @@ export const supportPrograms: SupportProgram[] = [
   },
   {
     id: "credito-crece", title: "Capital para crecer", institution: "Banco Horizonte",
+    agencyRole: "Banca de desarrollo para microempresas",
+    agencyImageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=82",
+    agencyImageAlt: "Equipo financiero revisando un proyecto empresarial",
     source: "Banco", kind: "Crédito", region: "Nacional", sector: "Todos los sectores",
     benefit: "$100,000 a $500,000 MXN", deadline: null,
     description: "Financiamiento para inventario, capital de trabajo y expansión de pequeñas empresas.",
@@ -22,6 +28,9 @@ export const supportPrograms: SupportProgram[] = [
   },
   {
     id: "digitaliza", title: "Digitaliza tu negocio", institution: "Fundación Conecta",
+    agencyRole: "Fundación de transformación digital",
+    agencyImageUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=82",
+    agencyImageAlt: "Equipo colaborando en un programa de capacitación digital",
     source: "Empresa privada", kind: "Capacitación", region: "Nacional", sector: "Comercio",
     benefit: "40 horas de formación sin costo", deadline: "2026-10-12",
     description: "Acompañamiento en ventas en línea, catálogo digital y administración de clientes.",
@@ -30,6 +39,9 @@ export const supportPrograms: SupportProgram[] = [
   },
   {
     id: "equipo-productivo", title: "Renovación de equipo productivo", institution: "Agencia de Fomento Empresarial",
+    agencyRole: "Agencia estatal de fomento productivo",
+    agencyImageUrl: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=1200&q=82",
+    agencyImageAlt: "Personal técnico en instalaciones de producción",
     source: "Gobierno", kind: "Subsidio", region: "Jalisco", sector: "Manufactura",
     benefit: "Hasta $150,000 MXN", deadline: "2026-11-15",
     description: "Modernización de maquinaria para talleres y pequeñas unidades de producción.",
@@ -38,6 +50,9 @@ export const supportPrograms: SupportProgram[] = [
   },
   {
     id: "eficiencia", title: "Eficiencia energética para pymes", institution: "Banco Alianza",
+    agencyRole: "Fondo financiero para eficiencia energética",
+    agencyImageUrl: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=82",
+    agencyImageAlt: "Espacio corporativo para asesoría y financiamiento empresarial",
     source: "Banco", kind: "Crédito", region: "Nacional", sector: "Todos los sectores",
     benefit: "Hasta $300,000 MXN", deadline: "2026-10-30",
     description: "Financiamiento para sustituir equipos de alto consumo y mejorar las instalaciones del negocio.",
@@ -46,6 +61,9 @@ export const supportPrograms: SupportProgram[] = [
   },
   {
     id: "mentoria", title: "Mentoría para empresas de servicios", institution: "Red Empresarial Futuro",
+    agencyRole: "Red privada de mentoría empresarial",
+    agencyImageUrl: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=82",
+    agencyImageAlt: "Grupo de profesionales en sesión de mentoría empresarial",
     source: "Empresa privada", kind: "Capacitación", region: "Ciudad de México", sector: "Servicios",
     benefit: "6 sesiones de mentoría", deadline: "2026-09-30",
     description: "Asesoría grupal para fortalecer precios, procesos comerciales y planeación del negocio.",
