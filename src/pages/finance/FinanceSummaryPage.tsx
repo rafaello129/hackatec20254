@@ -34,7 +34,7 @@ export default function FinanceSummaryPage() {
             Mi dinero
           </h1>
           <p className="mt-2 text-[13px] text-[var(--oe-text-muted)]">
-            Entiende cuánto vendiste, cuánto gastaste y qué te quedó.
+            Entiende cómo se mueve el dinero de tu negocio.
           </p>
         </div>
 
