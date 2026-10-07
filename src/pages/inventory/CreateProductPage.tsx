@@ -184,7 +184,7 @@ export default function CreateProductPage() {
     const next: FieldErrors = {};
 
     if (!form.name.trim()) {
-      next.name = "Escribe un nombre para el producto.";
+      next.name = "Ingresa el nombre del producto.";
     }
 
     if (!Number.isFinite(form.price) || form.price <= 0) {
@@ -203,7 +203,7 @@ export default function CreateProductPage() {
       !Number.isFinite(form.lowStockAt ?? 5) ||
       (form.lowStockAt ?? 5) < 1
     ) {
-      next.lowStockAt = "El aviso debe ser de al menos 1 pieza.";
+      next.lowStockAt = "El umbral debe ser de al menos 1 unidad.";
     }
 
     const hasOriginInfo = [
@@ -220,7 +220,7 @@ export default function CreateProductPage() {
         !verificationDraft.location.trim())
     ) {
       next.verification =
-        "Para registrar el origen o solicitar verificación, agrega productor y ubicación.";
+        "Para registrar la procedencia o solicitar verificación, ingresa el productor responsable y la ubicación.";
     }
 
     setErrors(next);
@@ -302,8 +302,8 @@ export default function CreateProductPage() {
               Agregar producto
             </h1>
             <p className="mt-2 max-w-[620px] text-[12px] leading-5 text-[var(--oe-text-muted)]">
-              Registra lo necesario para empezar a venderlo y controlar sus
-              existencias.
+              Registra la información general, comercial y de inventario asociada al
+              producto.
             </p>
           </div>
 
@@ -326,10 +326,10 @@ export default function CreateProductPage() {
               </span>
               <div>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-[#7A867E]">
-                  1. Información
+                  1. Datos generales
                 </p>
                 <h2 className="mt-1 text-[18px] font-semibold text-[#263129]">
-                  Información del producto
+                  Información general del producto
                 </h2>
               </div>
             </div>
@@ -378,7 +378,7 @@ export default function CreateProductPage() {
                     onChange={(event) =>
                       update("description", event.target.value)
                     }
-                    placeholder="Describe brevemente el producto, materiales o uso."
+                    placeholder="Describe las características, materiales, elaboración o uso del producto."
                     rows={3}
                     className="mt-1.5 w-full resize-none rounded-[14px] border border-[#DDE3DA] bg-white px-3.5 py-3 text-[12px] leading-5 text-[#263129] outline-none transition placeholder:text-[#A0A9A2] focus:border-[#7DA44B] focus:ring-2 focus:ring-[#9AC84B]/20"
                   />
@@ -400,10 +400,10 @@ export default function CreateProductPage() {
           <section className="rounded-[24px] border border-[var(--oe-border)] bg-white p-5 sm:p-6">
             <div>
               <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-[#7A867E]">
-                2. Precio e inventario
+                2. Información comercial e inventario
               </p>
               <h2 className="mt-1 text-[18px] font-semibold text-[#263129]">
-                Lo necesario para venderlo
+                Precio, costos y existencias
               </h2>
             </div>
 
@@ -420,7 +420,7 @@ export default function CreateProductPage() {
               <Field
                 label="Costo"
                 error={errors.cost}
-                hint="Se usa para calcular la ganancia aproximada."
+                hint="Permite estimar la utilidad por unidad."
               >
                 <MoneyInput
                   id="product-cost"
@@ -430,7 +430,7 @@ export default function CreateProductPage() {
                 />
               </Field>
 
-              <Field label="Cantidad disponible" error={errors.quantity}>
+              <Field label="Existencia actual" error={errors.quantity}>
                 <input
                   id="product-quantity"
                   type="number"
@@ -445,9 +445,9 @@ export default function CreateProductPage() {
               </Field>
 
               <Field
-                label="Avísame cuando queden"
+                label="Umbral de existencias bajas"
                 error={errors.lowStockAt}
-                hint="PÉEK te avisará cuando llegues a esta cantidad."
+                hint="Se generará una alerta cuando el inventario alcance esta cantidad."
               >
                 <input
                   id="product-low-stock"
@@ -466,7 +466,7 @@ export default function CreateProductPage() {
             {(form.price > 0 || (form.cost ?? 0) > 0) ? (
               <div className="mt-4 flex items-center justify-between gap-4 rounded-[15px] bg-[#F3F8EF] px-4 py-3">
                 <span className="text-[10px] text-[#657068]">
-                  Ganancia aproximada por pieza
+                  Utilidad estimada por unidad
                 </span>
                 <span className="text-[15px] font-bold text-[#2E6D36]">
                   {"$" + profit.toLocaleString("es-MX")}
@@ -488,10 +488,10 @@ export default function CreateProductPage() {
                   Opcional
                 </p>
                 <h2 className="mt-1 text-[16px] font-semibold text-[#263129]">
-                  Más opciones
+                  Información adicional
                 </h2>
                 <p className="mt-1 text-[10px] text-[#87918A]">
-                  Agrega un proveedor si ya lo tienes identificado.
+                  Registra un proveedor asociado al producto, si aplica.
                 </p>
               </div>
               <ChevronDown className="h-5 w-5 shrink-0 text-[#7A867E] transition-transform group-open:rotate-180 motion-reduce:transition-none" />
@@ -517,7 +517,7 @@ export default function CreateProductPage() {
               aria-live="polite"
               className="rounded-[16px] bg-[#FFF1EE] px-4 py-3 text-[11px] text-[#A84E3E]"
             >
-              Revisa los campos marcados antes de guardar. Te llevamos al primero que necesita atención.
+              Revisa los campos indicados antes de guardar el producto.
             </div>
           ) : null}
 
