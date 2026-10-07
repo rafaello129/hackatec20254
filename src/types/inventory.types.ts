@@ -39,6 +39,7 @@ export type ProductVerificationFilter = "all" | ProductVerificationStatus;
 export interface NewProductInput {
   name: string;
   category: ProductCategory;
+  description?: string;
   price: number;
   cost?: number;
   quantity: number;
