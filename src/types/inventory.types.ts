@@ -21,6 +21,16 @@ export type CooperativeUseCase =
   | "soporte_post_acuerdo"
   | "no_aplica";
 
+export type ProductCategory =
+  | "Textiles"
+  | "Cerámica"
+  | "Cestería"
+  | "Decoración"
+  | "Accesorios"
+  | "Regalos";
+
+export type ProductAvailability = "available" | "low_stock" | "out_of_stock";
+
 export interface InventoryItem {
   id: string;
   name: string;
@@ -42,6 +52,14 @@ export interface InventoryItem {
   cooperativeUseCase: CooperativeUseCase;
   bulkPurchaseEligible: boolean;
   minimumBulkQuantity: number;
+
+  image?: string;
+  displayCategory?: ProductCategory;
+  price?: number;
+  cost?: number;
+  unitsSoldThisMonth?: number;
+  lastSaleAt?: string;
+  notes?: string;
 }
 
 export interface StockMovement {
@@ -84,4 +102,37 @@ export interface CatalogItem {
   cooperativeUseCase: CooperativeUseCase;
   bulkPurchaseEligible: boolean;
   minimumBulkQuantity: number;
+}
+
+
+export interface ProductDisplayData {
+  id: string;
+  name: string;
+  image: string;
+  category: ProductCategory;
+  description: string;
+  price: number;
+  cost: number;
+  stock: number;
+  unit: string;
+  lowStockAt: number;
+  unitsSoldThisMonth: number;
+  lastSaleAt: string | null;
+  lastSaleLabel: string;
+  supplier: string;
+  notes: string;
+  availability: ProductAvailability;
+  sku: string;
+}
+
+export interface ProductSummary {
+  total: number;
+  lowStock: number;
+  outOfStock: number;
+  soldThisMonth: number;
+  topSellingProduct: {
+    id: string;
+    name: string;
+    unitsSold: number;
+  } | null;
 }
