@@ -28,8 +28,8 @@ export default function ProductVerificationHero({
   const content = {
     verified: {
       eyebrow: "Autenticidad y origen",
-      title: "Origen verificado por PÉEK",
-      body: "PÉEK revisó la identidad, el origen y la evidencia asociada a este producto.",
+      title: "Origen verificado por MÁAK",
+      body: "MÁAK revisó la identidad, el origen y la evidencia asociada a este producto.",
       icon: ShieldCheck,
       surface: "bg-[#022601] text-white",
       iconSurface: "bg-[#B6E251] text-[#022601]",
@@ -38,7 +38,7 @@ export default function ProductVerificationHero({
     pending: {
       eyebrow: "Autenticidad y origen",
       title: "Verificación en revisión",
-      body: "La información fue recibida y está siendo revisada por PÉEK.",
+      body: "La información fue recibida y está siendo revisada por MÁAK.",
       icon: Clock3,
       surface: "border border-[#EAD9A8] bg-[#FFF9E9] text-[#5F4A13]",
       iconSurface: "bg-[#F5DF91] text-[#715405]",
