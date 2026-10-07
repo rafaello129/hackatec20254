@@ -136,9 +136,13 @@ export function useFinance() {
     [initialMoneyMovements],
   );
 
+  const additionalExpenses = Math.max(
+    0,
+    moneySummary.expenses - baseExpenses,
+  );
+
   const chartData = useMemo(() => {
     const points = salesExpenseSeries[period].map((point) => ({ ...point }));
-    const additionalExpenses = Math.max(0, moneySummary.expenses - baseExpenses);
 
     if (additionalExpenses > 0 && points.length > 0) {
       points[points.length - 1] = {
@@ -148,7 +152,41 @@ export function useFinance() {
     }
 
     return points;
-  }, [baseExpenses, moneySummary.expenses, period, salesExpenseSeries]);
+  }, [additionalExpenses, period, salesExpenseSeries]);
+
+  const summaryVisuals = useMemo(() => {
+    const quarter = salesExpenseSeries.quarter;
+    const previous = quarter.at(-2) ?? { sales: 0, expenses: 0 };
+    const currentProfit = moneySummary.approximateProfit;
+    const previousProfit = Math.max(0, previous.sales - previous.expenses);
+
+    const salesChangePct =
+      previous.sales > 0
+        ? ((moneySummary.sales - previous.sales) / previous.sales) * 100
+        : 0;
+
+    const weekly = salesExpenseSeries.week;
+    const salesTrend = weekly.map((point) => point.sales);
+    const expenseTrend = weekly.map((point, index) =>
+      index === weekly.length - 1
+        ? point.expenses + additionalExpenses
+        : point.expenses,
+    );
+
+    return {
+      salesTrend,
+      expenseTrend,
+      salesChangePct,
+      expensesChange: moneySummary.expenses - previous.expenses,
+      profitChange: currentProfit - previousProfit,
+    };
+  }, [
+    additionalExpenses,
+    moneySummary.approximateProfit,
+    moneySummary.expenses,
+    moneySummary.sales,
+    salesExpenseSeries,
+  ]);
 
   const filteredAccountingEntries = useMemo(() => {
     const query = accountingSearchText.trim().toLowerCase();
@@ -260,6 +298,7 @@ export function useFinance() {
     clearInvoiceFilters,
 
     moneySummary,
+    summaryVisuals,
     moneyMovements,
     filteredMoneyMovements,
     period,
