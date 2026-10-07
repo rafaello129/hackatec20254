@@ -41,80 +41,92 @@ export default function ProductDetailHero({
   const availability = availabilityMeta[product.availability];
 
   return (
-    <section className="overflow-hidden rounded-[28px] border border-[var(--oe-border)] bg-white shadow-[0_18px_44px_rgba(23,35,27,0.05)]">
-      <div className="grid lg:grid-cols-[minmax(0,1.05fr)_minmax(360px,.95fr)]">
-        <div className="relative min-h-[310px] overflow-hidden bg-[#EEF1EB] sm:min-h-[390px]">
+    <section className="overflow-hidden rounded-[24px] border border-[var(--oe-border)] bg-white shadow-[0_14px_34px_rgba(23,35,27,0.045)]">
+      <div className="grid lg:grid-cols-[minmax(0,1.03fr)_minmax(360px,.97fr)]">
+        <div className="relative min-h-[285px] overflow-hidden bg-[#EEF1EB] sm:min-h-[340px]">
           <img
             src={product.image}
             alt={product.name}
             className="absolute inset-0 h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#022601]/30 via-transparent to-transparent" />
-          <div className="absolute left-5 top-5 flex flex-wrap gap-2">
-            <span className="rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-semibold text-[#536057] shadow-sm backdrop-blur">
+          <div className="absolute inset-0 bg-gradient-to-t from-[#022601]/28 via-transparent to-transparent" />
+          <div className="absolute left-4 top-4 flex flex-wrap gap-2">
+            <span className="rounded-full bg-white/95 px-2.5 py-1 text-[9px] font-semibold text-[#536057] shadow-sm backdrop-blur">
               {product.category}
             </span>
-            <ProductVerificationBadge status={verificationStatus} />
+            <ProductVerificationBadge status={verificationStatus} compact />
           </div>
         </div>
 
-        <div className="flex flex-col p-6 sm:p-7 lg:p-8">
+        <div className="flex flex-col p-5 sm:p-6">
           <div className="flex flex-wrap items-center gap-2">
-            <span className={"rounded-full px-2.5 py-1 text-[10px] font-semibold " + availability.className}>
+            <span className={"rounded-full px-2.5 py-1 text-[9px] font-semibold " + availability.className}>
               {availability.label}
             </span>
-            <span className="text-[10px] font-medium text-[#87918A]">
+            <span className="text-[9px] font-medium text-[#87918A]">
               {product.sku}
             </span>
           </div>
 
-          <h1 className="mt-4 font-['Hanken_Grotesk'] text-[31px] font-bold leading-[1.06] text-[var(--oe-text)] sm:text-[38px]">
+          <h1 className="mt-3 font-['Hanken_Grotesk'] text-[29px] font-bold leading-[1.06] text-[var(--oe-text)] sm:text-[34px]">
             {product.name}
           </h1>
-          <p className="mt-3 max-w-[620px] text-[13px] leading-6 text-[var(--oe-text-muted)]">
+          <p className="mt-2.5 max-w-[620px] text-[11px] leading-5 text-[var(--oe-text-muted)]">
             {product.description}
           </p>
 
-          <div className="mt-7">
-            <p className="font-['Hanken_Grotesk'] text-[38px] font-bold tracking-[-0.04em] text-[var(--peek-brand-900)]">
+          <div className="mt-5">
+            <p className="font-['Hanken_Grotesk'] text-[34px] font-bold tracking-[-0.04em] text-[var(--peek-brand-900)]">
               {money.format(product.price)}
             </p>
-            <p className="mt-1 text-[11px] text-[#7A867E]">por pieza</p>
+            <p className="mt-0.5 text-[9px] text-[#7A867E]">por pieza</p>
           </div>
 
-          <div className="mt-6 grid grid-cols-3 gap-2">
-            <div className="rounded-[16px] bg-[#F6F8F3] p-3.5">
-              <PackageCheck className="h-4 w-4 text-[#5B6C60]" />
-              <p className="mt-2 text-[18px] font-bold text-[#263129]">{product.stock}</p>
-              <p className="text-[9px] uppercase tracking-[0.06em] text-[#849087]">disponibles</p>
+          <div className="mt-4 grid grid-cols-3 gap-2">
+            <div className="rounded-[14px] bg-[#F6F8F3] p-3">
+              <PackageCheck className="h-3.5 w-3.5 text-[#5B6C60]" />
+              <p className="mt-1.5 text-[16px] font-bold text-[#263129]">
+                {product.stock}
+              </p>
+              <p className="text-[8px] uppercase tracking-[0.06em] text-[#849087]">
+                disponibles
+              </p>
             </div>
-            <div className="rounded-[16px] bg-[#F6F8F3] p-3.5">
-              <ShoppingBag className="h-4 w-4 text-[#5B6C60]" />
-              <p className="mt-2 text-[18px] font-bold text-[#263129]">{product.unitsSoldThisMonth}</p>
-              <p className="text-[9px] uppercase tracking-[0.06em] text-[#849087]">vendidos</p>
+            <div className="rounded-[14px] bg-[#F6F8F3] p-3">
+              <ShoppingBag className="h-3.5 w-3.5 text-[#5B6C60]" />
+              <p className="mt-1.5 text-[16px] font-bold text-[#263129]">
+                {product.unitsSoldThisMonth}
+              </p>
+              <p className="text-[8px] uppercase tracking-[0.06em] text-[#849087]">
+                vendidos
+              </p>
             </div>
-            <div className="rounded-[16px] bg-[#F6F8F3] p-3.5">
-              <p className="text-[9px] uppercase tracking-[0.06em] text-[#849087]">última venta</p>
-              <p className="mt-3 text-[12px] font-bold leading-4 text-[#263129]">{product.lastSaleLabel}</p>
+            <div className="rounded-[14px] bg-[#F6F8F3] p-3">
+              <p className="text-[8px] uppercase tracking-[0.06em] text-[#849087]">
+                última venta
+              </p>
+              <p className="mt-2.5 text-[11px] font-bold leading-4 text-[#263129]">
+                {product.lastSaleLabel}
+              </p>
             </div>
           </div>
 
-          <div className="mt-auto grid grid-cols-2 gap-2 pt-7">
+          <div className="mt-auto grid grid-cols-2 gap-2 pt-5">
             <button
               type="button"
               onClick={() => onAdjust("remove")}
               disabled={product.stock <= 0}
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#DDE3DA] bg-white text-[11px] font-semibold text-[#536057] transition hover:bg-[#F6F8F4] disabled:cursor-not-allowed disabled:opacity-40"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-[#DDE3DA] bg-white text-[10px] font-semibold text-[#536057] transition hover:bg-[#F6F8F4] disabled:cursor-not-allowed disabled:opacity-40"
             >
-              <Minus className="h-4 w-4" />
+              <Minus className="h-3.5 w-3.5" />
               Quitar piezas
             </button>
             <button
               type="button"
               onClick={() => onAdjust("add")}
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[var(--peek-brand-900)] text-[11px] font-semibold text-white transition hover:bg-[var(--oe-primary-hover)]"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[var(--peek-brand-900)] text-[10px] font-semibold text-white transition hover:bg-[var(--oe-primary-hover)]"
             >
-              <Plus className="h-4 w-4" />
+              <Plus className="h-3.5 w-3.5" />
               Agregar piezas
             </button>
           </div>
