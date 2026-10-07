@@ -56,8 +56,12 @@ export default function CreateProductVerificationSection({
       <div className="relative p-5 sm:p-6">
         <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex min-w-0 items-start gap-4">
-            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-[16px] bg-[#B6E251] text-[#022601] shadow-[0_10px_24px_rgba(0,0,0,.16)]">
-              <ShieldCheck className="h-6 w-6" />
+            <span className="grid h-14 w-14 shrink-0 place-items-center rounded-[18px] bg-[#B6E251] shadow-[0_10px_24px_rgba(0,0,0,.16)]">
+              <img
+                src={import.meta.env.BASE_URL + "brand/maak-isotipo.svg"}
+                alt=""
+                className="h-10 w-10 object-contain"
+              />
             </span>
 
             <div className="min-w-0">
@@ -77,7 +81,7 @@ export default function CreateProductVerificationSection({
           <div className="flex shrink-0 flex-wrap items-center gap-2 sm:justify-end">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-[#B6E251] px-3 py-1.5 text-[9px] font-extrabold uppercase tracking-[0.08em] text-[#022601]">
               <BadgeCheck className="h-3.5 w-3.5" />
-              Verificación PÉEK
+              Verificación MÁAK
             </span>
             <span className="rounded-full border border-white/15 bg-white/8 px-2.5 py-1.5 text-[8px] font-semibold uppercase tracking-[0.08em] text-white/70">
               Opcional
@@ -166,7 +170,7 @@ export default function CreateProductVerificationSection({
                     Solicitar revisión de autenticidad
                   </span>
                   <span className="rounded-full bg-[#EAF4E6] px-2 py-1 text-[8px] font-bold uppercase tracking-[0.06em] text-[#2E6D36]">
-                    PÉEK
+                    MÁAK
                   </span>
                 </span>
                 <span className="mt-1 block text-[9px] leading-4 text-[#7A867E]">
