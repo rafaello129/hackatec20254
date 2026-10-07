@@ -34,6 +34,12 @@ export interface ProductOrigin {
   materials?: string[];
 }
 
+export interface CreateProductVerificationInput {
+  origin?: ProductOrigin;
+  requestReview: boolean;
+  evidence?: Omit<ProductVerificationEvidence, "id" | "createdAt">;
+}
+
 export interface ProductVerificationEvent {
   id: string;
   label: string;
