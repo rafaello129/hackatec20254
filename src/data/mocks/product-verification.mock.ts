@@ -30,7 +30,7 @@ export const productVerificationsMock: ProductVerification[] = [
     ],
     timeline: [
       { id: "tl-1", label: "Solicitud recibida", description: "Se registró la solicitud de verificación.", date: "2026-10-02", status: "complete" },
-      { id: "tl-2", label: "Evidencia revisada", description: "PÉEK revisó la evidencia de origen.", date: "2026-10-04", status: "complete" },
+      { id: "tl-2", label: "Evidencia revisada", description: "MÁAK revisó la evidencia de origen.", date: "2026-10-04", status: "complete" },
       { id: "tl-3", label: "Origen verificado", description: "La revisión interna quedó completada.", date: "2026-10-06", status: "complete" },
     ],
   },
