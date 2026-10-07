@@ -1,4 +1,4 @@
-// Lightweight adaptation of the React Bits DotGrid concept for péek.
+// Lightweight adaptation of the React Bits DotGrid concept for MÁAK.
 // Copyright (c) 2026 David Haz. See LICENSE.md in this directory.
 import { useRef, type CSSProperties, type PointerEventHandler } from "react";
 import "./DotGrid.css";
