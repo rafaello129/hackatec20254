@@ -44,9 +44,12 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [movements, setMovements] = useState<StockMovement[]>([]);
   const [searchText, setSearchText] = useState("");
-  const [availabilityFilter, setAvailabilityFilter] = useState<ProductAvailabilityFilter>("all");
-  const [categoryFilter, setCategoryFilter] = useState<ProductCategoryFilter>("all");
-  const [verificationFilter, setVerificationFilter] = useState<ProductVerificationFilter>("all");
+  const [availabilityFilter, setAvailabilityFilter] =
+    useState<ProductAvailabilityFilter>("all");
+  const [categoryFilter, setCategoryFilter] =
+    useState<ProductCategoryFilter>("all");
+  const [verificationFilter, setVerificationFilter] =
+    useState<ProductVerificationFilter>("all");
 
   useEffect(() => {
     let mounted = true;
@@ -54,7 +57,9 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     void Promise.all([getInventoryItems(), getStockMovements()]).then(
       ([inventoryData, movementData]) => {
         if (!mounted) return;
-        setItems(inventoryData.map((item) => ({ ...item, tags: [...item.tags] })));
+        setItems(
+          inventoryData.map((item) => ({ ...item, tags: [...item.tags] })),
+        );
         setMovements(movementData.map((movement) => ({ ...movement })));
         setIsLoading(false);
       },
@@ -92,7 +97,8 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
       sku,
       category: "finished_product",
       description:
-        input.notes?.trim() || "Producto artesanal registrado en PÉEK.",
+        input.description?.trim() ||
+        "Producto artesanal registrado en PÉEK.",
       quantity,
       unit: "piezas",
       minStock: lowStockAt,
