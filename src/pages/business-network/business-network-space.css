@@ -1,0 +1,329 @@
+/* Space-saving refinements for the business network workspace. */
+
+/* Merge the hero and plan launcher into one continuous card. */
+.network-page > .network-hero.network-hero-compact {
+  min-height: 108px;
+  margin-bottom: 0;
+  padding: 16px 22px 13px;
+  border-radius: 16px 16px 0 0;
+  border-bottom-color: #e6ebe1;
+  box-shadow: none;
+}
+
+.network-page > .network-hero.network-hero-compact h1 {
+  margin-top: 3px;
+  font-size: clamp(27px, 2.8vw, 34px);
+}
+
+.network-page > .network-hero.network-hero-compact .network-hero-content > p:last-child {
+  margin-top: 4px;
+  max-width: 720px;
+  font-size: 11.5px;
+  line-height: 1.4;
+}
+
+.network-page > .network-hero .network-hero-signal-compact {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  padding: 6px 9px;
+  border-radius: 999px;
+}
+
+.network-page > .network-hero .network-hero-signal-compact > span {
+  margin: 0;
+  font-size: 9px;
+}
+
+.network-page > .network-hero .network-hero-signal-compact strong {
+  font-size: 12px;
+  line-height: 1;
+}
+
+.network-page > .network-hero .network-hero-signal-compact small {
+  font-size: 8px;
+  line-height: 1;
+}
+
+.network-page .network-launcher.network-launcher-compact {
+  position: relative;
+  z-index: 2;
+  display: block;
+  margin: -1px -8px 0;
+  padding: 9px 14px 12px;
+  border: 1px solid #dbe2d4;
+  border-top: 0;
+  border-radius: 0 0 16px 16px;
+  background: linear-gradient(180deg, #f7f9f3 0%, #ffffff 100%);
+  box-shadow: 0 10px 32px rgba(48, 75, 27, .05);
+}
+
+.network-page .network-launcher-toolbar {
+  gap: 12px;
+  margin-bottom: 7px;
+}
+
+.network-page .network-launcher-title {
+  gap: 8px;
+}
+
+.network-page .network-launcher-title > .network-eyebrow {
+  display: none;
+}
+
+.network-page .network-launcher-title > div {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.network-page .network-launcher-title h2 {
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+.network-page .network-launcher-title > div > span {
+  font-size: 9px;
+  color: #747b6e;
+}
+
+.network-page .network-launcher-actions {
+  gap: 7px;
+}
+
+.network-page .network-plan-search {
+  min-height: 31px;
+}
+
+.network-page .network-primary-compact {
+  min-height: 31px;
+  padding: 6px 9px;
+  font-size: 10px;
+}
+
+.network-page .network-plan-list.network-plan-list-compact {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 6px;
+  max-height: none;
+  overflow: visible;
+  padding: 0;
+}
+
+.network-page .network-plan-item.network-plan-item-compact {
+  min-height: 56px;
+  padding: 7px 9px;
+  gap: 8px;
+  border-radius: 8px;
+}
+
+.network-page .network-plan-item-compact > svg:first-child {
+  width: 15px;
+  height: 15px;
+}
+
+.network-page .network-plan-item-compact strong {
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.network-page .network-plan-item-compact small {
+  margin: 1px 0 2px;
+  font-size: 9px;
+  line-height: 1.2;
+}
+
+.network-page .network-plan-item-compact .network-plan-meta {
+  font-size: 8.5px;
+}
+
+/* Pull the active-project toolbar closer to the merged header. */
+.network-page .network-development.network-development-compact {
+  margin-top: 14px;
+}
+
+/* Compact Business Brief: objective + four facts share the same horizontal band. */
+.network-page .network-project.network-project-bento.network-project-bento-compact {
+  grid-template-columns: minmax(280px, .95fr) minmax(0, 1.75fr);
+  gap: 6px;
+  margin-top: 8px;
+  padding: 6px;
+  border-radius: 12px;
+}
+
+.network-page .network-project-bento-main.network-project-bento-main-compact {
+  min-height: 86px;
+  padding: 10px 12px;
+  border-radius: 9px;
+}
+
+.network-page .network-project-heading-compact {
+  gap: 9px;
+}
+
+.network-page .network-project-heading-compact .network-eyebrow {
+  margin-bottom: 2px;
+  font-size: 8.5px;
+}
+
+.network-page .network-project-heading-compact h2 {
+  font-size: 15px;
+  line-height: 1.15;
+}
+
+.network-page .network-edit.network-edit-compact {
+  padding: 5px 7px;
+  font-size: 9px;
+  gap: 4px;
+}
+
+.network-page .network-project-bento-main-compact .network-project-objective {
+  display: -webkit-box;
+  margin-top: 5px;
+  overflow: hidden;
+  font-size: 10.5px;
+  line-height: 1.4;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.network-page .network-project-facts.network-project-bento-facts.network-project-bento-facts-compact {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 5px;
+  margin: 0;
+}
+
+.network-page .network-project-bento-facts-compact > div {
+  display: flex;
+  min-width: 0;
+  min-height: 86px;
+  padding: 8px 9px;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 9px;
+}
+
+.network-page .network-project-bento-facts-compact dt {
+  margin: 0;
+  font-size: 8px;
+  line-height: 1.1;
+}
+
+.network-page .network-project-bento-facts-compact dd {
+  margin-top: 3px;
+  font-size: 10.5px;
+  line-height: 1.25;
+}
+
+.network-page .network-project-bento-facts-compact dd small {
+  font-size: 8px;
+}
+
+.network-page .network-project-bento-compact .network-summary {
+  gap: 0;
+  padding: 7px 2px 1px;
+}
+
+.network-page .network-project-bento-compact .network-summary > div {
+  padding: 6px 9px !important;
+}
+
+.network-page .network-project-bento-compact .network-summary dt {
+  font-size: 9px;
+}
+
+.network-page .network-project-bento-compact .network-summary dd {
+  margin-top: 3px;
+  font-size: 17px;
+}
+
+.network-page .network-project-bento-compact .network-summary small {
+  margin-top: 1px;
+  font-size: 8px;
+}
+
+@media (max-width: 1100px) {
+  .network-page .network-project.network-project-bento.network-project-bento-compact {
+    grid-template-columns: minmax(240px, .8fr) minmax(0, 1.4fr);
+  }
+
+  .network-page .network-project-facts.network-project-bento-facts.network-project-bento-facts-compact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .network-page .network-project-bento-facts-compact > div {
+    min-height: 40px;
+    padding: 6px 8px;
+  }
+}
+
+@media (max-width: 760px) {
+  .network-page > .network-hero.network-hero-compact {
+    min-height: 0;
+    padding: 14px 16px 12px;
+  }
+
+  .network-page > .network-hero .network-hero-signal-compact {
+    padding: 5px 7px;
+  }
+
+  .network-page .network-launcher.network-launcher-compact {
+    margin-inline: -8px;
+    padding: 8px 10px 10px;
+  }
+
+  .network-page .network-launcher-toolbar {
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .network-page .network-launcher-actions {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .network-page .network-plan-list.network-plan-list-compact {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .network-page .network-plan-item.network-plan-item-compact {
+    min-height: 52px;
+  }
+
+  .network-page .network-project.network-project-bento.network-project-bento-compact {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 5px;
+  }
+
+  .network-page .network-project-bento-main.network-project-bento-main-compact {
+    min-height: 0;
+  }
+
+  .network-page .network-project-facts.network-project-bento-facts.network-project-bento-facts-compact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .network-page .network-project-bento-facts-compact > div {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 520px) {
+  .network-page > .network-hero .network-hero-signal-compact {
+    display: none;
+  }
+
+  .network-page .network-launcher-toolbar {
+    flex-direction: column;
+  }
+
+  .network-page .network-launcher-actions,
+  .network-page .network-plan-search {
+    width: 100%;
+  }
+
+  .network-page .network-project-facts.network-project-bento-facts.network-project-bento-facts-compact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

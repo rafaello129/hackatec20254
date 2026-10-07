@@ -4,6 +4,7 @@ import SpotlightCard from "@/components/react-bits/SpotlightCard";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import type { NetworkPlan } from "@/services/businessNetwork.service";
 import type { NetworkProject } from "@/types/businessNetwork.types";
+import "../business-network-space.css";
 
 export default function NetworkPlanLauncher({ plans, activeId, onSelect, onCreate }: {
   plans: NetworkPlan[]; activeId: string; onSelect: (id: string) => void;
@@ -58,11 +59,11 @@ export default function NetworkPlanLauncher({ plans, activeId, onSelect, onCreat
                 });
                 setOpen(false);
               }}>
-                <label>Nombre del planteamiento<input autoFocus name="title" required maxLength={120} pattern=".*\S.*" placeholder="Ej. Servicio de entregas locales" /></label>
+                <label>Nombre del planteamiento<input autoFocus name="title" required maxLength={120} pattern=".*\\S.*" placeholder="Ej. Servicio de entregas locales" /></label>
                 <label>Objetivo<textarea name="description" required maxLength={600} rows={3} onInput={(event) => event.currentTarget.setCustomValidity("")} placeholder="Producto o servicio que quieres desarrollar" /></label>
                 <div className="network-create-fields">
-                  <label>Sector<input name="category" required maxLength={80} pattern=".*\S.*" placeholder="Ej. Logística" /></label>
-                  <label>Ubicación<input name="location" required maxLength={100} pattern=".*\S.*" placeholder="Ciudad o región" /></label>
+                  <label>Sector<input name="category" required maxLength={80} pattern=".*\\S.*" placeholder="Ej. Logística" /></label>
+                  <label>Ubicación<input name="location" required maxLength={100} pattern=".*\\S.*" placeholder="Ciudad o región" /></label>
                   <label>Volumen previsto<input name="quantity" type="number" required min={1} step={1} placeholder="100" /></label>
                   <span />
                   <label>Presupuesto mínimo (MXN)<input name="minimum" type="number" required min={0} step="0.01" onInput={(event) => (event.currentTarget.form?.elements.namedItem("maximum") as HTMLInputElement)?.setCustomValidity("")} /></label>
