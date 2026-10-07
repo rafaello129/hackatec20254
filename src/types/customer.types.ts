@@ -55,3 +55,54 @@ export interface CustomerInsight {
   summary: string;
   recommendation: string;
 }
+
+
+export type CustomerBehavior = "new" | "frequent" | "inactive" | "regular";
+
+export interface CustomerPurchaseItem {
+  productId: string;
+  name: string;
+  quantity: number;
+  unitPrice: number;
+}
+
+export interface CustomerPurchase {
+  id: string;
+  customerId: string;
+  date: string;
+  total: number;
+  items: CustomerPurchaseItem[];
+}
+
+export interface CustomerDisplayData {
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+  companyName: string;
+  notes: string;
+  initials: string;
+  totalPurchases: number;
+  totalSpent: number;
+  averageTicket: number;
+  lastPurchaseAt: string | null;
+  lastPurchaseLabel: string;
+  daysSinceLastPurchase: number | null;
+  behavior: CustomerBehavior;
+  isNewThisMonth: boolean;
+  isReturningThisMonth: boolean;
+  favoriteProducts: string[];
+}
+
+export interface CustomerSummary {
+  total: number;
+  newThisMonth: number;
+  frequent: number;
+  inactive: number;
+}
+
+export interface ReturningCustomersMetric {
+  returned: number;
+  eligible: number;
+  percentage: number;
+}

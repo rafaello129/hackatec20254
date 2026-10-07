@@ -1,75 +1,52 @@
 import { useEffect, useMemo, useState } from "react";
-import {
-  getCustomerInsights,
-  getCustomerInteractions,
-  getCustomerKpis,
-  getCustomers,
-} from "@/services/customers.service";
+import { getCustomerPurchases, getCustomers } from "@/services/customers.service";
 import type {
   Customer,
-  CustomerInsight,
-  CustomerInteraction,
-  CustomerKpi,
-  CustomerSegment,
-  CustomerStatus,
+  CustomerBehavior,
+  CustomerDisplayData,
+  CustomerPurchase,
 } from "@/types/customer.types";
+import {
+  buildCustomerDisplayData,
+  getCustomerSummary,
+  getReturningCustomersMetric,
+} from "../utils/customer-display.utils";
 
-export type CustomerStatusFilter = CustomerStatus | "all";
-export type CustomerSegmentFilter = CustomerSegment | "all";
+export type CustomerBehaviorFilter = "all" | CustomerBehavior;
 
-const STATUS_OPTIONS: Array<{ value: CustomerStatusFilter; label: string }> = [
-  { value: "all", label: "Todos los estados" },
-  { value: "active", label: "Activo" },
-  { value: "prospect", label: "Prospecto" },
-  { value: "at_risk", label: "En riesgo" },
-  { value: "churned", label: "Perdido" },
-  { value: "inactive", label: "Inactivo" },
-];
-
-const SEGMENT_OPTIONS: Array<{ value: CustomerSegmentFilter; label: string }> = [
-  { value: "all", label: "Todos los segmentos" },
-  { value: "enterprise", label: "Cuenta clave" },
-  { value: "pyme", label: "PyME" },
-  { value: "microbusiness", label: "Microtienda" },
-  { value: "distributor", label: "Distribuidor" },
-  { value: "supplier", label: "Proveedor" },
-  { value: "strategic_partner", label: "Socio estratégico" },
-];
+export interface NewCustomerInput {
+  name: string;
+  phone: string;
+  email?: string;
+  companyName?: string;
+  notes?: string;
+}
 
 export function useCustomers() {
   const [isLoading, setIsLoading] = useState(true);
   const [customers, setCustomers] = useState<Customer[]>([]);
-  const [interactions, setInteractions] = useState<CustomerInteraction[]>([]);
-  const [kpis, setKpis] = useState<CustomerKpi[]>([]);
-  const [insights, setInsights] = useState<CustomerInsight[]>([]);
+  const [purchases, setPurchases] = useState<CustomerPurchase[]>([]);
   const [searchText, setSearchText] = useState("");
-  const [statusFilter, setStatusFilter] = useState<CustomerStatusFilter>("all");
-  const [segmentFilter, setSegmentFilter] = useState<CustomerSegmentFilter>("all");
-  const [selectedCustomerId, setSelectedCustomerId] = useState<string | null>(null);
+  const [behaviorFilter, setBehaviorFilter] =
+    useState<CustomerBehaviorFilter>("all");
+  const [selectedCustomerId, setSelectedCustomerId] = useState<string | null>(
+    null,
+  );
 
   useEffect(() => {
     let mounted = true;
 
     const loadData = async () => {
       setIsLoading(true);
-      const [customersData, interactionsData] = await Promise.all([
+      const [customersData, purchasesData] = await Promise.all([
         getCustomers(),
-        getCustomerInteractions(),
-      ]);
-      const [kpiData, insightData] = await Promise.all([
-        getCustomerKpis(customersData),
-        getCustomerInsights(customersData),
+        getCustomerPurchases(),
       ]);
 
-      if (!mounted) {
-        return;
-      }
+      if (!mounted) return;
 
       setCustomers(customersData);
-      setInteractions(interactionsData);
-      setKpis(kpiData);
-      setInsights(insightData);
-      setSelectedCustomerId((prev) => prev ?? customersData[0]?.id ?? null);
+      setPurchases(purchasesData);
       setIsLoading(false);
     };
 
@@ -80,79 +57,121 @@ export function useCustomers() {
     };
   }, []);
 
+  const customerViews = useMemo(
+    () => buildCustomerDisplayData(customers, purchases),
+    [customers, purchases],
+  );
+
+  const summary = useMemo(
+    () => getCustomerSummary(customerViews),
+    [customerViews],
+  );
+
+  const returningCustomers = useMemo(
+    () => getReturningCustomersMetric(customerViews),
+    [customerViews],
+  );
+
+  const inactiveCustomers = useMemo(
+    () =>
+      customerViews
+        .filter((customer) => customer.behavior === "inactive")
+        .sort(
+          (a, b) =>
+            (b.daysSinceLastPurchase ?? 0) - (a.daysSinceLastPurchase ?? 0),
+        ),
+    [customerViews],
+  );
+
   const filteredCustomers = useMemo(() => {
     const term = searchText.trim().toLowerCase();
 
-    return customers.filter((customer) => {
+    return customerViews.filter((customer) => {
       const matchesText =
         term.length === 0 ||
         customer.name.toLowerCase().includes(term) ||
-        customer.companyName.toLowerCase().includes(term) ||
-        customer.email.toLowerCase().includes(term) ||
-        customer.accountManager.toLowerCase().includes(term);
+        customer.phone.toLowerCase().includes(term) ||
+        customer.companyName.toLowerCase().includes(term);
 
-      const matchesStatus = statusFilter === "all" || customer.status === statusFilter;
-      const matchesSegment = segmentFilter === "all" || customer.segment === segmentFilter;
+      const matchesBehavior =
+        behaviorFilter === "all" || customer.behavior === behaviorFilter;
 
-      return matchesText && matchesStatus && matchesSegment;
+      return matchesText && matchesBehavior;
     });
-  }, [customers, searchText, statusFilter, segmentFilter]);
-
-  useEffect(() => {
-    if (filteredCustomers.length === 0) {
-      setSelectedCustomerId(null);
-      return;
-    }
-
-    const selectedStillVisible = filteredCustomers.some((customer) => customer.id === selectedCustomerId);
-    if (!selectedStillVisible) {
-      setSelectedCustomerId(filteredCustomers[0].id);
-    }
-  }, [filteredCustomers, selectedCustomerId]);
+  }, [customerViews, searchText, behaviorFilter]);
 
   const selectedCustomer = useMemo(
-    () => filteredCustomers.find((customer) => customer.id === selectedCustomerId) ?? null,
-    [filteredCustomers, selectedCustomerId],
+    () =>
+      customerViews.find((customer) => customer.id === selectedCustomerId) ??
+      null,
+    [customerViews, selectedCustomerId],
   );
 
-  const selectedCustomerInteractions = useMemo(() => {
-    if (!selectedCustomer) {
-      return [];
-    }
+  const selectedCustomerPurchases = useMemo(() => {
+    if (!selectedCustomerId) return [];
 
-    return interactions
-      .filter((interaction) => interaction.customerId === selectedCustomer.id)
-      .sort((a, b) => b.date.localeCompare(a.date))
-      .slice(0, 4);
-  }, [interactions, selectedCustomer]);
-
-  const visibleInsights = useMemo(() => insights.slice(0, 4), [insights]);
+    return purchases
+      .filter((purchase) => purchase.customerId === selectedCustomerId)
+      .sort((a, b) => b.date.localeCompare(a.date));
+  }, [purchases, selectedCustomerId]);
 
   const clearFilters = () => {
     setSearchText("");
-    setStatusFilter("all");
-    setSegmentFilter("all");
+    setBehaviorFilter("all");
+  };
+
+  const addCustomer = (input: NewCustomerInput) => {
+    const id = `cust-local-${Date.now()}`;
+    const today = new Date().toISOString().slice(0, 10);
+
+    const customer: Customer = {
+      id,
+      name: input.name.trim(),
+      companyName: input.companyName?.trim() || "Cliente particular",
+      email: input.email?.trim() || "",
+      phone: input.phone.trim(),
+      website: "",
+      status: "active",
+      segment: "microbusiness",
+      annualValue: 0,
+      healthScore: 75,
+      accountManager: "",
+      lastInteraction: today,
+      location: "",
+      tags: ["nuevo"],
+      notes: input.notes?.trim() || "",
+      createdAt: today,
+    };
+
+    setCustomers((current) => [customer, ...current]);
+    setSelectedCustomerId(id);
+    setBehaviorFilter("all");
+    setSearchText("");
+    return id;
+  };
+
+  const openCustomer = (customer: CustomerDisplayData) => {
+    setSelectedCustomerId(customer.id);
   };
 
   return {
     isLoading,
-    customers,
+    customers: customerViews,
     filteredCustomers,
-    kpis,
-    insights: visibleInsights,
-    interactions,
+    summary,
+    returningCustomers,
+    inactiveCustomers,
+    purchases,
     searchText,
     setSearchText,
-    statusFilter,
-    setStatusFilter,
-    segmentFilter,
-    setSegmentFilter,
+    behaviorFilter,
+    setBehaviorFilter,
     clearFilters,
     selectedCustomer,
-    selectedCustomerInteractions,
+    selectedCustomerPurchases,
     selectedCustomerId,
     setSelectedCustomerId,
-    statusOptions: STATUS_OPTIONS,
-    segmentOptions: SEGMENT_OPTIONS,
+    openCustomer,
+    addCustomer,
   };
 }
