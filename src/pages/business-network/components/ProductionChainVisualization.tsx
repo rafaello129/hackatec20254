@@ -182,6 +182,17 @@ export default function ProductionChainVisualization({
                 const blocked = step.id === bottleneck?.id;
                 const column = chainStartColumn + index;
                 const row = column % 2 === 0 ? 4 : 3;
+                const stepStyle = {
+                  gridColumnStart: column,
+                  gridRowStart: row,
+                  ...(step.status === "pending"
+                    ? {
+                        "--hex-border": "#9ba59a",
+                        "--hex-fill": "#e2e7df",
+                        "--hex-color": "#4f584e",
+                      }
+                    : {}),
+                } as CSSProperties;
 
                 return (
                   <li
@@ -190,7 +201,7 @@ export default function ProductionChainVisualization({
                     data-status={step.status}
                     data-active={active}
                     data-bottleneck={blocked}
-                    style={{ gridColumnStart: column, gridRowStart: row }}
+                    style={stepStyle}
                   >
                     <button
                       type="button"
