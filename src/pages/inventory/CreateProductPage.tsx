@@ -101,8 +101,44 @@ export default function CreateProductPage() {
       event.returnValue = "";
     };
 
+    const handleDocumentClick = (event: MouseEvent) => {
+      if (
+        !isDirty ||
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
+
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+
+      const anchor = target.closest("a[href]");
+      if (!(anchor instanceof HTMLAnchorElement) || anchor.target === "_blank") {
+        return;
+      }
+
+      if (
+        !window.confirm(
+          "Tienes cambios sin guardar. ¿Seguro que quieres salir de esta pantalla?",
+        )
+      ) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    };
+
     window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+    document.addEventListener("click", handleDocumentClick, true);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      document.removeEventListener("click", handleDocumentClick, true);
+    };
   }, [isDirty]);
 
   const profit = useMemo(
@@ -282,7 +318,7 @@ export default function CreateProductPage() {
         <button
           type="button"
           onClick={leavePage}
-          className="inline-flex min-h-10 items-center gap-2 rounded-full px-1 text-[12px] font-semibold text-[#536057] transition hover:text-[var(--oe-primary)]"
+          className="inline-flex min-h-10 items-center gap-2 rounded-full px-1 text-[12px] font-semibold text-[#536057] transition hover:text-[var(--oe-primary)] motion-reduce:transition-none"
         >
           <ArrowLeft className="h-4 w-4" />
           Volver a Productos
@@ -499,7 +535,7 @@ export default function CreateProductPage() {
                   Agrega un proveedor si ya lo tienes identificado.
                 </p>
               </div>
-              <ChevronDown className="h-5 w-5 shrink-0 text-[#7A867E] transition-transform group-open:rotate-180" />
+              <ChevronDown className="h-5 w-5 shrink-0 text-[#7A867E] transition-transform group-open:rotate-180 motion-reduce:transition-none" />
             </summary>
 
             <div className="border-t border-[#EDF0EB] px-5 pb-5 pt-4 sm:px-6 sm:pb-6">
@@ -530,13 +566,13 @@ export default function CreateProductPage() {
             <button
               type="button"
               onClick={leavePage}
-              className="h-11 rounded-full border border-[#DDE3DA] bg-white px-5 text-[11px] font-semibold text-[#536057] transition hover:bg-[#F6F8F4]"
+              className="h-11 rounded-full border border-[#DDE3DA] bg-white px-5 text-[11px] font-semibold text-[#536057] transition hover:bg-[#F6F8F4] motion-reduce:transition-none"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="inline-flex h-11 items-center gap-2 rounded-full bg-[var(--peek-brand-900)] px-5 text-[11px] font-semibold text-white transition hover:bg-[var(--oe-primary-hover)]"
+              className="inline-flex h-11 items-center gap-2 rounded-full bg-[var(--peek-brand-900)] px-5 text-[11px] font-semibold text-white transition hover:bg-[var(--oe-primary-hover)] motion-reduce:transition-none"
             >
               <Save className="h-4 w-4" />
               Guardar producto
