@@ -122,7 +122,7 @@ h6 {
 .peek-inventory-ring-segment {
   transform-box: fill-box;
   transform-origin: center;
-  animation: peek-inventory-ring-intro 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: peek-inventory-ring-intro 720ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
   transition:
     stroke-width 220ms ease,
     opacity 220ms ease,
@@ -140,6 +140,7 @@ h6 {
   }
 
   to {
+    opacity: 1;
     transform: scale(1) rotate(0deg);
   }
 }
