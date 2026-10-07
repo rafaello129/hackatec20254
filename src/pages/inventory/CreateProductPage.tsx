@@ -14,6 +14,11 @@ import type {
 import { useInventoryState } from "./context/InventoryProvider";
 import { PRODUCT_CATEGORIES } from "./hooks/useInventory";
 import CreateProductPreview from "./components/CreateProductPreview";
+import CreateProductVerificationSection, {
+  EMPTY_PRODUCT_VERIFICATION_DRAFT,
+  type ProductVerificationDraft,
+} from "./components/CreateProductVerificationSection";
+import { useProductVerification } from "./context/ProductVerificationProvider";
 
 const emptyForm: NewProductInput = {
   name: "",
@@ -33,6 +38,7 @@ type FieldErrors = {
   cost?: string;
   quantity?: string;
   lowStockAt?: string;
+  verification?: string;
 };
 
 const inputClass =
@@ -41,7 +47,10 @@ const inputClass =
 export default function CreateProductPage() {
   const navigate = useNavigate();
   const { addProduct } = useInventoryState();
+  const { createProductVerification } = useProductVerification();
   const [form, setForm] = useState<NewProductInput>(emptyForm);
+  const [verificationDraft, setVerificationDraft] =
+    useState<ProductVerificationDraft>(EMPTY_PRODUCT_VERIFICATION_DRAFT);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitted, setSubmitted] = useState(false);
 
@@ -57,6 +66,13 @@ export default function CreateProductPage() {
     setForm((current) => ({ ...current, [field]: value }));
     if (field in errors) {
       setErrors((current) => ({ ...current, [field]: undefined }));
+    }
+  };
+
+  const updateVerification = (next: ProductVerificationDraft) => {
+    setVerificationDraft(next);
+    if (errors.verification) {
+      setErrors((current) => ({ ...current, verification: undefined }));
     }
   };
 
@@ -86,6 +102,23 @@ export default function CreateProductPage() {
       next.lowStockAt = "El aviso debe ser de al menos 1 pieza.";
     }
 
+    const hasOriginInfo = [
+      verificationDraft.producerName,
+      verificationDraft.workshopName,
+      verificationDraft.location,
+      verificationDraft.technique,
+      verificationDraft.materials,
+    ].some((value) => value.trim().length > 0);
+
+    if (
+      (hasOriginInfo || verificationDraft.requestReview) &&
+      (!verificationDraft.producerName.trim() ||
+        !verificationDraft.location.trim())
+    ) {
+      next.verification =
+        "Para registrar el origen o solicitar verificación, agrega productor y ubicación.";
+    }
+
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -106,6 +139,36 @@ export default function CreateProductPage() {
       cost: Math.max(0, form.cost ?? 0),
       quantity: Math.max(0, Math.floor(form.quantity)),
       lowStockAt: Math.max(1, Math.floor(form.lowStockAt ?? 5)),
+    });
+
+    const producerName = verificationDraft.producerName.trim();
+    const location = verificationDraft.location.trim();
+    const materials = verificationDraft.materials
+      .split(",")
+      .map((material) => material.trim())
+      .filter(Boolean);
+
+    createProductVerification(id, {
+      origin:
+        producerName && location
+          ? {
+              producerName,
+              workshopName:
+                verificationDraft.workshopName.trim() || undefined,
+              location,
+              technique: verificationDraft.technique.trim() || undefined,
+              materials: materials.length > 0 ? materials : undefined,
+            }
+          : undefined,
+      requestReview: verificationDraft.requestReview,
+      evidence: verificationDraft.evidenceUrl.trim()
+        ? {
+            type: "photo",
+            title: "Evidencia inicial",
+            description: "Evidencia registrada al crear el producto.",
+            url: verificationDraft.evidenceUrl.trim(),
+          }
+        : undefined,
     });
 
     navigate("/inventory/" + id);
@@ -317,6 +380,12 @@ export default function CreateProductPage() {
               </div>
             ) : null}
           </section>
+
+          <CreateProductVerificationSection
+            value={verificationDraft}
+            onChange={updateVerification}
+            error={errors.verification}
+          />
 
           <details className="group rounded-[24px] border border-[var(--oe-border)] bg-white">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 sm:p-6">
