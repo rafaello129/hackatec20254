@@ -1,0 +1,1 @@
+.rb-animated-list>*{opacity:0;transform:translate3d(14px,8px,0) scale(.985);transition:opacity .42s cubic-bezier(.22,1,.36,1) var(--rb-list-delay,0ms),transform .42s cubic-bezier(.22,1,.36,1) var(--rb-list-delay,0ms)}.rb-animated-list[data-visible=true]>*{opacity:1;transform:none}@media(prefers-reduced-motion:reduce){.rb-animated-list>*{opacity:1;transform:none;transition:none}}

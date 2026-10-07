@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { analyzeNetworkProject, createNetworkPlan, getInitialNetworkPlan, type AnalyzeNetworkProjectInput, type NetworkPlan } from "@/services/businessNetwork.service";
-import type { NetworkProject } from "@/types/businessNetwork.types";
+import type { NetworkAssistantMessage, NetworkProject } from "@/types/businessNetwork.types";
 
 // Persist only editable inputs and connection IDs; reference data stays in the service.
 const storageKey = "peek-network-plans-v1";
@@ -15,6 +15,14 @@ function isSavedPlan(value: unknown): value is SavedPlan {
     [i.goal, i.quantity, i.budgetRange, i.targetLocation].every(isText) && Array.isArray(connected) && connected.every(isText);
 }
 
+function syncChainWithPartners(chainSteps: NetworkPlan["chainSteps"], partners: NetworkPlan["partners"]) {
+  return chainSteps.map((step) => {
+    const connected = partners.find((partner) => partner.connected && partner.type === step.type);
+    if (!connected || (step.status !== "pending" && step.status !== "unresolved")) return step;
+    return { ...step, partnerName: connected.name, status: "optimized" as const, description: "Aliado conectado y listo para coordinar esta etapa." };
+  });
+}
+
 function loadPlans(): { plans: NetworkPlan[]; activeId: string } {
   const initial = getInitialNetworkPlan();
   try {
@@ -23,7 +31,8 @@ function loadPlans(): { plans: NetworkPlan[]; activeId: string } {
       new Set(saved.plans.map((p: SavedPlan) => p.project.id)).size === saved.plans.length) {
       const plans: NetworkPlan[] = saved.plans.map((entry: SavedPlan) => {
         const base = entry.project.id === initial.project.id ? initial : { partners: [], chainSteps: [], suggestions: [], messages: [], summary: null };
-        return { ...base, project: entry.project, input: entry.input, partners: base.partners.map((p) => ({ ...p, connected: entry.connected.includes(p.id) })) };
+        const partners = base.partners.map((p) => ({ ...p, connected: entry.connected.includes(p.id) }));
+        return { ...base, project: entry.project, input: entry.input, partners, chainSteps: syncChainWithPartners(base.chainSteps, partners) };
       });
       return { plans, activeId: plans.some((p) => p.project.id === saved.activeId) ? saved.activeId : plans[0].project.id };
     }
@@ -67,7 +76,19 @@ export function useBusinessNetwork() {
     } finally { setIsAnalyzing(false); }
   }
   function connectPartner(id: string) {
-    updatePlan(active.project.id, (plan) => ({ ...plan, partners: plan.partners.map((p) => p.id === id ? { ...p, connected: true } : p) }));
+    updatePlan(active.project.id, (plan) => {
+      const selected = plan.partners.find((partner) => partner.id === id);
+      if (!selected || selected.connected) return plan;
+      const partners = plan.partners.map((partner) => partner.id === id ? { ...partner, connected: true } : partner);
+      const chainSteps = syncChainWithPartners(plan.chainSteps, partners);
+      const hasOpenStep = chainSteps.some((step) => step.status === "pending" || step.status === "unresolved");
+      const message: NetworkAssistantMessage = {
+        id: `msg-connect-${Date.now()}`, role: "assistant",
+        content: `${selected.name} se integró a la red. Actualicé la cadena productiva y marqué su etapa como optimizada.`,
+        createdAt: new Date().toISOString(),
+      };
+      return { ...plan, partners, chainSteps, project: { ...plan.project, status: hasOpenStep ? plan.project.status : "ready" }, messages: [message, ...plan.messages] };
+    });
   }
 
   return { ...active, plans: state.plans, activeId: active.project.id, selectPlan, addPlan, storageWarning,

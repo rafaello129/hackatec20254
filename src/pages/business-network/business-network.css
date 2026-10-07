@@ -152,3 +152,24 @@
 @media (max-width: 650px) { .network-project-heading { flex-direction: column; } .network-project-heading h2 { font-size: 21px; } .network-project-facts, .network-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); } .network-summary dd { font-size: 22px; } .network-chain-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } .network-partner-grid, .network-suggestions, .network-builder-fields { grid-template-columns: minmax(0, 1fr); } .network-summary dt { align-items: flex-start; } .network-project-facts { gap: 16px; } }
 @media (max-width: 650px) { .network-project { padding: 18px 14px 0; } .network-summary > div + div { padding-left: 0; border-left: 0; } .network-summary { gap: 24px 14px; } .network-next-action { flex-wrap: wrap; padding: 14px; } .network-next-action > div { flex: 1; min-width: 0; } .network-next-action button { flex: 0 0 100%; margin-left: 0; justify-content: space-between; border-top: 1px solid #e5d6b8; padding-top: 12px; } .network-partner-search { max-width: none; } .network-chain-steps { gap: 12px; } }
 @media (prefers-reduced-motion: reduce) { .network-page * { transition: none !important; scroll-behavior: auto !important; } }
+
+/* Phase 3 — React Bits */
+.network-partner-reveal{min-width:0;height:100%}.network-partner-reveal>.network-partner-card{height:100%}
+.network-partner-card{position:relative;isolation:isolate;overflow:hidden;border-radius:12px;transition:border-color .22s ease,box-shadow .22s ease,transform .22s ease}
+.network-partner-card:hover{border-color:#91a978;box-shadow:0 14px 32px rgba(35,61,18,.09);transform:translateY(-2px)}
+.network-partner-card .network-partner-image{overflow:hidden}.network-partner-card .network-partner-image img{transition:transform .45s cubic-bezier(.22,1,.36,1)}
+.network-partner-card:hover .network-partner-image img{transform:scale(1.035)}.network-partner-match{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.network-partner-connected-badge{position:absolute;left:12px;top:12px;display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:5px 9px;background:rgba(239,246,231,.94);color:#3e5902;box-shadow:0 3px 12px rgba(35,61,18,.10);font-size:10px;font-weight:700}
+.network-partner-connected{border-color:#a8be8c;box-shadow:inset 0 -3px #a8be8c}.network-connect-glare{flex-shrink:0}.network-connect-glare .network-partner-connect{position:relative;z-index:1}
+.network-partner-connect{transition:transform .18s ease,background .18s ease}.network-partner-connect:not(:disabled):active{transform:translateY(1px)}
+.network-insight-heading{display:flex;align-items:flex-start;gap:11px}.network-insight-heading .network-eyebrow{margin-bottom:2px}.network-insight-icon{display:grid;place-items:center;width:34px;height:34px;flex-shrink:0;border:1px solid #ead9ae;border-radius:10px;background:#fff8e9;color:#98701e}
+.network-suggestions{margin-top:14px}.network-suggestions li{margin-bottom:9px;padding:13px 14px;border:1px solid #e0e5da;border-radius:10px;background:rgba(255,255,255,.76);transition:border-color .18s ease,background .18s ease,transform .18s ease}
+.network-suggestions li:hover{border-color:#cbd5be;background:#fff;transform:translateX(2px)}.network-suggestions li:first-child{border-top:1px solid #e0e5da}
+.network-analysis-surface{margin-top:18px}.network-analysis{margin:0;padding:0;border:0}.network-analysis summary{min-height:58px;padding:13px 14px;color:#304d60;gap:10px}
+.network-ai-mark{display:inline-flex;align-items:center;gap:6px;flex-shrink:0;border-radius:999px;padding:5px 8px;background:rgba(255,255,255,.64);border:1px solid rgba(177,194,164,.55);font-size:10px;font-weight:800;letter-spacing:.025em}
+.network-ai-mark svg{color:#4f7302}.network-analysis-title{color:#33463a;font-size:12px;font-weight:650}.network-analysis-chevron{transition:transform .22s ease}
+.network-analysis-body{padding:0 14px 15px;border-top:1px solid rgba(196,207,187,.6)}.network-ai-context{display:flex;align-items:center;gap:6px;margin-top:12px;color:#687060;font-size:10px;font-weight:600}.network-ai-context svg{color:#799833}
+.network-analysis p{margin-top:10px;padding-left:11px;border-left:2px solid rgba(121,152,51,.30)}.network-analysis .network-analysis-primary{color:#2e3b31;border-left-color:#799833;font-weight:500}
+@media(max-width:1200px){.network-workspace-single .network-suggestions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.network-workspace-single .network-suggestions li{margin-bottom:0}}
+@media(max-width:650px){.network-partner-card:hover{transform:none}.network-workspace-single .network-suggestions{grid-template-columns:minmax(0,1fr)}.network-analysis summary{align-items:flex-start;flex-wrap:wrap}.network-analysis-chevron{margin-left:auto}}
+@media(prefers-reduced-motion:reduce){.network-partner-card,.network-partner-card .network-partner-image img,.network-suggestions li,.network-partner-connect{transition:none!important;transform:none!important}}
