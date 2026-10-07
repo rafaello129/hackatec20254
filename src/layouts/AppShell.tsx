@@ -1,6 +1,6 @@
 import type { ComponentType } from "react";
 import { useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import {
   Bell,
   CircleHelp,
@@ -178,6 +178,28 @@ function Topbar({ onMenu }: { onMenu: () => void }) {
   );
 }
 
+function GlobalAssistantShortcut() {
+  return (
+    <Link
+      to="/ai-assistant"
+      aria-label="Abrir asistente PÉEK"
+      className="peek-dark-surface fixed bottom-6 right-6 z-30 flex min-h-[82px] min-w-[272px] items-center gap-[14px] rounded-[42px] bg-[#022601] px-[20px] py-[16px] text-white shadow-[0_12px_32px_rgba(0,30,8,0.28)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_16px_38px_rgba(0,30,8,0.32)] max-sm:bottom-4 max-sm:right-4 max-sm:min-w-[258px] max-sm:px-[18px]"
+    >
+      <span className="grid h-[34px] w-[34px] shrink-0 place-items-center rounded-full bg-white/8">
+        <Sparkles className="h-[25px] w-[25px] text-white" />
+      </span>
+      <span className="min-w-0 text-left text-white">
+        <span className="block whitespace-nowrap text-[17px] font-semibold leading-[1.05] text-white">
+          ¿Necesitas ayuda?
+        </span>
+        <span className="mt-[6px] block whitespace-nowrap text-[12px] font-medium leading-none text-white/90">
+          Pregúntale a PÉEK
+        </span>
+      </span>
+    </Link>
+  );
+}
+
 export default function AppShell() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -217,6 +239,8 @@ export default function AppShell() {
           </div>
         </main>
       </div>
+
+      <GlobalAssistantShortcut />
     </div>
   );
 }
