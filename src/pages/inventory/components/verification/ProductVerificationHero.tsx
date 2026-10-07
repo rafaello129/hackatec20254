@@ -33,7 +33,7 @@ export default function ProductVerificationHero({
       icon: ShieldCheck,
       surface: "bg-[#022601] text-white",
       iconSurface: "bg-[#B6E251] text-[#022601]",
-      bodyColor: "text-white/60",
+      bodyColor: "text-white/62",
     },
     pending: {
       eyebrow: "Autenticidad y origen",
@@ -71,33 +71,45 @@ export default function ProductVerificationHero({
     verification.status === "not_requested";
 
   return (
-    <section className={["rounded-[28px] p-6 sm:p-7", meta.surface].join(" ")}>
-      <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
+    <section
+      className={[
+        "h-full rounded-[22px] p-5 sm:p-5",
+        meta.surface,
+      ].join(" ")}
+    >
+      <div className="flex h-full flex-col gap-4 sm:flex-row sm:items-start">
         <span
           className={[
-            "grid h-14 w-14 shrink-0 place-items-center rounded-[18px]",
+            "grid h-11 w-11 shrink-0 place-items-center rounded-[14px]",
             meta.iconSurface,
           ].join(" ")}
         >
-          <Icon className="h-7 w-7" />
+          <Icon className="h-5 w-5" />
         </span>
 
         <div className="min-w-0 flex-1">
-          <p className="text-[10px] font-bold uppercase tracking-[0.16em] opacity-70">
+          <p className="text-[9px] font-bold uppercase tracking-[0.14em] opacity-70">
             {meta.eyebrow}
           </p>
-          <div className="mt-2 flex flex-wrap items-center gap-2">
-            <h2 className="font-['Hanken_Grotesk'] text-[24px] font-bold leading-tight">
+
+          <div className="mt-1.5 flex flex-wrap items-center gap-2">
+            <h2 className="font-['Hanken_Grotesk'] text-[20px] font-bold leading-tight">
               {meta.title}
             </h2>
-            <ProductVerificationBadge status={verification.status} />
+            <ProductVerificationBadge status={verification.status} compact />
           </div>
-          <p className={["mt-2 max-w-2xl text-[12px] leading-5", meta.bodyColor].join(" ")}>
+
+          <p
+            className={[
+              "mt-1.5 max-w-2xl text-[10px] leading-4",
+              meta.bodyColor,
+            ].join(" ")}
+          >
             {meta.body}
           </p>
 
           {verification.status === "verified" ? (
-            <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-[10px] text-white/65">
+            <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-[9px] text-white/62">
               {verification.verificationCode ? (
                 <span className="font-semibold text-[#B6E251]">
                   {verification.verificationCode}
@@ -113,15 +125,19 @@ export default function ProductVerificationHero({
           ) : null}
 
           {verification.status === "pending" && total > 0 ? (
-            <div className="mt-5">
-              <div className="flex items-center justify-between gap-3 text-[10px] font-semibold">
-                <span>{passed} de {total} comprobaciones completadas</span>
+            <div className="mt-3 max-w-xl">
+              <div className="flex items-center justify-between gap-3 text-[9px] font-semibold">
+                <span>
+                  {passed} de {total} comprobaciones completadas
+                </span>
                 <span>{Math.round((passed / total) * 100)}%</span>
               </div>
-              <div className="mt-2 h-2 overflow-hidden rounded-full bg-black/8">
+              <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-black/8">
                 <span
                   className="block h-full rounded-full bg-[#B69025]"
-                  style={{ width: Math.max(10, (passed / total) * 100) + "%" }}
+                  style={{
+                    width: Math.max(10, (passed / total) * 100) + "%",
+                  }}
                 />
               </div>
             </div>
@@ -132,16 +148,16 @@ export default function ProductVerificationHero({
               type="button"
               onClick={onAction}
               className={[
-                "mt-5 inline-flex h-10 items-center gap-2 rounded-full px-4 text-[11px] font-semibold transition",
+                "mt-3 inline-flex h-9 items-center gap-2 rounded-full px-4 text-[10px] font-semibold transition",
                 verification.status === "not_requested"
                   ? "bg-[var(--peek-brand-900)] text-white hover:bg-[var(--oe-primary-hover)]"
                   : "bg-[#A54A42] text-white hover:bg-[#93423B]",
               ].join(" ")}
             >
               {verification.status === "not_requested" ? (
-                <ShieldCheck className="h-4 w-4" />
+                <ShieldCheck className="h-3.5 w-3.5" />
               ) : (
-                <CheckCircle2 className="h-4 w-4" />
+                <CheckCircle2 className="h-3.5 w-3.5" />
               )}
               {verification.status === "not_requested"
                 ? "Solicitar verificación"
