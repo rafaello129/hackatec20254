@@ -4,6 +4,7 @@ import HomePage from "@/pages/home/HomePage";
 import BusinessNetworkPage from "@/pages/business-network/BusinessNetworkPage";
 import CustomersPage from "@/pages/customers/CustomersPage";
 import InventoryPage from "@/pages/inventory/InventoryPage";
+import CreateProductPage from "@/pages/inventory/CreateProductPage";
 import ProductDetailPage from "@/pages/inventory/ProductDetailPage";
 import CooperativesPage from "@/pages/cooperatives/CooperativesPage";
 import OpportunitiesPage from "@/pages/cooperatives/OpportunitiesPage";
@@ -27,6 +28,7 @@ export default function AppRouter() {
         <Route path="/business-network" element={<BusinessNetworkPage />} />
         <Route path="/customers" element={<CustomersPage />} />
         <Route path="/inventory" element={<InventoryPage />} />
+        <Route path="/inventory/new" element={<CreateProductPage />} />
         <Route path="/inventory/:productId" element={<ProductDetailPage />} />
         <Route path="/support-programs" element={<SupportProgramsPage />} />
 
