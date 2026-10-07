@@ -9,9 +9,5 @@ export const opportunityTypeLabels: Record<CooperativeOpportunityType, string> =
 };
 
 export default function OpportunityTypeBadge({ type }: { type: CooperativeOpportunityType }) {
-  return (
-    <span className="inline-flex rounded-full bg-[#D6D979] px-2.5 py-1 text-xs font-semibold text-[#3E5902]">
-      {opportunityTypeLabels[type]}
-    </span>
-  );
+  return <span className="inline-flex rounded-full bg-[#E6F3C8] px-2.5 py-1 text-[10px] font-semibold text-[#42610A]">{opportunityTypeLabels[type]}</span>;
 }

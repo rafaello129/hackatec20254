@@ -92,57 +92,46 @@ export default function OpportunityCard({ opportunity, variant = "standard" }: O
 
   if (variant === "compact") {
     return (
-      <article className="rounded-lg border border-[#c2c9bc] bg-white p-4">
-        <div className="flex flex-col gap-4 md:flex-row">
-          <OpportunityImage opportunity={opportunity} compact />
+      <Link
+        to={`/cooperatives/${opportunity.id}`}
+        className="group flex items-center gap-4 rounded-[18px] border border-transparent bg-[#FAFAF7] p-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#DDE6D8] hover:bg-white hover:shadow-sm"
+      >
+        <div className="relative h-[76px] w-[76px] shrink-0 overflow-hidden rounded-[16px] bg-[#EEF1EB]">
+          {opportunity.imageUrl ? (
+            <img
+              src={opportunity.imageUrl}
+              alt={opportunity.imageAlt ?? opportunity.title}
+              loading="lazy"
+              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.04]"
+            />
+          ) : (
+            <div className="grid h-full w-full place-items-center bg-[#EDF4E8] text-[#2E7439]">
+              <Handshake className="h-5 w-5" />
+            </div>
+          )}
+        </div>
 
-          <div className="min-w-0 flex-1">
-            <div className="mb-2 flex flex-wrap items-center gap-2">
-              <OpportunityTypeBadge type={opportunity.type} />
-              <OpportunityStatusBadge status={opportunity.status} />
-            </div>
-            <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
-              <div className="min-w-0">
-                <h3 className="font-['Hanken_Grotesk'] text-lg font-semibold text-[#1a1c18]">{opportunity.title}</h3>
-                <p className="mt-1 line-clamp-2 text-sm text-[#42493f]">{opportunity.description}</p>
-                <p className="mt-2 text-sm text-[#42493f]">
-                  <span className="font-semibold text-[#1a1c18]">Creadora:</span> {opportunity.creatorCompany}
-                </p>
-              </div>
-              <Link
-                to={`/cooperatives/${opportunity.id}`}
-                className="inline-flex shrink-0 items-center gap-1 rounded-md px-2 py-1 text-sm font-semibold text-[#4F7302] hover:bg-[#f3f4ed]"
-              >
-                Ver detalle
-                <ArrowUpRight className="h-4 w-4" />
-              </Link>
-            </div>
-
-            <div className="mt-4 grid gap-3 md:grid-cols-[1fr_auto_auto] md:items-end">
-              <div className="rounded-lg border border-[#e2e3dc] bg-[#f9faf3] p-3">
-                <div className="mb-1 flex items-center justify-between text-xs">
-                  <span className="font-semibold text-[#42493f]">Monto comprometido</span>
-                  <span className="font-semibold text-[#1a1c18]">{progress}%</span>
-                </div>
-                <div className="h-2 overflow-hidden rounded-full bg-[#e2e3dc]">
-                  <div className="h-full rounded-full bg-[#799833]" style={{ width: `${progress}%` }} />
-                </div>
-                <p className="mt-1 text-xs text-[#42493f]">
-                  {formatCurrency(opportunity.currentAmount)} de {formatCurrency(opportunity.targetAmount)}
-                </p>
-              </div>
-              <span className="inline-flex items-center gap-1 text-sm text-[#42493f]">
-                <Users className="h-4 w-4 text-[#4F7302]" />
-                {opportunity.currentParticipants}/{opportunity.requestedParticipants}
-              </span>
-              <span className="inline-flex items-center gap-1 text-sm text-[#42493f]">
-                <CalendarDays className="h-4 w-4 text-[#4F7302]" />
-                {opportunity.deadline}
-              </span>
-            </div>
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center gap-2">
+            <OpportunityTypeBadge type={opportunity.type} />
+            <OpportunityStatusBadge status={opportunity.status} />
+          </div>
+          <h3 className="mt-2 line-clamp-2 text-[13px] font-semibold leading-[1.2] text-[#28322B]">{opportunity.title}</h3>
+          <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-[#748078]">
+            <span>{opportunity.creatorCompany}</span>
+            <span className="h-1 w-1 rounded-full bg-[#C5CCC6]" />
+            <span><strong className="font-semibold text-[#344039]">{progress}%</strong> comprometido</span>
+            <span className="h-1 w-1 rounded-full bg-[#C5CCC6]" />
+            <span>{opportunity.currentParticipants}/{opportunity.requestedParticipants} aliados</span>
           </div>
         </div>
-      </article>
+
+        <div className="hidden shrink-0 text-right sm:block">
+          <p className="text-[10px] text-[#87918A]">Meta</p>
+          <p className="mt-1 text-sm font-semibold text-[#35523B]">{formatCurrency(opportunity.targetAmount)}</p>
+          <ArrowUpRight className="ml-auto mt-3 h-4 w-4 text-[#98A29B] transition-transform group-hover:translate-x-0.5" />
+        </div>
+      </Link>
     );
   }
 

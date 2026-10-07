@@ -1,25 +1,35 @@
+import { CalendarDays, Handshake } from "lucide-react";
 import type { CooperativeActivity } from "@/types/cooperatives.types";
 
 export default function CooperativeActivityPanel({ activities }: { activities: CooperativeActivity[] }) {
   return (
-    <section className="rounded-lg border border-[#c2c9bc] bg-white p-4">
-      <h3 className="mb-3 font-['Hanken_Grotesk'] text-lg font-semibold text-[#1a1c18]">Actividad reciente</h3>
-      <ul className="space-y-2">
+    <section className="rounded-[24px] border border-[#E2E6DF] bg-white p-6 sm:p-7">
+      <div className="flex items-center justify-between gap-4">
+        <div>
+          <h2 className="text-base font-semibold text-[#17231B]">Actividad reciente</h2>
+          <p className="mt-1 text-[11px] text-[#87918A]">Últimos movimientos de la red cooperativa</p>
+        </div>
+        <span className="rounded-full bg-[#F5F7F2] px-2.5 py-1 text-[10px] font-medium text-[#7A857E]">En tiempo real</span>
+      </div>
+
+      <div className="mt-5 grid gap-x-8 md:grid-cols-2">
         {activities.slice(0, 4).map((activity) => (
-          <li key={activity.id} className="rounded-lg border border-[#e2e3dc] bg-[#f9faf3] p-3">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <p className="text-sm font-semibold text-[#1a1c18]">{activity.title}</p>
-                <p className="mt-0.5 line-clamp-2 text-xs leading-5 text-[#42493f]">{activity.description}</p>
-              </div>
-              <span className="shrink-0 rounded-full bg-white px-2 py-1 text-[11px] font-semibold text-[#3E5902]">
-                {activity.actor}
-              </span>
+          <article key={activity.id} className="flex items-center gap-3 border-b border-[#EEF0EB] py-3.5 first:pt-0">
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#EDF4E8] text-[#2E7439]">
+              <Handshake className="h-4 w-4" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-xs font-semibold text-[#344039]">{activity.title}</p>
+              <p className="mt-0.5 line-clamp-1 text-[11px] text-[#838C86]">{activity.description}</p>
+              <p className="mt-1 text-[10px] font-medium text-[#607064]">{activity.actor}</p>
             </div>
-            <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#73796e]">{activity.date}</p>
-          </li>
+            <span className="inline-flex shrink-0 items-center gap-1 text-[10px] text-[#919A94]">
+              <CalendarDays className="h-3 w-3" />
+              {activity.date}
+            </span>
+          </article>
         ))}
-      </ul>
+      </div>
     </section>
   );
 }

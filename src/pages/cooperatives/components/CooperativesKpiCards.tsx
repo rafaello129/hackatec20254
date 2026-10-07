@@ -8,22 +8,40 @@ const iconMap: Record<CooperativeKpi["id"], typeof Handshake> = {
   post_services: Route,
 };
 
+const order: CooperativeKpi["id"][] = ["estimated_value", "active_opportunities", "negotiating_agreements", "post_services"];
+
 export default function CooperativesKpiCards({ kpis }: { kpis: CooperativeKpi[] }) {
+  const ordered = order.map((id) => kpis.find((kpi) => kpi.id === id)).filter((kpi): kpi is CooperativeKpi => Boolean(kpi));
+
   return (
-    <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-      {kpis.map((kpi) => {
+    <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      {ordered.map((kpi, index) => {
         const Icon = iconMap[kpi.id];
+        const featured = index === 0;
         return (
-          <article key={kpi.id} className="rounded-lg border border-[#c2c9bc] bg-white p-3">
-            <div className="flex items-start justify-between gap-2">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#42493f]">{kpi.label}</p>
-              <Icon className="h-4 w-4 text-[#799833]" />
+          <article
+            key={kpi.id}
+            className={
+              featured
+                ? "peek-dark-surface min-h-[142px] rounded-[24px] bg-[linear-gradient(135deg,#063A12_0%,#0D571E_58%,#9AC84B_140%)] p-5 text-white"
+                : "min-h-[142px] rounded-[24px] bg-[#FFF8F6] p-5 ring-1 ring-[#F0ECE8]"
+            }
+          >
+            <div className="flex items-start justify-between gap-3">
+              <p className={featured ? "text-lg text-white" : "text-lg text-[#35523B]"}>{kpi.label}</p>
+              <Icon className={featured ? "h-5 w-5 text-white" : "h-5 w-5 text-[#6E8A73]"} />
             </div>
-            <p className="mt-2 font-['Hanken_Grotesk'] text-2xl font-bold text-[#1a1c18]">{kpi.formattedValue}</p>
-            <p className="mt-1 text-xs text-[#42493f]">{kpi.hint}</p>
+            <p className={
+              featured
+                ? "mt-2 text-[32px] font-medium leading-none tracking-[-0.04em] text-white sm:text-[36px]"
+                : "mt-2 text-[42px] font-medium leading-none tracking-tight text-[#35523B]"
+            }>
+              {kpi.formattedValue}
+            </p>
+            <p className={featured ? "mt-3 text-xs text-white/75" : "mt-3 text-xs text-[#758178]"}>{kpi.hint}</p>
           </article>
         );
       })}
-    </div>
+    </section>
   );
 }
