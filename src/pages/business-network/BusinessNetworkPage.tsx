@@ -21,7 +21,6 @@ export default function BusinessNetworkPage() {
   const { isLoading, isAnalyzing, project, partners, chainSteps, suggestions, messages, summary,
     builderInput, updateBuilderInput, analyzeProject, connectPartner, plans, activeId, selectPlan, addPlan, storageWarning } = useBusinessNetwork();
   const [editing, setEditing] = useState(false);
-  const [metricsOpen, setMetricsOpen] = useState(false);
   const [view, setView] = useState("overview");
   const [partnerType, setPartnerType] = useState<PartnerType | "">("");
   const partnersSection = useRef<HTMLDivElement>(null);
@@ -48,7 +47,6 @@ export default function BusinessNetworkPage() {
   function resetWorkspace() {
     setView("overview");
     setEditing(false);
-    setMetricsOpen(false);
     setPartnerType("");
   }
 
@@ -99,20 +97,20 @@ export default function BusinessNetworkPage() {
 
           <FadeContent key={`${activeId}-${view}`} className="network-development-content" duration={0.24} distance={6}>
             {view === "analysis" && (
-              <section className="network-project network-project-snapshot" aria-label="Resumen del planteamiento">
+              <section className="network-project network-project-snapshot network-project-snapshot-analysis" aria-label="Resumen del planteamiento">
                 <div className="network-project-snapshot-main">
                   <div className="network-project-snapshot-copy">
                     <div className="network-project-snapshot-heading">
-                      <p className="network-eyebrow"><Network size={13} /> Business brief</p>
+                      <p className="network-eyebrow"><Network size={15} /> Business brief</p>
                       <button className="network-edit network-edit-compact" aria-expanded={editing} aria-controls="network-project-editor" onClick={() => setEditing(!editing)}>
-                        <Pencil size={13} /> Editar <ChevronDown size={13} className={editing ? "rotate-180" : ""} />
+                        <Pencil size={14} /> Editar <ChevronDown size={14} className={editing ? "rotate-180" : ""} />
                       </button>
                     </div>
                     <p className="network-project-snapshot-objective">{project.description}</p>
                   </div>
 
                   <dl className="network-project-chip-grid" aria-label="Datos principales del planteamiento">
-                    <div><dt>Volumen</dt><dd>{project.quantity.toLocaleString("es-MX")} <small>uds.</small></dd></div>
+                    <div><dt>Volumen</dt><dd>{project.quantity.toLocaleString("es-MX")} <small>unidades</small></dd></div>
                     <div><dt>Categoría</dt><dd>{project.category}</dd></div>
                     <div><dt>Destino</dt><dd>{project.targetLocation}</dd></div>
                     <div><dt>Presupuesto</dt><dd>{money.format(project.budgetMin)} – {money.format(project.budgetMax)}</dd></div>
@@ -120,39 +118,22 @@ export default function BusinessNetworkPage() {
                 </div>
 
                 {summary && (
-                  <div className="network-project-snapshot-footer">
-                    <div className="network-project-primary-metrics" aria-label="Indicadores principales">
-                      <div>
-                        <span className="network-project-metric-icon"><Wallet size={15} /></span>
-                        <span><small>Costo estimado</small><strong>{money.format(summary.optimizedCost)}</strong></span>
-                      </div>
-                      <div>
-                        <span className="network-project-metric-icon"><Users size={15} /></span>
-                        <span><small>Aliados conectados</small><strong>{connectedCount} <em>/ {partners.length}</em></strong></span>
-                      </div>
+                  <div className="network-project-metrics-grid" aria-label="Indicadores de la red">
+                    <div data-tone="cost">
+                      <span className="network-project-metric-icon"><Wallet size={18} /></span>
+                      <span><small>Costo estimado</small><strong>{money.format(summary.optimizedCost)}</strong><em>MXN optimizados</em></span>
                     </div>
-                    <button
-                      type="button"
-                      className="network-project-more"
-                      aria-expanded={metricsOpen}
-                      aria-controls="network-project-secondary-metrics"
-                      onClick={() => setMetricsOpen((current) => !current)}
-                    >
-                      {metricsOpen ? "Ocultar métricas" : "Ver métricas"}
-                      <ChevronDown size={14} className={metricsOpen ? "rotate-180" : ""} />
-                    </button>
-                  </div>
-                )}
-
-                {summary && metricsOpen && (
-                  <div id="network-project-secondary-metrics" className="network-project-secondary-metrics">
-                    <div>
-                      <TrendingDown size={16} />
+                    <div data-tone="savings">
+                      <span className="network-project-metric-icon"><TrendingDown size={18} /></span>
                       <span><small>Ahorro estimado</small><strong>{money.format(summary.originalCost - summary.optimizedCost)}</strong><em>vs. {money.format(summary.originalCost)}</em></span>
                     </div>
-                    <div>
-                      <Clock3 size={16} />
+                    <div data-tone="time">
+                      <span className="network-project-metric-icon"><Clock3 size={18} /></span>
                       <span><small>Tiempo de producción</small><strong>{summary.estimatedLeadTime}</strong><em>estimación de la red</em></span>
+                    </div>
+                    <div data-tone="allies">
+                      <span className="network-project-metric-icon"><Users size={18} /></span>
+                      <span><small>Aliados conectados</small><strong>{connectedCount} <em>/ {partners.length}</em></strong><em>aliados recomendados</em></span>
                     </div>
                   </div>
                 )}
