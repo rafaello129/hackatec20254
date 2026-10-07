@@ -6,6 +6,7 @@ import {
   TrendingUp,
   Users,
 } from "lucide-react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import { useHomeDashboard } from "./hooks/useHomeDashboard";
@@ -57,18 +58,64 @@ const artisanProducts = [
   },
 ];
 
-const salesDetails: Record<
-  string,
-  { label: string; transactions: number; topProduct: string }
-> = {
-  Lun: { label: "Lunes", transactions: 5, topProduct: "Tazón de cerámica" },
-  Mar: { label: "Martes", transactions: 7, topProduct: "Bolsa bordada" },
-  Mié: { label: "Miércoles", transactions: 6, topProduct: "Canasta tejida" },
-  Jue: { label: "Jueves", transactions: 8, topProduct: "Tazón de cerámica" },
-  Vie: { label: "Viernes", transactions: 9, topProduct: "Bolsa bordada" },
-  Sáb: { label: "Sábado", transactions: 10, topProduct: "Canasta tejida" },
-  Dom: { label: "Domingo", transactions: 12, topProduct: "Canasta tejida" },
-};
+type SalesRange = "week" | "fortnight" | "month";
+
+const salesRangeData = {
+  week: {
+    label: "Semana",
+    comparison: "12.4% más que la semana pasada",
+    points: [
+      { key: "lun", axis: "Lun", label: "Lunes", value: 650, transactions: 5, topProduct: "Tazón de cerámica" },
+      { key: "mar", axis: "Mar", label: "Martes", value: 850, transactions: 7, topProduct: "Bolsa bordada" },
+      { key: "mie", axis: "Mié", label: "Miércoles", value: 720, transactions: 6, topProduct: "Canasta tejida" },
+      { key: "jue", axis: "Jue", label: "Jueves", value: 970, transactions: 8, topProduct: "Tazón de cerámica" },
+      { key: "vie", axis: "Vie", label: "Viernes", value: 1150, transactions: 9, topProduct: "Bolsa bordada" },
+      { key: "sab", axis: "Sáb", label: "Sábado", value: 1350, transactions: 10, topProduct: "Canasta tejida" },
+      { key: "dom", axis: "Dom", label: "Domingo", value: 1760, transactions: 12, topProduct: "Canasta tejida", isCurrent: true },
+    ],
+  },
+  fortnight: {
+    label: "Quincena",
+    comparison: "9.1% más que la quincena anterior",
+    points: [
+      { key: "f1", axis: "1–2", label: "Días 1 y 2", value: 1250, transactions: 9, topProduct: "Tazón de cerámica" },
+      { key: "f2", axis: "3–4", label: "Días 3 y 4", value: 1680, transactions: 12, topProduct: "Bolsa bordada" },
+      { key: "f3", axis: "5–6", label: "Días 5 y 6", value: 1450, transactions: 10, topProduct: "Canasta tejida" },
+      { key: "f4", axis: "7–8", label: "Días 7 y 8", value: 1910, transactions: 13, topProduct: "Tazón de cerámica" },
+      { key: "f5", axis: "9–10", label: "Días 9 y 10", value: 2180, transactions: 15, topProduct: "Bolsa bordada" },
+      { key: "f6", axis: "11–12", label: "Días 11 y 12", value: 2380, transactions: 16, topProduct: "Canasta tejida" },
+      { key: "f7", axis: "13–14", label: "Días 13 y 14", value: 2560, transactions: 17, topProduct: "Bolsa bordada" },
+      { key: "f8", axis: "15", label: "Día 15", value: 1650, transactions: 11, topProduct: "Canasta tejida", isCurrent: true },
+    ],
+  },
+  month: {
+    label: "Mes",
+    comparison: "7.8% más que el mes anterior",
+    points: [
+      { key: "m1", axis: "1–5", label: "Días 1 al 5", value: 4920, transactions: 34, topProduct: "Tazón de cerámica" },
+      { key: "m2", axis: "6–10", label: "Días 6 al 10", value: 5360, transactions: 37, topProduct: "Bolsa bordada" },
+      { key: "m3", axis: "11–15", label: "Días 11 al 15", value: 5180, transactions: 35, topProduct: "Canasta tejida" },
+      { key: "m4", axis: "16–20", label: "Días 16 al 20", value: 5890, transactions: 40, topProduct: "Tazón de cerámica" },
+      { key: "m5", axis: "21–25", label: "Días 21 al 25", value: 6030, transactions: 42, topProduct: "Bolsa bordada" },
+      { key: "m6", axis: "26–30", label: "Días 26 al 30", value: 6490, transactions: 45, topProduct: "Canasta tejida", isCurrent: true },
+    ],
+  },
+} satisfies Record<
+  SalesRange,
+  {
+    label: string;
+    comparison: string;
+    points: Array<{
+      key: string;
+      axis: string;
+      label: string;
+      value: number;
+      transactions: number;
+      topProduct: string;
+      isCurrent?: boolean;
+    }>;
+  }
+>;
 
 function DashboardSkeleton() {
   return (
@@ -89,6 +136,7 @@ function DashboardSkeleton() {
 
 export default function HomePage() {
   const { data, isLoading, error, reload } = useHomeDashboard();
+  const [salesRange, setSalesRange] = useState<SalesRange>("week");
 
   if (isLoading) return <DashboardSkeleton />;
 
@@ -112,7 +160,9 @@ export default function HomePage() {
     );
   }
 
-  const maxSale = Math.max(...data.weeklySales.map((item) => item.value), 1);
+  const selectedSales = salesRangeData[salesRange];
+  const chartTotal = selectedSales.points.reduce((total, item) => total + item.value, 0);
+  const maxSale = Math.max(...selectedSales.points.map((item) => item.value), 1);
   const inventory = data.inventoryStatus;
   const inventoryTotal = Math.max(inventory.total, 1);
   const inStockPct = (inventory.available / inventoryTotal) * 100;
@@ -265,11 +315,11 @@ export default function HomePage() {
               </div>
               <div className="mt-1.5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
                 <p className="text-[32px] font-bold leading-none tracking-[-0.03em] text-[#17231B]">
-                  {money.format(data.summary.sales)}
+                  {money.format(chartTotal)}
                 </p>
                 <p className="inline-flex items-center gap-1 text-xs font-semibold text-[#2E8A3D]">
                   <TrendingUp className="h-3.5 w-3.5" />
-                  {data.summary.salesChange}% más que la semana pasada
+                  {selectedSales.comparison}
                 </p>
               </div>
               <p className="mt-2 text-[11px] text-[#8A938D]">
@@ -277,10 +327,27 @@ export default function HomePage() {
               </p>
             </div>
 
-            <span className="inline-flex h-10 w-fit items-center gap-2 rounded-xl border border-[#E1E6DE] bg-[#FCFCFA] px-3.5 text-xs font-medium text-[#5F6B63]">
-              <CalendarDays className="h-4 w-4 text-[#748078]" />
-              {data.periodLabel}
-            </span>
+            <div
+              className="inline-flex w-fit items-center gap-1 rounded-[14px] border border-[#E1E6DE] bg-[#F7F8F5] p-1"
+              aria-label="Filtrar ventas por periodo"
+            >
+              {(["week", "fortnight", "month"] as SalesRange[]).map((range) => (
+                <button
+                  key={range}
+                  type="button"
+                  onClick={() => setSalesRange(range)}
+                  aria-pressed={salesRange === range}
+                  className={
+                    salesRange === range
+                      ? "inline-flex h-8 items-center gap-1.5 rounded-[10px] bg-[#135C2F] px-3 text-[11px] font-semibold text-white shadow-sm transition-all"
+                      : "inline-flex h-8 items-center gap-1.5 rounded-[10px] px-3 text-[11px] font-medium text-[#657168] transition-all hover:bg-white hover:text-[#2F4937]"
+                  }
+                >
+                  {range === "week" && <CalendarDays className="h-3.5 w-3.5" />}
+                  {salesRangeData[range].label}
+                </button>
+              ))}
+            </div>
           </div>
 
           <TooltipPrimitive.Provider delayDuration={220} skipDelayDuration={400}>
@@ -295,15 +362,19 @@ export default function HomePage() {
                 ))}
               </div>
 
-              <div className="absolute inset-x-0 top-0 grid h-[214px] grid-cols-7 gap-2 sm:gap-3">
-                {data.weeklySales.map((sale) => {
+              <div
+                className="absolute inset-x-0 top-0 grid h-[214px] gap-2 sm:gap-3"
+                style={{
+                  gridTemplateColumns: `repeat(${selectedSales.points.length}, minmax(0, 1fr))`,
+                }}
+              >
+                {selectedSales.points.map((sale) => {
                   const height = Math.max(18, (sale.value / maxSale) * 100);
-                  const details = salesDetails[sale.day];
-                  const averageTicket = sale.value / Math.max(details?.transactions ?? 1, 1);
+                  const averageTicket = sale.value / Math.max(sale.transactions, 1);
 
                   return (
                     <div
-                      key={sale.day}
+                      key={sale.key}
                       className="flex min-w-0 flex-col items-center justify-end gap-3"
                     >
                       <TooltipPrimitive.Root>
@@ -311,7 +382,7 @@ export default function HomePage() {
                           <button
                             type="button"
                             aria-label={
-                              (details?.label ?? sale.day) +
+                              sale.label +
                               ": " +
                               money.format(sale.value) +
                               " en ventas"
@@ -339,7 +410,7 @@ export default function HomePage() {
                             <div className="flex items-start justify-between gap-4">
                               <div>
                                 <p className="text-[11px] font-medium text-white/65">
-                                  {details?.label ?? sale.day}
+                                  {sale.label}
                                 </p>
                                 <p className="mt-0.5 text-lg font-bold leading-none text-white">
                                   {money.format(sale.value)}
@@ -356,7 +427,7 @@ export default function HomePage() {
                                   Ventas
                                 </p>
                                 <p className="mt-0.5 text-xs font-semibold text-white">
-                                  {details?.transactions ?? 0} operaciones
+                                  {sale.transactions} operaciones
                                 </p>
                               </div>
                               <div>
@@ -374,7 +445,7 @@ export default function HomePage() {
                                 Más vendido
                               </p>
                               <p className="mt-0.5 text-[11px] font-medium text-white">
-                                {details?.topProduct ?? "Artesanía local"}
+                                {sale.topProduct}
                               </p>
                             </div>
 
@@ -390,7 +461,7 @@ export default function HomePage() {
                             : "text-[11px] font-medium text-[#7C867F]"
                         }
                       >
-                        {sale.day}
+                        {sale.axis}
                       </span>
                     </div>
                   );
