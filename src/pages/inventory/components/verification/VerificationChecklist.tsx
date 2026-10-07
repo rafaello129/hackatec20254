@@ -24,7 +24,7 @@ export default function VerificationChecklist({
             Comprobaciones
           </p>
           <h3 className="mt-1 text-[18px] font-semibold text-[#263129]">
-            Qué revisa PÉEK
+            Qué revisa MÁAK
           </h3>
         </div>
       </div>
