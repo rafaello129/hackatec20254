@@ -193,7 +193,7 @@ export const moneyMovementsMock: MoneyMovement[] = [
     id: "money-012",
     date: "2026-10-01",
     type: "income",
-    amount: 6790,
+    amount: 10790,
     category: "sale",
     description: "Ventas acumuladas del día",
     detail: "Ventas en tienda y pedidos",
