@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import {
   Factory,
   Hammer,
@@ -181,7 +182,7 @@ function Field({
 }: {
   label: string;
   icon: typeof MapPin;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <label>
