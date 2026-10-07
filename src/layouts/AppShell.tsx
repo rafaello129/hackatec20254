@@ -1,6 +1,6 @@
 import type { ComponentType } from "react";
 import { useState } from "react";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import {
   Bell,
   CircleHelp,
@@ -107,13 +107,20 @@ function Sidebar({ closeMobile }: { closeMobile?: () => void }) {
 
       <nav className="space-y-1">
         {primaryNav.map((item) => (
-          <SidebarItem key={item.label} item={item} closeMobile={closeMobile} end={item.to === "/"} />
+          <SidebarItem
+            key={item.label}
+            item={item}
+            closeMobile={closeMobile}
+            end={item.to === "/"}
+          />
         ))}
       </nav>
 
       <div className="my-3">
         <div className="mb-2 h-px bg-[#285B39]" />
-        <p className="text-[10px] font-semibold tracking-[0.14em] text-white/80">CRECIMIENTO</p>
+        <p className="text-[10px] font-semibold tracking-[0.14em] text-white/80">
+          CRECIMIENTO
+        </p>
       </div>
 
       <nav className="space-y-1">
@@ -170,7 +177,9 @@ function Topbar({ onMenu }: { onMenu: () => void }) {
           </div>
           <div className="hidden lg:block">
             <p className="text-xs font-semibold text-white">María López</p>
-            <p className="mt-0.5 text-[11px] text-[#B6E251]">Artesanías Lupita</p>
+            <p className="mt-0.5 text-[11px] text-[#B6E251]">
+              Artesanías Lupita
+            </p>
           </div>
         </div>
       </div>
@@ -202,6 +211,8 @@ function GlobalAssistantShortcut() {
 
 export default function AppShell() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const location = useLocation();
+  const isProductDetail = /^\/inventory\/[^/]+\/?$/.test(location.pathname);
 
   return (
     <div className="min-h-screen bg-[#022601] text-[#17231B]">
@@ -240,7 +251,7 @@ export default function AppShell() {
         </main>
       </div>
 
-      <GlobalAssistantShortcut />
+      {!isProductDetail ? <GlobalAssistantShortcut /> : null}
     </div>
   );
 }
