@@ -129,7 +129,9 @@ export default function ProductAuthenticityDetails({
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-[10px] font-semibold text-[#536057]">
-                Evidencia revisada
+                {verification.status === "verified"
+                  ? "Evidencia revisada"
+                  : "Evidencia registrada"}
               </p>
               <p className="mt-0.5 text-[9px] text-[#87918A]">
                 {verification.evidence.length}{" "}
