@@ -3,7 +3,6 @@ import {
   CalendarDays,
   CircleDollarSign,
   Package,
-  Sparkles,
   TrendingUp,
   Users,
 } from "lucide-react";
@@ -353,18 +352,7 @@ export default function HomePage() {
         </article>
       </section>
 
-      <Link
-        to="/ai-assistant"
-        className="peek-dark-surface fixed bottom-5 right-5 z-30 flex items-start gap-[10px] overflow-hidden rounded-[39px] bg-[#022601] px-[14px] py-[13px] text-white shadow-[0_10px_28px_rgba(0,30,8,0.24)] transition-transform hover:-translate-y-0.5"
-      >
-        <Sparkles className="mt-0.5 h-[23px] w-[23px] shrink-0 text-white" />
-        <span className="w-[141px] text-left text-white">
-          <span className="block text-[16px] font-medium leading-none text-white">¿Necesitas ayuda?</span>
-          <span className="mt-1 block text-[12px] font-medium leading-none text-white">
-            Pregúntale a PÉEK
-          </span>
-        </span>
-      </Link>
+
     </div>
   );
 }
