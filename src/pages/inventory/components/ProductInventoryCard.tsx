@@ -14,47 +14,47 @@ export default function ProductInventoryCard({
   );
 
   return (
-    <section className="h-full rounded-[22px] border border-[var(--oe-border)] bg-white p-4 sm:p-5">
-      <div className="flex items-start justify-between gap-3">
+    <section className="h-full rounded-[24px] border border-[var(--oe-border)] bg-white p-5 sm:p-6">
+      <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-[9px] font-semibold uppercase tracking-[0.09em] text-[#7A867E]">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#7A867E]">
             Existencias
           </p>
-          <h2 className="mt-1 text-[16px] font-semibold text-[#263129]">
+          <h2 className="mt-2 text-[18px] font-semibold text-[#263129]">
             {product.stock} {product.stock === 1 ? "pieza disponible" : "piezas disponibles"}
           </h2>
-          <p className="mt-0.5 text-[9px] leading-4 text-[#7A867E]">
-            Aviso al llegar a {product.lowStockAt} piezas.
+          <p className="mt-1 text-[10px] leading-4 text-[#7A867E]">
+            Te avisamos cuando queden {product.lowStockAt} piezas.
           </p>
         </div>
-        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-[12px] bg-[var(--peek-success-soft)] text-[var(--oe-primary)]">
-          <PackageOpen className="h-4 w-4" />
+        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-[14px] bg-[var(--peek-success-soft)] text-[var(--oe-primary)]">
+          <PackageOpen className="h-5 w-5" />
         </span>
       </div>
 
-      <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-[#EEF1EB]">
+      <div className="mt-5 h-2 overflow-hidden rounded-full bg-[#EEF1EB]">
         <span
           className="block h-full rounded-full bg-[linear-gradient(90deg,var(--oe-primary),var(--peek-accent-lime))]"
           style={{ width: ratio + "%" }}
         />
       </div>
 
-      <div className="mt-4 grid grid-cols-2 gap-2">
+      <div className="mt-5 grid grid-cols-2 gap-2">
         <button
           type="button"
           onClick={() => onAdjust("remove")}
           disabled={product.stock <= 0}
-          className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[12px] border border-[#DDE3DA] text-[10px] font-semibold text-[#536057] disabled:opacity-40"
+          className="inline-flex h-10 items-center justify-center gap-2 rounded-[13px] border border-[#DDE3DA] text-[11px] font-semibold text-[#536057] disabled:opacity-40"
         >
-          <Minus className="h-3.5 w-3.5" />
+          <Minus className="h-4 w-4" />
           Quitar
         </button>
         <button
           type="button"
           onClick={() => onAdjust("add")}
-          className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[12px] bg-[var(--oe-primary)] text-[10px] font-semibold text-white"
+          className="inline-flex h-10 items-center justify-center gap-2 rounded-[13px] bg-[var(--oe-primary)] text-[11px] font-semibold text-white"
         >
-          <Plus className="h-3.5 w-3.5" />
+          <Plus className="h-4 w-4" />
           Agregar
         </button>
       </div>
