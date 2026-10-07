@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { ArrowRight, ChevronDown, FileText, GitBranch, LayoutDashboard, Lightbulb, Network, Pencil, Truck, Users } from "lucide-react";
+import { ArrowRight, ChevronDown, Clock3, FileText, GitBranch, LayoutDashboard, Lightbulb, Network, Pencil, TrendingDown, Truck, Users, Wallet } from "lucide-react";
 import AnimatedContent from "@/components/react-bits/AnimatedContent";
 import DotGrid from "@/components/react-bits/DotGrid";
 import FadeContent from "@/components/react-bits/FadeContent";
@@ -8,7 +8,6 @@ import PillNav from "@/components/react-bits/PillNav";
 import NetworkAssistantPanel from "./components/NetworkAssistantPanel";
 import NetworkProjectBuilder from "./components/NetworkProjectBuilder";
 import NetworkSuggestionsPanel from "./components/NetworkSuggestionsPanel";
-import NetworkSummaryBar from "./components/NetworkSummaryBar";
 import ProductionChainVisualization from "./components/ProductionChainVisualization";
 import RecommendedBusinessCards from "./components/RecommendedBusinessCards";
 import NetworkPlanLauncher from "./components/NetworkPlanLauncher";
@@ -22,6 +21,7 @@ export default function BusinessNetworkPage() {
   const { isLoading, isAnalyzing, project, partners, chainSteps, suggestions, messages, summary,
     builderInput, updateBuilderInput, analyzeProject, connectPartner, plans, activeId, selectPlan, addPlan, storageWarning } = useBusinessNetwork();
   const [editing, setEditing] = useState(false);
+  const [metricsOpen, setMetricsOpen] = useState(false);
   const [view, setView] = useState("overview");
   const [partnerType, setPartnerType] = useState<PartnerType | "">("");
   const partnersSection = useRef<HTMLDivElement>(null);
@@ -45,7 +45,12 @@ export default function BusinessNetworkPage() {
     requestAnimationFrame(() => developmentSection.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
   }
 
-  function resetWorkspace() { setView("overview"); setEditing(false); setPartnerType(""); }
+  function resetWorkspace() {
+    setView("overview");
+    setEditing(false);
+    setMetricsOpen(false);
+    setPartnerType("");
+  }
 
   const views = [
     { id: "overview", label: "Panorama", icon: <LayoutDashboard size={15} /> },
@@ -82,14 +87,11 @@ export default function BusinessNetworkPage() {
         <p role="status" className="py-8 text-sm text-[#42493f]">Cargando red de negocios...</p>
       ) : (
         <section ref={developmentSection} className="network-development network-development-compact" aria-label={`Desarrollo de ${project.title}`}>
-          <div className="network-development-toolbar">
+          <div className="network-development-toolbar network-development-toolbar-condensed">
             <AnimatedContent className="network-development-heading network-development-heading-compact" distance={10} duration={0.38}>
-              <div>
-                <p className="network-eyebrow">PROYECTO ACTIVO</p>
-                <div className="network-active-project-line">
-                  <h2>{project.title}</h2>
-                  <span className="network-development-status" data-status={project.status}>{statusLabel}</span>
-                </div>
+              <div className="network-active-project-line">
+                <h2>{project.title}</h2>
+                <span className="network-development-status" data-status={project.status}>{statusLabel}</span>
               </div>
             </AnimatedContent>
             <PillNav items={views} activeId={view} onChange={setView} ariaLabel="Vistas del planteamiento" />
@@ -97,31 +99,67 @@ export default function BusinessNetworkPage() {
 
           <FadeContent key={`${activeId}-${view}`} className="network-development-content" duration={0.24} distance={6}>
             {view === "overview" && (
-              <section className="network-project network-project-bento network-project-bento-compact" aria-labelledby="network-project-title">
-                <div className="network-project-bento-main network-project-bento-main-compact">
-                  <div className="network-project-heading network-project-heading-compact">
-                    <div>
-                      <p className="network-eyebrow"><Network size={14} /> Business brief</p>
-                      <h2 id="network-project-title">Objetivo y alcance</h2>
+              <section className="network-project network-project-snapshot" aria-label="Resumen del planteamiento">
+                <div className="network-project-snapshot-main">
+                  <div className="network-project-snapshot-copy">
+                    <div className="network-project-snapshot-heading">
+                      <p className="network-eyebrow"><Network size={13} /> Business brief</p>
+                      <button className="network-edit network-edit-compact" aria-expanded={editing} aria-controls="network-project-editor" onClick={() => setEditing(!editing)}>
+                        <Pencil size={13} /> Editar <ChevronDown size={13} className={editing ? "rotate-180" : ""} />
+                      </button>
                     </div>
-                    <button className="network-edit network-edit-compact" aria-expanded={editing} aria-controls="network-project-editor" onClick={() => setEditing(!editing)}>
-                      <Pencil size={14} /> Editar <ChevronDown size={14} className={editing ? "rotate-180" : ""} />
+                    <p className="network-project-snapshot-objective">{project.description}</p>
+                  </div>
+
+                  <dl className="network-project-chip-grid" aria-label="Datos principales del planteamiento">
+                    <div><dt>Volumen</dt><dd>{project.quantity.toLocaleString("es-MX")} <small>uds.</small></dd></div>
+                    <div><dt>Categoría</dt><dd>{project.category}</dd></div>
+                    <div><dt>Destino</dt><dd>{project.targetLocation}</dd></div>
+                    <div><dt>Presupuesto</dt><dd>{money.format(project.budgetMin)} – {money.format(project.budgetMax)}</dd></div>
+                  </dl>
+                </div>
+
+                {summary && (
+                  <div className="network-project-snapshot-footer">
+                    <div className="network-project-primary-metrics" aria-label="Indicadores principales">
+                      <div>
+                        <span className="network-project-metric-icon"><Wallet size={15} /></span>
+                        <span><small>Costo estimado</small><strong>{money.format(summary.optimizedCost)}</strong></span>
+                      </div>
+                      <div>
+                        <span className="network-project-metric-icon"><Users size={15} /></span>
+                        <span><small>Aliados conectados</small><strong>{connectedCount} <em>/ {partners.length}</em></strong></span>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      className="network-project-more"
+                      aria-expanded={metricsOpen}
+                      aria-controls="network-project-secondary-metrics"
+                      onClick={() => setMetricsOpen((current) => !current)}
+                    >
+                      {metricsOpen ? "Ocultar métricas" : "Ver métricas"}
+                      <ChevronDown size={14} className={metricsOpen ? "rotate-180" : ""} />
                     </button>
                   </div>
-                  <p className="network-project-objective">{project.description}</p>
-                </div>
+                )}
 
-                <dl className="network-project-facts network-project-bento-facts network-project-bento-facts-compact">
-                  <div><dt>Volumen</dt><dd>{project.quantity.toLocaleString("es-MX")} <small>unidades</small></dd></div>
-                  <div><dt>Categoría</dt><dd>{project.category}</dd></div>
-                  <div><dt>Destino</dt><dd>{project.targetLocation}</dd></div>
-                  <div><dt>Presupuesto</dt><dd>{money.format(project.budgetMin)} – {money.format(project.budgetMax)}</dd></div>
-                </dl>
+                {summary && metricsOpen && (
+                  <div id="network-project-secondary-metrics" className="network-project-secondary-metrics">
+                    <div>
+                      <TrendingDown size={16} />
+                      <span><small>Ahorro estimado</small><strong>{money.format(summary.originalCost - summary.optimizedCost)}</strong><em>vs. {money.format(summary.originalCost)}</em></span>
+                    </div>
+                    <div>
+                      <Clock3 size={16} />
+                      <span><small>Tiempo de producción</small><strong>{summary.estimatedLeadTime}</strong><em>estimación de la red</em></span>
+                    </div>
+                  </div>
+                )}
 
-                <div id="network-project-editor" hidden={!editing} className="network-project-editor">
+                <div id="network-project-editor" hidden={!editing} className="network-project-editor network-project-editor-collapsible">
                   <NetworkProjectBuilder input={builderInput} isAnalyzing={isAnalyzing} onChange={updateBuilderInput} onAnalyze={analyzeProject} />
                 </div>
-                {summary && <NetworkSummaryBar summary={summary} connectedCount={connectedCount} totalCount={partners.length} />}
               </section>
             )}
 
