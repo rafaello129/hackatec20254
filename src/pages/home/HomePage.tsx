@@ -123,25 +123,28 @@ export default function HomePage() {
         <div className="flex min-h-[55px] w-full flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-center sm:gap-[23px]">
             <div className="flex h-[54px] w-[109px] shrink-0 -space-x-[27px]">
-              <div className="relative z-10 grid h-[54px] w-[54px] shrink-0 place-items-center overflow-hidden rounded-full border-2 border-[#B6E251] bg-[#F6E6C9] p-[7px] shadow-[0_4px_14px_rgba(0,0,0,0.18)]">
+              <div className="relative z-10 h-[54px] w-[54px] shrink-0 overflow-hidden rounded-full border-2 border-[#B6E251] bg-[#EFE8DD] shadow-[0_4px_14px_rgba(0,0,0,0.18)]">
                 <img
-                  src={import.meta.env.BASE_URL + "home-network/package.svg"}
-                  alt="Paquetería"
-                  className="h-full w-full object-contain"
+                  src="https://images.unsplash.com/photo-1573552991725-c7b115591d04?auto=format&fit=crop&w=240&h=240&q=82"
+                  alt="Cajas de paquetería"
+                  className="h-full w-full object-cover"
+                  loading="lazy"
                 />
               </div>
-              <div className="relative z-20 grid h-[54px] w-[54px] shrink-0 place-items-center overflow-hidden rounded-full border-2 border-[#B6E251] bg-[#E6ECE8] p-[6px] shadow-[0_4px_14px_rgba(0,0,0,0.18)]">
+              <div className="relative z-20 h-[54px] w-[54px] shrink-0 overflow-hidden rounded-full border-2 border-[#B6E251] bg-[#E6ECE8] shadow-[0_4px_14px_rgba(0,0,0,0.18)]">
                 <img
-                  src={import.meta.env.BASE_URL + "home-network/delivery.svg"}
-                  alt="Entrega"
-                  className="h-full w-full object-contain"
+                  src="https://images.unsplash.com/photo-1758707845038-1f28b342b487?auto=format&fit=crop&w=240&h=240&q=82"
+                  alt="Vehículo de entrega"
+                  className="h-full w-full object-cover"
+                  loading="lazy"
                 />
               </div>
-              <div className="relative z-30 grid h-[54px] w-[54px] shrink-0 place-items-center overflow-hidden rounded-full border-2 border-[#B6E251] bg-[#F4E0D2] p-[7px] shadow-[0_4px_14px_rgba(0,0,0,0.18)]">
+              <div className="relative z-30 h-[54px] w-[54px] shrink-0 overflow-hidden rounded-full border-2 border-[#B6E251] bg-[#F4E0D2] shadow-[0_4px_14px_rgba(0,0,0,0.18)]">
                 <img
-                  src={import.meta.env.BASE_URL + "home-network/materials.svg"}
-                  alt="Materiales"
-                  className="h-full w-full object-contain"
+                  src="https://images.unsplash.com/photo-1760376208573-49ee415fc66c?auto=format&fit=crop&w=240&h=240&q=82"
+                  alt="Materiales para empaque"
+                  className="h-full w-full object-cover"
+                  loading="lazy"
                 />
               </div>
             </div>
