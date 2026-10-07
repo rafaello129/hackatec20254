@@ -129,14 +129,14 @@ export function ProductVerificationProvider({
           {
             id: "requested-" + Date.now(),
             label: "Solicitud recibida",
-            description: "PÉEK recibió la solicitud de verificación.",
+            description: "MÁAK recibió la solicitud de verificación.",
             date: today,
             status: "complete",
           },
           {
             id: "review-" + Date.now(),
             label: "Revisión en curso",
-            description: "La información será revisada por PÉEK.",
+            description: "La información será revisada por MÁAK.",
             date: today,
             status: "current",
           },
@@ -196,7 +196,7 @@ export function ProductVerificationProvider({
               id: "evidence-" + Date.now(),
               label: "Evidencia adicional recibida",
               description:
-                "PÉEK recibió nueva evidencia para continuar la revisión.",
+                "MÁAK recibió nueva evidencia para continuar la revisión.",
               date: today,
               status: "current",
             },
