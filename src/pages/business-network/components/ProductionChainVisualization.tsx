@@ -44,6 +44,7 @@ export default function ProductionChainVisualization({
     () => steps.find((step) => step.status === "unresolved") ?? steps.find((step) => step.status === "pending"),
     [steps],
   );
+
   const [activeStepId, setActiveStepId] = useState(() => bottleneck?.id ?? steps[0]?.id ?? "");
 
   useEffect(() => {
@@ -52,6 +53,7 @@ export default function ProductionChainVisualization({
       if (matching) setActiveStepId(matching.id);
       return;
     }
+
     if (!steps.some((step) => step.id === activeStepId)) {
       setActiveStepId(bottleneck?.id ?? steps[0]?.id ?? "");
     }
@@ -60,12 +62,12 @@ export default function ProductionChainVisualization({
   const activeStep = steps.find((step) => step.id === activeStepId) ?? bottleneck ?? steps[0];
   const resolved = steps.filter((step) => step.status === "completed" || step.status === "optimized").length;
   const pending = steps.length - resolved;
-  const progress = steps.length > 1 ? Math.max(0, Math.min(100, ((resolved - 1) / (steps.length - 1)) * 100)) : 100;
 
   if (!activeStep) return null;
 
   const ActiveIcon = icons[activeStep.label] ?? Check;
   const isBottleneck = activeStep.id === bottleneck?.id;
+  const activeIndex = steps.findIndex((step) => step.id === activeStep.id);
 
   const detail = (
     <SpotlightCard
@@ -73,14 +75,14 @@ export default function ProductionChainVisualization({
       spotlightColor={isBottleneck ? "rgba(212, 163, 68, 0.14)" : "rgba(79, 115, 2, 0.12)"}
     >
       <div className="production-detail-stage">
-        <span className="production-detail-kicker">ETAPA {String(steps.findIndex((step) => step.id === activeStep.id) + 1).padStart(2, "0")}</span>
+        <span className="production-detail-kicker">ETAPA {String(activeIndex + 1).padStart(2, "0")}</span>
         <div className="production-detail-icon" data-status={activeStep.status}>
-          <ActiveIcon size={23} />
+          <ActiveIcon size={19} />
         </div>
         <div>
           <h3>{activeStep.label === "Distribucion" ? "Distribución" : activeStep.label}</h3>
           <span className="production-detail-status" data-status={activeStep.status}>
-            {activeStep.status === "completed" ? <Check size={12} /> : <span />}
+            {activeStep.status === "completed" ? <Check size={11} /> : <span />}
             {statuses[activeStep.status]}
           </span>
         </div>
@@ -93,7 +95,6 @@ export default function ProductionChainVisualization({
       </div>
 
       <div className="production-detail-action">
-        <span>{isBottleneck ? "Acción recomendada" : "Explorar alternativas"}</span>
         <button
           onClick={() => onSelectType(activeStep.type)}
           aria-label={`Ver aliados para ${activeStep.label}`}
@@ -111,12 +112,15 @@ export default function ProductionChainVisualization({
         <div>
           <p className="network-eyebrow">Mapa de operación</p>
           <h2 id="network-chain-title">Cadena productiva</h2>
-          <p>Visualiza el avance de punta a punta y enfócate en la etapa que requiere atención.</p>
+          <p>El recorrido hexagonal representa la secuencia de actores que completa la operación.</p>
         </div>
 
-        <div className="production-flow-summary production-flow-summary-compact" aria-label={`${resolved} de ${steps.length} etapas resueltas, ${pending} pendientes`}>
+        <div
+          className="production-flow-summary"
+          aria-label={`${resolved} de ${steps.length} etapas resueltas, ${pending} pendientes`}
+        >
           <div className="production-summary-progress">
-            <span className="production-summary-label">Avance</span>
+            <span>Avance</span>
             <strong>{resolved}/{steps.length}</strong>
             <span className="production-summary-mini-track" aria-hidden="true">
               <span style={{ width: `${steps.length ? (resolved / steps.length) * 100 : 0}%` }} />
@@ -124,53 +128,60 @@ export default function ProductionChainVisualization({
           </div>
           <span className="production-summary-divider" aria-hidden="true" />
           <div className="production-summary-pending" data-warning={pending > 0}>
-            <CircleAlert size={14} />
+            <CircleAlert size={13} />
             <strong>{pending}</strong>
             <span>{pending === 1 ? "pendiente" : "pendientes"}</span>
           </div>
         </div>
       </div>
 
-      <AnimatedContent className="production-flow-board" distance={12} duration={0.42}>
-        <div className="production-flow-rail-wrap">
-          <div className="production-flow-rail" aria-hidden="true">
-            <span className="production-flow-rail-progress" style={{ width: `${progress}%` }} />
-          </div>
-
-          <ol className="production-flow-steps">
+      <AnimatedContent className="production-flow-board" distance={10} duration={0.4}>
+        <div className="production-honeycomb-viewport">
+          <ol className="production-honeycomb" aria-label="Flujo de etapas de la cadena productiva">
             {steps.map((step, index) => {
               const Icon = icons[step.label] ?? Check;
               const active = step.id === activeStep.id;
               const blocked = step.id === bottleneck?.id;
 
               return (
-                <li key={step.id} data-status={step.status} data-active={active} data-bottleneck={blocked}>
+                <li
+                  key={step.id}
+                  className="production-honeycomb-item"
+                  data-status={step.status}
+                  data-active={active}
+                  data-bottleneck={blocked}
+                >
                   <button
                     type="button"
-                    className="production-flow-node"
+                    className="production-hex"
                     onClick={() => setActiveStepId(step.id)}
                     aria-pressed={active}
-                    aria-label={`${step.label}: ${statuses[step.status]}`}
+                    aria-label={`Etapa ${index + 1}, ${step.label}, ${statuses[step.status]}, ${step.partnerName}`}
                   >
-                    <span className="production-flow-index">{String(index + 1).padStart(2, "0")}</span>
-                    <span className="production-flow-circle">
-                      <Icon size={19} />
-                      {step.status === "completed" && <span className="production-flow-check"><Check size={10} /></span>}
-                    </span>
-                    <span className="production-flow-node-copy">
-                      <strong>{step.label === "Distribucion" ? "Distribución" : step.label}</strong>
-                      <small>{step.partnerName}</small>
+                    <span className="production-hex-index">{String(index + 1).padStart(2, "0")}</span>
+                    <span className="production-hex-icon"><Icon size={22} /></span>
+                    <strong>{step.label === "Distribucion" ? "Distribución" : step.label}</strong>
+                    <small>{step.partnerName}</small>
+                    <span className="production-hex-status">
+                      {step.status === "completed" && <Check size={10} />}
+                      {statuses[step.status]}
                     </span>
                   </button>
                 </li>
               );
             })}
           </ol>
+          <div className="production-flow-direction" aria-hidden="true">
+            <span>Inicio</span>
+            <span className="production-flow-direction-line" />
+            <ArrowRight size={13} />
+            <span>Resultado</span>
+          </div>
         </div>
 
         <div className="production-flow-detail-wrap">
           {isBottleneck ? (
-            <BorderGlow className="production-detail-glow" color="#d4a344" radius={16}>
+            <BorderGlow className="production-detail-glow" color="#d4a344" radius={12}>
               {detail}
             </BorderGlow>
           ) : detail}
