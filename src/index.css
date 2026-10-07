@@ -2,16 +2,27 @@
 @import "tailwindcss";
 
 :root {
-  --oe-bg: #f9faf3;
+  --oe-bg: #fff9f8;
   --oe-sidebar: #022601;
-  --oe-primary: #4f7302;
-  --oe-primary-hover: #3e5902;
-  --oe-accent: #799833;
-  --oe-soft: #d6d979;
-  --oe-text: #1a1c18;
-  --oe-text-muted: #42493f;
-  --oe-border: #c2c9bc;
+  --oe-primary: #135c2f;
+  --oe-primary-hover: #0e4d27;
+  --oe-accent: #9ac84b;
+  --oe-soft: #e6f1e4;
+  --oe-text: #17231b;
+  --oe-text-muted: #68736b;
+  --oe-border: #e1e6de;
   --oe-card: #ffffff;
+
+  --peek-sidebar: #022601;
+  --peek-brand-900: #073b1e;
+  --peek-primary-light: #b6e251;
+  --peek-accent-lime: #9ac84b;
+  --peek-surface-soft: #e6f1e4;
+  --peek-surface-main: #fff9f8;
+  --peek-nav-active: #135c2f;
+  --peek-nav-text: #d5e1d6;
+  --peek-nav-muted: #85ae8d;
+  --peek-nav-divider: #285b39;
 }
 
 *,
@@ -28,10 +39,19 @@ body,
 
 body {
   margin: 0;
-  background-color: var(--oe-bg);
+  background-color: var(--peek-sidebar);
   color: var(--oe-text);
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   overflow-x: hidden;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+a {
+  text-decoration: none;
 }
 
 h1,
@@ -42,4 +62,52 @@ h5,
 h6 {
   font-family: "Hanken Grotesk", Inter, system-ui, sans-serif;
   letter-spacing: 0;
+}
+
+::selection {
+  background: #b6e251;
+  color: #073b1e;
+}
+
+
+/* High-contrast dark surfaces.
+   These selectors intentionally override inherited/global link styles so
+   navigation and dashboard content always remain legible on dark green. */
+.peek-sidebar,
+.peek-sidebar a,
+.peek-sidebar button,
+.peek-sidebar p,
+.peek-sidebar span,
+.peek-sidebar svg {
+  color: #ffffff !important;
+}
+
+.peek-sidebar svg {
+  stroke: currentColor;
+}
+
+.peek-sidebar button:disabled {
+  color: #ffffff !important;
+  opacity: 0.68;
+}
+
+.peek-sidebar a[aria-current="page"] {
+  color: #ffffff !important;
+}
+
+.peek-dark-surface,
+.peek-dark-surface a,
+.peek-dark-surface p,
+.peek-dark-surface span,
+.peek-dark-surface h1,
+.peek-dark-surface h2,
+.peek-dark-surface h3,
+.peek-dark-surface h4,
+.peek-dark-surface strong,
+.peek-dark-surface svg {
+  color: #ffffff !important;
+}
+
+.peek-dark-surface svg {
+  stroke: currentColor;
 }
