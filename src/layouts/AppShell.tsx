@@ -89,14 +89,12 @@ function SidebarItem({
 function Sidebar({ closeMobile }: { closeMobile?: () => void }) {
   return (
     <div className="peek-sidebar flex h-full flex-col px-4 pb-5 pt-7">
-      <div className="mb-4 flex h-12 items-center">
-        <div className="inline-flex h-11 items-center rounded-[13px] bg-[#B6E251] px-3 shadow-[0_8px_20px_rgba(0,0,0,.14)]">
-          <img
-            src={import.meta.env.BASE_URL + "brand/maak-logo.svg"}
-            alt="MÁAK"
-            className="h-7 w-auto object-contain"
-          />
-        </div>
+      <div className="mb-4 flex h-12 items-center px-1">
+        <img
+          src={import.meta.env.BASE_URL + "brand/maak-logo-white.svg"}
+          alt="MÁAK"
+          className="h-8 w-auto max-w-[154px] object-contain"
+        />
       </div>
 
       <nav className="space-y-1">
