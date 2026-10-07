@@ -6,7 +6,7 @@ type SummaryFilter = "all" | "new" | "frequent" | "inactive";
 
 interface CustomerSummaryCardsProps {
   summary: CustomerSummary;
-  activeFilter: SummaryFilter;
+  activeFilter: SummaryFilter | "regular";
   onFilter: (filter: SummaryFilter) => void;
 }
 
