@@ -35,7 +35,7 @@ const primaryNav: NavItem[] = [
 const growthNav: NavItem[] = [
   { to: "/business-network", label: "Red de negocios", icon: Network },
   { to: "/cooperatives", label: "Cooperativas", icon: Handshake },
-  { to: "/support-programs", label: "Apoyos", icon: Landmark },
+  { to: "/support-programs", label: "Oportunidades", icon: Landmark },
   { to: "/ai-assistant", label: "Asistente", icon: Sparkles },
 ];
 
