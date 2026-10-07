@@ -1,4 +1,4 @@
-/* Progressive-disclosure redesign for the active business brief. */
+/* Analysis summary: larger, always-visible information with efficient use of width. */
 .network-page .network-development-toolbar-condensed {
   align-items: center;
   padding-bottom: 8px;
@@ -19,29 +19,30 @@
 
 .network-page .network-project.network-project-snapshot {
   display: block;
-  margin-top: 8px;
+  margin-top: 10px;
   padding: 0;
   overflow: hidden;
-  border: 1px solid #d9e0d5;
-  border-radius: 12px;
+  border: 1px solid #d7ded3;
+  border-radius: 14px;
   background: #fbfcf9;
+  box-shadow: 0 10px 28px rgba(48, 75, 27, .035);
 }
 
 .network-page .network-project-snapshot-main {
   display: grid;
-  grid-template-columns: minmax(280px, 1fr) minmax(0, 1.65fr);
+  grid-template-columns: minmax(360px, 1.05fr) minmax(0, 1.65fr);
   gap: 10px;
   align-items: stretch;
-  padding: 9px 10px;
+  padding: 12px;
 }
 
 .network-page .network-project-snapshot-copy {
   display: flex;
   min-width: 0;
-  padding: 7px 9px;
+  padding: 12px 14px;
   flex-direction: column;
   justify-content: center;
-  border-radius: 9px;
+  border-radius: 10px;
   background: #fff;
 }
 
@@ -49,35 +50,35 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 10px;
 }
 
 .network-page .network-project-snapshot-heading .network-eyebrow {
   margin: 0;
-  font-size: 8.5px;
+  font-size: 10.5px;
   line-height: 1;
 }
 
 .network-page .network-project-snapshot-heading .network-edit-compact {
-  padding: 4px 6px;
-  font-size: 8.5px;
+  padding: 6px 9px;
+  font-size: 10.5px;
 }
 
 .network-page .network-project-snapshot-objective {
   display: -webkit-box;
-  margin-top: 5px;
+  margin-top: 9px;
   overflow: hidden;
-  color: #596155;
-  font-size: 10.5px;
-  line-height: 1.42;
+  color: #50584d;
+  font-size: 13px;
+  line-height: 1.48;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
 
 .network-page .network-project-chip-grid {
   display: grid;
-  grid-template-columns: .72fr 1fr 1.15fr 1.35fr;
-  gap: 5px;
+  grid-template-columns: .72fr 1fr 1.18fr 1.42fr;
+  gap: 7px;
   min-width: 0;
   margin: 0;
 }
@@ -85,197 +86,147 @@
 .network-page .network-project-chip-grid > div {
   display: flex;
   min-width: 0;
-  padding: 7px 8px;
+  min-height: 72px;
+  padding: 11px 12px;
   flex-direction: column;
   justify-content: center;
-  border: 1px solid #e0e5dd;
-  border-radius: 8px;
+  border: 1px solid #dde3da;
+  border-radius: 10px;
   background: #fff;
 }
 
 .network-page .network-project-chip-grid dt {
   margin: 0;
-  color: #7a8176;
-  font-size: 7px;
-  font-weight: 650;
+  color: #747c71;
+  font-size: 8.5px;
+  font-weight: 700;
   line-height: 1;
-  letter-spacing: .045em;
+  letter-spacing: .05em;
   text-transform: uppercase;
 }
 
 .network-page .network-project-chip-grid dd {
-  margin-top: 3px;
+  margin-top: 5px;
   overflow: hidden;
-  color: #283027;
-  font-size: 9.5px;
-  font-weight: 700;
-  line-height: 1.22;
+  color: #252d24;
+  font-size: 12.5px;
+  font-weight: 720;
+  line-height: 1.25;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .network-page .network-project-chip-grid dd small {
-  color: #72796f;
-  font-size: 7.5px;
+  color: #6f776c;
+  font-size: 9px;
   font-weight: 500;
 }
 
-.network-page .network-project-snapshot-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  min-height: 42px;
-  padding: 6px 10px;
-  border-top: 1px solid #e3e8e0;
+.network-page .network-project-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  padding: 10px 12px 12px;
+  border-top: 1px solid #e1e6de;
   background: #f7f9f5;
 }
 
-.network-page .network-project-primary-metrics {
+.network-page .network-project-metrics-grid > div {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
   min-width: 0;
+  min-height: 76px;
+  padding: 10px 12px;
+  border: 1px solid #e0e5dd;
+  border-radius: 10px;
+  background: #fff;
 }
 
-.network-page .network-project-primary-metrics > div {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  min-width: 145px;
-  padding: 3px 9px 3px 4px;
-  border-right: 1px solid #dde3da;
-}
-
-.network-page .network-project-primary-metrics > div:last-child {
-  border-right: 0;
+.network-page .network-project-metrics-grid > div[data-tone="savings"] {
+  background: #f7faef;
 }
 
 .network-page .network-project-metric-icon {
   display: grid;
   place-items: center;
-  width: 27px;
-  height: 27px;
-  flex: 0 0 27px;
-  border-radius: 7px;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  border-radius: 9px;
   background: #edf3e7;
   color: #4f7302;
 }
 
-.network-page .network-project-primary-metrics > div:nth-child(2) .network-project-metric-icon {
+.network-page .network-project-metrics-grid [data-tone="savings"] .network-project-metric-icon {
+  background: #eef4df;
+  color: #5c7c12;
+}
+
+.network-page .network-project-metrics-grid [data-tone="time"] .network-project-metric-icon {
+  background: #edf4f7;
+  color: #467d95;
+}
+
+.network-page .network-project-metrics-grid [data-tone="allies"] .network-project-metric-icon {
   background: #f6edf2;
   color: #995879;
 }
 
-.network-page .network-project-primary-metrics span:last-child {
+.network-page .network-project-metrics-grid > div > span:last-child {
   display: flex;
   min-width: 0;
   flex-direction: column;
 }
 
-.network-page .network-project-primary-metrics small,
-.network-page .network-project-secondary-metrics small {
-  color: #7a8176;
-  font-size: 7.5px;
+.network-page .network-project-metrics-grid small {
+  color: #747c71;
+  font-size: 9px;
+  font-weight: 600;
   line-height: 1.1;
 }
 
-.network-page .network-project-primary-metrics strong {
-  margin-top: 1px;
-  color: #293128;
-  font-size: 11px;
-  line-height: 1.15;
-}
-
-.network-page .network-project-primary-metrics strong em {
-  color: #7b8277;
-  font-size: 8px;
-  font-style: normal;
-  font-weight: 500;
-}
-
-.network-page .network-project-more {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  min-height: 29px;
-  padding: 5px 8px;
-  flex-shrink: 0;
-  border: 1px solid #d6ddd2;
-  border-radius: 7px;
-  background: #fff;
-  color: #4d564a;
-  font-size: 9px;
-  font-weight: 650;
-}
-
-.network-page .network-project-more:hover {
-  border-color: #b9c5b2;
-  background: #f0f4eb;
-}
-
-.network-page .network-project-more svg {
-  transition: transform .18s ease;
-}
-
-.network-page .network-project-secondary-metrics {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 6px;
-  padding: 7px 10px 8px;
-  border-top: 1px solid #e3e8e0;
-  background: #fff;
-}
-
-.network-page .network-project-secondary-metrics > div {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 0;
-  padding: 6px 8px;
-  border-radius: 8px;
-  background: #f7f9f5;
-}
-
-.network-page .network-project-secondary-metrics > div > svg {
-  flex-shrink: 0;
-  color: #66862b;
-}
-
-.network-page .network-project-secondary-metrics > div:nth-child(2) > svg {
-  color: #467d95;
-}
-
-.network-page .network-project-secondary-metrics span {
-  display: grid;
-  grid-template-columns: auto auto 1fr;
-  gap: 5px;
-  align-items: baseline;
-  min-width: 0;
-}
-
-.network-page .network-project-secondary-metrics strong {
-  color: #2e352c;
-  font-size: 11px;
-}
-
-.network-page .network-project-secondary-metrics em {
+.network-page .network-project-metrics-grid strong {
+  margin-top: 4px;
   overflow: hidden;
-  color: #81887d;
-  font-size: 7.5px;
+  color: #252d24;
+  font-size: 17px;
+  font-weight: 750;
+  line-height: 1.1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.network-page .network-project-metrics-grid [data-tone="savings"] strong {
+  color: #4f7302;
+}
+
+.network-page .network-project-metrics-grid strong em {
+  color: #767d73;
+  font-size: 10px;
   font-style: normal;
+  font-weight: 550;
+}
+
+.network-page .network-project-metrics-grid > div > span:last-child > em {
+  margin-top: 3px;
+  overflow: hidden;
+  color: #7c8479;
+  font-size: 8.5px;
+  font-style: normal;
+  line-height: 1.15;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .network-page .network-project-editor-collapsible {
-  padding: 0 10px;
-  border-top: 1px solid #e3e8e0;
+  padding: 0 12px;
+  border-top: 1px solid #e1e6de;
   background: #fff;
 }
 
 .network-page .network-project-editor-collapsible .network-builder {
-  padding: 10px 0;
+  padding: 12px 0;
   gap: 10px;
   border-top: 0;
 }
@@ -284,12 +235,21 @@
   gap: 8px;
 }
 
-@media (max-width: 1120px) {
+@media (max-width: 1180px) {
   .network-page .network-project-snapshot-main {
-    grid-template-columns: minmax(260px, .8fr) minmax(0, 1.3fr);
+    grid-template-columns: minmax(300px, .9fr) minmax(0, 1.4fr);
   }
 
   .network-page .network-project-chip-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .network-page .network-project-chip-grid > div {
+    min-height: 48px;
+    padding: 8px 10px;
+  }
+
+  .network-page .network-project-metrics-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -305,74 +265,25 @@
 
   .network-page .network-project-snapshot-main {
     grid-template-columns: minmax(0, 1fr);
-    gap: 5px;
+    gap: 7px;
   }
 
   .network-page .network-project-snapshot-copy {
-    padding: 6px 8px;
+    padding: 10px 11px;
   }
 
-  .network-page .network-project-chip-grid > div {
-    min-height: 38px;
-    padding: 5px 7px;
-  }
-
-  .network-page .network-project-snapshot-footer {
-    align-items: stretch;
+  .network-page .network-project-snapshot-objective {
+    font-size: 12px;
   }
 }
 
-@media (max-width: 620px) {
-  .network-page .network-project-snapshot-footer {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .network-page .network-project-primary-metrics {
-    width: 100%;
-  }
-
-  .network-page .network-project-primary-metrics > div {
-    min-width: 0;
-    flex: 1;
-  }
-
-  .network-page .network-project-more {
-    align-self: stretch;
-    justify-content: center;
-  }
-
-  .network-page .network-project-secondary-metrics {
+@media (max-width: 560px) {
+  .network-page .network-project-chip-grid,
+  .network-page .network-project-metrics-grid {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .network-page .network-project-secondary-metrics span {
-    grid-template-columns: auto auto;
-  }
-
-  .network-page .network-project-secondary-metrics em {
-    grid-column: 1 / -1;
-  }
-}
-
-@media (max-width: 460px) {
-  .network-page .network-project-chip-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .network-page .network-project-primary-metrics {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .network-page .network-project-primary-metrics > div {
-    border-right: 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .network-page .network-project-more svg {
-    transition: none;
+  .network-page .network-project-metrics-grid > div {
+    min-height: 64px;
   }
 }
