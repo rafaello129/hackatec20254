@@ -1,3 +1,4 @@
+import SpotlightCard from "@/components/react-bits/SpotlightCard";
 import type { AssistantMessage, AssistantQuickAction } from "@/types/assistant.types";
 import AssistantComposer from "./AssistantComposer";
 import AssistantMessageList from "./AssistantMessageList";
@@ -23,23 +24,50 @@ export default function AssistantChatPanel({
   onRunAction,
 }: AssistantChatPanelProps) {
   return (
-    <section className="min-w-0 rounded-lg border border-[#c2c9bc] bg-white">
-      <header className="flex flex-col gap-1 border-b border-[#e2e3dc] px-4 py-3">
-        <h2 className="font-['Hanken_Grotesk'] text-lg font-semibold text-[#1a1c18]">Conversación ejecutiva</h2>
-        <p className="text-sm text-[#42493f]">Consulta señales operativas y recibe recomendaciones accionables.</p>
-      </header>
+    <SpotlightCard
+      spotlightColor="rgba(154, 200, 75, 0.10)"
+      className="min-w-0 overflow-hidden rounded-[28px] border border-[var(--oe-border)] bg-white"
+    >
+      <section className="relative z-[4] min-w-0">
+        <header className="flex flex-col gap-1 border-b border-[#EDF0EB] px-5 py-5 sm:px-6">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[var(--oe-primary)]">
+            Conversación
+          </p>
+          <h2 className="font-['Hanken_Grotesk'] text-[18px] font-semibold text-[var(--oe-text)]">
+            Conversación ejecutiva
+          </h2>
+          <p className="text-[11px] leading-5 text-[var(--oe-text-muted)]">
+            Consulta señales operativas y recibe recomendaciones accionables.
+          </p>
+        </header>
 
-      <div className="space-y-4 p-4">
-        <AssistantMessageList messages={messages} isLoading={isLoading} />
-        <AssistantComposer value={inputValue} onChange={onInputChange} onSend={onSendMessage} isLoading={isLoading} />
-        <div className="rounded-lg border border-[#e2e3dc] bg-[#f9faf3] p-3">
-          <div className="mb-3 flex items-center justify-between gap-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#42493f]">Acciones rápidas</p>
-            <span className="text-xs font-medium text-[#73796e]">Pulsa para generar consulta</span>
+        <div className="space-y-4 p-4 sm:p-5">
+          <AssistantMessageList messages={messages} isLoading={isLoading} />
+
+          <AssistantComposer
+            value={inputValue}
+            onChange={onInputChange}
+            onSend={onSendMessage}
+            isLoading={isLoading}
+          />
+
+          <div className="rounded-[20px] border border-[#E7EBE4] bg-[#F7F9F5] p-4">
+            <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-[#5D6A61]">
+                Acciones rápidas
+              </p>
+              <span className="text-[10px] font-medium text-[#89938C]">
+                Pulsa para generar consulta
+              </span>
+            </div>
+            <AssistantQuickActions
+              actions={quickActions}
+              onRunAction={onRunAction}
+              disabled={isLoading}
+            />
           </div>
-          <AssistantQuickActions actions={quickActions} onRunAction={onRunAction} disabled={isLoading} />
         </div>
-      </div>
-    </section>
+      </section>
+    </SpotlightCard>
   );
 }
