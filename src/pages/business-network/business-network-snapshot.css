@@ -1,0 +1,378 @@
+/* Progressive-disclosure redesign for the active business brief. */
+.network-page .network-development-toolbar-condensed {
+  align-items: center;
+  padding-bottom: 8px;
+}
+
+.network-page .network-development-toolbar-condensed .network-development-heading-compact {
+  min-width: 0;
+}
+
+.network-page .network-development-toolbar-condensed .network-active-project-line {
+  gap: 10px;
+}
+
+.network-page .network-development-toolbar-condensed .network-active-project-line h2 {
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.network-page .network-project.network-project-snapshot {
+  display: block;
+  margin-top: 8px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #d9e0d5;
+  border-radius: 12px;
+  background: #fbfcf9;
+}
+
+.network-page .network-project-snapshot-main {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(0, 1.65fr);
+  gap: 10px;
+  align-items: stretch;
+  padding: 9px 10px;
+}
+
+.network-page .network-project-snapshot-copy {
+  display: flex;
+  min-width: 0;
+  padding: 7px 9px;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 9px;
+  background: #fff;
+}
+
+.network-page .network-project-snapshot-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.network-page .network-project-snapshot-heading .network-eyebrow {
+  margin: 0;
+  font-size: 8.5px;
+  line-height: 1;
+}
+
+.network-page .network-project-snapshot-heading .network-edit-compact {
+  padding: 4px 6px;
+  font-size: 8.5px;
+}
+
+.network-page .network-project-snapshot-objective {
+  display: -webkit-box;
+  margin-top: 5px;
+  overflow: hidden;
+  color: #596155;
+  font-size: 10.5px;
+  line-height: 1.42;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.network-page .network-project-chip-grid {
+  display: grid;
+  grid-template-columns: .72fr 1fr 1.15fr 1.35fr;
+  gap: 5px;
+  min-width: 0;
+  margin: 0;
+}
+
+.network-page .network-project-chip-grid > div {
+  display: flex;
+  min-width: 0;
+  padding: 7px 8px;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid #e0e5dd;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.network-page .network-project-chip-grid dt {
+  margin: 0;
+  color: #7a8176;
+  font-size: 7px;
+  font-weight: 650;
+  line-height: 1;
+  letter-spacing: .045em;
+  text-transform: uppercase;
+}
+
+.network-page .network-project-chip-grid dd {
+  margin-top: 3px;
+  overflow: hidden;
+  color: #283027;
+  font-size: 9.5px;
+  font-weight: 700;
+  line-height: 1.22;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.network-page .network-project-chip-grid dd small {
+  color: #72796f;
+  font-size: 7.5px;
+  font-weight: 500;
+}
+
+.network-page .network-project-snapshot-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 42px;
+  padding: 6px 10px;
+  border-top: 1px solid #e3e8e0;
+  background: #f7f9f5;
+}
+
+.network-page .network-project-primary-metrics {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.network-page .network-project-primary-metrics > div {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 145px;
+  padding: 3px 9px 3px 4px;
+  border-right: 1px solid #dde3da;
+}
+
+.network-page .network-project-primary-metrics > div:last-child {
+  border-right: 0;
+}
+
+.network-page .network-project-metric-icon {
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  flex: 0 0 27px;
+  border-radius: 7px;
+  background: #edf3e7;
+  color: #4f7302;
+}
+
+.network-page .network-project-primary-metrics > div:nth-child(2) .network-project-metric-icon {
+  background: #f6edf2;
+  color: #995879;
+}
+
+.network-page .network-project-primary-metrics span:last-child {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.network-page .network-project-primary-metrics small,
+.network-page .network-project-secondary-metrics small {
+  color: #7a8176;
+  font-size: 7.5px;
+  line-height: 1.1;
+}
+
+.network-page .network-project-primary-metrics strong {
+  margin-top: 1px;
+  color: #293128;
+  font-size: 11px;
+  line-height: 1.15;
+}
+
+.network-page .network-project-primary-metrics strong em {
+  color: #7b8277;
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.network-page .network-project-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 29px;
+  padding: 5px 8px;
+  flex-shrink: 0;
+  border: 1px solid #d6ddd2;
+  border-radius: 7px;
+  background: #fff;
+  color: #4d564a;
+  font-size: 9px;
+  font-weight: 650;
+}
+
+.network-page .network-project-more:hover {
+  border-color: #b9c5b2;
+  background: #f0f4eb;
+}
+
+.network-page .network-project-more svg {
+  transition: transform .18s ease;
+}
+
+.network-page .network-project-secondary-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  padding: 7px 10px 8px;
+  border-top: 1px solid #e3e8e0;
+  background: #fff;
+}
+
+.network-page .network-project-secondary-metrics > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: #f7f9f5;
+}
+
+.network-page .network-project-secondary-metrics > div > svg {
+  flex-shrink: 0;
+  color: #66862b;
+}
+
+.network-page .network-project-secondary-metrics > div:nth-child(2) > svg {
+  color: #467d95;
+}
+
+.network-page .network-project-secondary-metrics span {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: 5px;
+  align-items: baseline;
+  min-width: 0;
+}
+
+.network-page .network-project-secondary-metrics strong {
+  color: #2e352c;
+  font-size: 11px;
+}
+
+.network-page .network-project-secondary-metrics em {
+  overflow: hidden;
+  color: #81887d;
+  font-size: 7.5px;
+  font-style: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.network-page .network-project-editor-collapsible {
+  padding: 0 10px;
+  border-top: 1px solid #e3e8e0;
+  background: #fff;
+}
+
+.network-page .network-project-editor-collapsible .network-builder {
+  padding: 10px 0;
+  gap: 10px;
+  border-top: 0;
+}
+
+.network-page .network-project-editor-collapsible .network-builder-fields {
+  gap: 8px;
+}
+
+@media (max-width: 1120px) {
+  .network-page .network-project-snapshot-main {
+    grid-template-columns: minmax(260px, .8fr) minmax(0, 1.3fr);
+  }
+
+  .network-page .network-project-chip-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 820px) {
+  .network-page .network-development-toolbar-condensed {
+    align-items: flex-start;
+  }
+
+  .network-page .network-development-toolbar-condensed .network-active-project-line h2 {
+    font-size: 18px;
+  }
+
+  .network-page .network-project-snapshot-main {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 5px;
+  }
+
+  .network-page .network-project-snapshot-copy {
+    padding: 6px 8px;
+  }
+
+  .network-page .network-project-chip-grid > div {
+    min-height: 38px;
+    padding: 5px 7px;
+  }
+
+  .network-page .network-project-snapshot-footer {
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 620px) {
+  .network-page .network-project-snapshot-footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .network-page .network-project-primary-metrics {
+    width: 100%;
+  }
+
+  .network-page .network-project-primary-metrics > div {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .network-page .network-project-more {
+    align-self: stretch;
+    justify-content: center;
+  }
+
+  .network-page .network-project-secondary-metrics {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .network-page .network-project-secondary-metrics span {
+    grid-template-columns: auto auto;
+  }
+
+  .network-page .network-project-secondary-metrics em {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 460px) {
+  .network-page .network-project-chip-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .network-page .network-project-primary-metrics {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .network-page .network-project-primary-metrics > div {
+    border-right: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .network-page .network-project-more svg {
+    transition: none;
+  }
+}
