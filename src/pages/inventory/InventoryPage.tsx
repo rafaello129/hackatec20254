@@ -1,21 +1,19 @@
 import { Plus } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import SpotlightCard from "@/components/react-bits/SpotlightCard";
 import AddProductModal from "./components/AddProductModal";
-import AdjustStockModal from "./components/AdjustStockModal";
 import ProductAttentionCard from "./components/ProductAttentionCard";
-import ProductDetailDrawer from "./components/ProductDetailDrawer";
 import ProductFilters from "./components/ProductFilters";
 import ProductList from "./components/ProductList";
 import ProductSummaryCards from "./components/ProductSummaryCards";
 import TopSellingProducts from "./components/TopSellingProducts";
 import { useInventory } from "./hooks/useInventory";
+import type { ProductDisplayData } from "@/types/inventory.types";
 
 export default function InventoryPage() {
+  const navigate = useNavigate();
   const [isAddOpen, setIsAddOpen] = useState(false);
-  const [stockDirection, setStockDirection] = useState<
-    "add" | "remove" | null
-  >(null);
 
   const {
     isLoading,
@@ -30,15 +28,17 @@ export default function InventoryPage() {
     setAvailabilityFilter,
     categoryFilter,
     setCategoryFilter,
+    verificationFilter,
+    setVerificationFilter,
     clearFilters,
-    selectedProduct,
-    selectedProductMovements,
-    setSelectedProductId,
-    openProduct,
     addProduct,
-    adjustStock,
+    getVerification,
     categoryOptions,
   } = useInventory();
+
+  const openProduct = (product: ProductDisplayData) => {
+    navigate("/inventory/" + product.id);
+  };
 
   return (
     <div className="space-y-5 pb-5">
@@ -110,6 +110,7 @@ export default function InventoryPage() {
             onFilter={(filter) => {
               setSearchText("");
               setCategoryFilter("all");
+              setVerificationFilter("all");
               setAvailabilityFilter(filter);
             }}
           />
@@ -136,10 +137,12 @@ export default function InventoryPage() {
                   searchText={searchText}
                   availabilityFilter={availabilityFilter}
                   categoryFilter={categoryFilter}
+                  verificationFilter={verificationFilter}
                   categories={categoryOptions}
                   onSearchChange={setSearchText}
                   onAvailabilityChange={setAvailabilityFilter}
                   onCategoryChange={setCategoryFilter}
+                  onVerificationChange={setVerificationFilter}
                   onClear={clearFilters}
                 />
               </div>
@@ -148,6 +151,9 @@ export default function InventoryPage() {
                 <ProductList
                   products={filteredProducts}
                   onSelect={openProduct}
+                  getVerificationStatus={(productId) =>
+                    getVerification(productId).status
+                  }
                 />
               </div>
             </SpotlightCard>
@@ -159,6 +165,7 @@ export default function InventoryPage() {
                 onViewAll={() => {
                   setSearchText("");
                   setCategoryFilter("all");
+                  setVerificationFilter("all");
                   setAvailabilityFilter(
                     summary.outOfStock > 0 ? "out_of_stock" : "low_stock",
                   );
@@ -173,25 +180,15 @@ export default function InventoryPage() {
         </>
       )}
 
-      <ProductDetailDrawer
-        product={selectedProduct}
-        movements={selectedProductMovements}
-        onClose={() => setSelectedProductId(null)}
-        onAdjust={(direction) => setStockDirection(direction)}
-      />
-
       <AddProductModal
         open={isAddOpen}
         categories={categoryOptions}
         onClose={() => setIsAddOpen(false)}
-        onSave={addProduct}
-      />
-
-      <AdjustStockModal
-        product={selectedProduct}
-        direction={stockDirection}
-        onClose={() => setStockDirection(null)}
-        onSave={adjustStock}
+        onSave={(input) => {
+          const id = addProduct(input);
+          setIsAddOpen(false);
+          navigate("/inventory/" + id);
+        }}
       />
     </div>
   );
