@@ -529,7 +529,7 @@ export default function CreateProductPage() {
           <div className="hidden items-center justify-end gap-2 border-t border-[#E4E8E1] pt-5 lg:flex">
             <button
               type="button"
-              onClick={() => navigate("/inventory")}
+              onClick={leavePage}
               className="h-11 rounded-full border border-[#DDE3DA] bg-white px-5 text-[11px] font-semibold text-[#536057] transition hover:bg-[#F6F8F4]"
             >
               Cancelar
@@ -550,7 +550,7 @@ export default function CreateProductPage() {
       <div className="sticky bottom-3 z-20 mt-5 grid grid-cols-[auto_1fr] gap-2 rounded-[18px] border border-[#E1E6DE] bg-white/95 p-2 shadow-[0_12px_30px_rgba(2,38,1,.12)] backdrop-blur lg:hidden">
         <button
           type="button"
-          onClick={() => navigate("/inventory")}
+          onClick={leavePage}
           className="h-11 rounded-[14px] px-4 text-[11px] font-semibold text-[#657068]"
         >
           Cancelar
