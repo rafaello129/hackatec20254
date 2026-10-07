@@ -1,8 +1,6 @@
 import { Plus } from "lucide-react";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SpotlightCard from "@/components/react-bits/SpotlightCard";
-import AddProductModal from "./components/AddProductModal";
 import ProductAttentionCard from "./components/ProductAttentionCard";
 import ProductFilters from "./components/ProductFilters";
 import ProductList from "./components/ProductList";
@@ -13,7 +11,6 @@ import type { ProductDisplayData } from "@/types/inventory.types";
 
 export default function InventoryPage() {
   const navigate = useNavigate();
-  const [isAddOpen, setIsAddOpen] = useState(false);
 
   const {
     isLoading,
@@ -31,7 +28,6 @@ export default function InventoryPage() {
     verificationFilter,
     setVerificationFilter,
     clearFilters,
-    addProduct,
     getVerification,
     categoryOptions,
   } = useInventory();
@@ -54,7 +50,7 @@ export default function InventoryPage() {
 
         <button
           type="button"
-          onClick={() => setIsAddOpen(true)}
+          onClick={() => navigate("/inventory/new")}
           className="inline-flex h-11 w-fit items-center justify-center gap-2 rounded-full bg-[var(--peek-brand-900)] px-5 text-[12px] font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[var(--oe-primary-hover)] hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--peek-accent-lime)]"
         >
           <Plus className="h-4 w-4" />
@@ -95,7 +91,7 @@ export default function InventoryPage() {
           </p>
           <button
             type="button"
-            onClick={() => setIsAddOpen(true)}
+            onClick={() => navigate("/inventory/new")}
             className="mt-5 inline-flex h-10 items-center gap-2 rounded-full bg-[var(--oe-primary)] px-5 text-[11px] font-semibold text-white"
           >
             <Plus className="h-4 w-4" />
@@ -179,17 +175,6 @@ export default function InventoryPage() {
           </section>
         </>
       )}
-
-      <AddProductModal
-        open={isAddOpen}
-        categories={categoryOptions}
-        onClose={() => setIsAddOpen(false)}
-        onSave={(input) => {
-          const id = addProduct(input);
-          setIsAddOpen(false);
-          navigate("/inventory/" + id);
-        }}
-      />
     </div>
   );
 }
