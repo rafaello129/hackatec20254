@@ -1,5 +1,7 @@
 import { ChevronRight } from "lucide-react";
 import type { ProductDisplayData } from "@/types/inventory.types";
+import type { ProductVerificationStatus } from "@/types/product-verification.types";
+import ProductVerificationBadge from "./verification/ProductVerificationBadge";
 
 const money = new Intl.NumberFormat("es-MX", {
   style: "currency",
@@ -28,9 +30,14 @@ const availabilityMeta = {
 interface ProductListProps {
   products: ProductDisplayData[];
   onSelect: (product: ProductDisplayData) => void;
+  getVerificationStatus: (productId: string) => ProductVerificationStatus;
 }
 
-export default function ProductList({ products, onSelect }: ProductListProps) {
+export default function ProductList({
+  products,
+  onSelect,
+  getVerificationStatus,
+}: ProductListProps) {
   if (products.length === 0) {
     return (
       <div className="rounded-[18px] border border-dashed border-[#DDE4D9] bg-[#F8FAF6] px-5 py-10 text-center">
@@ -38,7 +45,7 @@ export default function ProductList({ products, onSelect }: ProductListProps) {
           No encontramos productos con estos filtros.
         </p>
         <p className="mt-1 text-[11px] text-[#7E8981]">
-          Prueba con otro nombre, categoría o estado.
+          Prueba con otro nombre, categoría, estado o verificación.
         </p>
       </div>
     );
@@ -50,17 +57,20 @@ export default function ProductList({ products, onSelect }: ProductListProps) {
         <table className="w-full table-fixed text-left">
           <thead className="bg-[linear-gradient(90deg,#F4F8F1_0%,#FAFBF8_100%)]">
             <tr className="text-[10px] font-semibold uppercase tracking-[0.055em] text-[#718078]">
-              <th className="w-[40%] px-4 py-3.5">Producto</th>
+              <th className="w-[44%] px-4 py-3.5">Producto</th>
               <th className="w-[16%] px-3 py-3.5">Precio</th>
               <th className="w-[16%] px-3 py-3.5">Disponibles</th>
-              <th className="w-[16%] px-3 py-3.5">Vendidos</th>
-              <th className="w-[12%] px-4 py-3.5" />
+              <th className="w-[14%] px-3 py-3.5">Vendidos</th>
+              <th className="w-[10%] px-4 py-3.5" />
             </tr>
           </thead>
 
           <tbody>
             {products.map((product, index) => {
               const meta = availabilityMeta[product.availability];
+              const verificationStatus = getVerificationStatus(product.id);
+              const showVerification =
+                verificationStatus !== "not_requested";
 
               return (
                 <tr
@@ -88,15 +98,27 @@ export default function ProductList({ products, onSelect }: ProductListProps) {
                         />
                       </div>
                       <div className="min-w-0">
-                        <p className="truncate text-[12px] font-semibold text-[#263129]">
-                          {product.name}
-                        </p>
+                        <div className="flex min-w-0 items-center gap-2">
+                          <p className="truncate text-[12px] font-semibold text-[#263129]">
+                            {product.name}
+                          </p>
+                          {showVerification ? (
+                            <ProductVerificationBadge
+                              status={verificationStatus}
+                              compact
+                            />
+                          ) : null}
+                        </div>
                         <div className="mt-1 flex items-center gap-2">
                           <span className="text-[10px] text-[#849087]">
                             {product.category}
                           </span>
-                          <span className={`h-1.5 w-1.5 rounded-full ${meta.dot}`} />
-                          <span className={`rounded-full px-2 py-0.5 text-[9px] font-semibold ${meta.pill}`}>
+                          <span
+                            className={`h-1.5 w-1.5 rounded-full ${meta.dot}`}
+                          />
+                          <span
+                            className={`rounded-full px-2 py-0.5 text-[9px] font-semibold ${meta.pill}`}
+                          >
                             {meta.label}
                           </span>
                         </div>
@@ -118,7 +140,8 @@ export default function ProductList({ products, onSelect }: ProductListProps) {
                             : "text-[12px] font-bold text-[#2B352F]"
                       }
                     >
-                      {product.stock} {product.stock === 1 ? "pieza" : "piezas"}
+                      {product.stock}{" "}
+                      {product.stock === 1 ? "pieza" : "piezas"}
                     </p>
                   </td>
 
@@ -126,7 +149,9 @@ export default function ProductList({ products, onSelect }: ProductListProps) {
                     <p className="text-[12px] font-bold text-[#2B352F]">
                       {product.unitsSoldThisMonth}
                     </p>
-                    <p className="mt-0.5 text-[9px] text-[#87918A]">este mes</p>
+                    <p className="mt-0.5 text-[9px] text-[#87918A]">
+                      este mes
+                    </p>
                   </td>
 
                   <td className="px-4 py-3.5 text-right">
@@ -144,6 +169,7 @@ export default function ProductList({ products, onSelect }: ProductListProps) {
       <div className="space-y-2.5 md:hidden">
         {products.map((product, index) => {
           const meta = availabilityMeta[product.availability];
+          const verificationStatus = getVerificationStatus(product.id);
 
           return (
             <button
@@ -155,37 +181,61 @@ export default function ProductList({ products, onSelect }: ProductListProps) {
             >
               <div className="flex items-start gap-3">
                 <div className="h-14 w-14 shrink-0 overflow-hidden rounded-[15px] bg-[#EEF1EB]">
-                  <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="h-full w-full object-cover"
+                  />
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="line-clamp-2 text-[12px] font-semibold text-[#263129]">
                     {product.name}
                   </p>
-                  <p className="mt-1 text-[10px] text-[#849087]">{product.category}</p>
+                  <p className="mt-1 text-[10px] text-[#849087]">
+                    {product.category}
+                  </p>
+                  {verificationStatus !== "not_requested" ? (
+                    <span className="mt-2 inline-flex">
+                      <ProductVerificationBadge
+                        status={verificationStatus}
+                        compact
+                      />
+                    </span>
+                  ) : null}
                 </div>
                 <ChevronRight className="h-4 w-4 text-[#929C95]" />
               </div>
 
               <div className="mt-4 grid grid-cols-3 gap-2 rounded-2xl bg-[linear-gradient(135deg,#F7F9F4_0%,#F3F7EF_100%)] p-3">
                 <div>
-                  <p className="text-[9px] uppercase tracking-wide text-[#889289]">Precio</p>
+                  <p className="text-[9px] uppercase tracking-wide text-[#889289]">
+                    Precio
+                  </p>
                   <p className="mt-1 text-[10px] font-semibold text-[#344039]">
                     {money.format(product.price)}
                   </p>
                 </div>
                 <div>
-                  <p className="text-[9px] uppercase tracking-wide text-[#889289]">Disponibles</p>
-                  <p className="mt-1 text-[10px] font-semibold text-[#344039]">{product.stock}</p>
+                  <p className="text-[9px] uppercase tracking-wide text-[#889289]">
+                    Disponibles
+                  </p>
+                  <p className="mt-1 text-[10px] font-semibold text-[#344039]">
+                    {product.stock}
+                  </p>
                 </div>
                 <div>
-                  <p className="text-[9px] uppercase tracking-wide text-[#889289]">Vendidos</p>
+                  <p className="text-[9px] uppercase tracking-wide text-[#889289]">
+                    Vendidos
+                  </p>
                   <p className="mt-1 text-[10px] font-semibold text-[#344039]">
                     {product.unitsSoldThisMonth}
                   </p>
                 </div>
               </div>
 
-              <span className={`mt-3 inline-flex rounded-full px-2.5 py-1 text-[10px] font-semibold ${meta.pill}`}>
+              <span
+                className={`mt-3 inline-flex rounded-full px-2.5 py-1 text-[10px] font-semibold ${meta.pill}`}
+              >
                 {meta.label}
               </span>
             </button>
