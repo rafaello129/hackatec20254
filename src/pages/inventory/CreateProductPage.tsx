@@ -1,10 +1,16 @@
-import { useMemo, useState, type FormEvent, type ReactNode } from "react";
+import {
+  useEffect,
+  useMemo,
+  useState,
+  type FormEvent,
+  type ReactNode,
+} from "react";
 import {
   ArrowLeft,
   ChevronDown,
-  ImagePlus,
   PackagePlus,
   Save,
+  Sparkles,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type {
@@ -14,6 +20,7 @@ import type {
 import { useInventoryState } from "./context/InventoryProvider";
 import { PRODUCT_CATEGORIES } from "./hooks/useInventory";
 import CreateProductPreview from "./components/CreateProductPreview";
+import ImageSourcePicker from "./components/ImageSourcePicker";
 import CreateProductVerificationSection, {
   EMPTY_PRODUCT_VERIFICATION_DRAFT,
   type ProductVerificationDraft,
@@ -30,6 +37,31 @@ const emptyForm: NewProductInput = {
   lowStockAt: 5,
   supplier: "",
   image: "",
+};
+
+const expoForm: NewProductInput = {
+  name: "Bolsa bordada Xtabentún",
+  category: "Textiles",
+  description:
+    "Bolsa artesanal bordada a mano con motivos inspirados en la flora de Yucatán. Elaborada en pequeñas series por artesanas locales.",
+  price: 680,
+  cost: 310,
+  quantity: 18,
+  lowStockAt: 5,
+  supplier: "Taller Manos del Mayab",
+  image:
+    "https://images.unsplash.com/photo-1590739225287-bd31519780c3?auto=format&fit=crop&w=900&q=82",
+};
+
+const expoVerification: ProductVerificationDraft = {
+  producerName: "Familia Pech",
+  workshopName: "Taller Manos del Mayab",
+  location: "Mérida, Yucatán",
+  technique: "Bordado manual",
+  materials: "Algodón, hilo de algodón, fibras naturales",
+  requestReview: true,
+  evidenceUrl:
+    "https://images.unsplash.com/photo-1459908676235-d5f02a50184b?auto=format&fit=crop&w=900&q=80",
 };
 
 type FieldErrors = {
@@ -54,6 +86,25 @@ export default function CreateProductPage() {
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitted, setSubmitted] = useState(false);
 
+  const isDirty = useMemo(
+    () =>
+      JSON.stringify(form) !== JSON.stringify(emptyForm) ||
+      JSON.stringify(verificationDraft) !==
+        JSON.stringify(EMPTY_PRODUCT_VERIFICATION_DRAFT),
+    [form, verificationDraft],
+  );
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (!isDirty) return;
+      event.preventDefault();
+      event.returnValue = "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [isDirty]);
+
   const profit = useMemo(
     () => Math.max(0, (form.price || 0) - (form.cost || 0)),
     [form.price, form.cost],
@@ -74,6 +125,54 @@ export default function CreateProductPage() {
     if (errors.verification) {
       setErrors((current) => ({ ...current, verification: undefined }));
     }
+  };
+
+  const leavePage = () => {
+    if (
+      isDirty &&
+      !window.confirm(
+        "Tienes cambios sin guardar. ¿Seguro que quieres salir de esta pantalla?",
+      )
+    ) {
+      return;
+    }
+
+    navigate("/inventory");
+  };
+
+  const loadExpoExample = () => {
+    if (
+      isDirty &&
+      !window.confirm(
+        "Esto reemplazará los datos actuales con el ejemplo para la expo. ¿Continuar?",
+      )
+    ) {
+      return;
+    }
+
+    setForm(expoForm);
+    setVerificationDraft(expoVerification);
+    setErrors({});
+    setSubmitted(false);
+  };
+
+  const focusFirstError = (next: FieldErrors) => {
+    const targetByError: Partial<Record<keyof FieldErrors, string>> = {
+      name: "product-name",
+      price: "product-price",
+      cost: "product-cost",
+      quantity: "product-quantity",
+      lowStockAt: "product-low-stock",
+      verification: "verification-producer",
+    };
+
+    const firstKey = Object.keys(next)[0] as keyof FieldErrors | undefined;
+    const targetId = firstKey ? targetByError[firstKey] : undefined;
+    if (!targetId) return;
+
+    window.requestAnimationFrame(() => {
+      document.getElementById(targetId)?.focus();
+    });
   };
 
   const validate = () => {
@@ -120,6 +219,9 @@ export default function CreateProductPage() {
     }
 
     setErrors(next);
+    if (Object.keys(next).length > 0) {
+      focusFirstError(next);
+    }
     return Object.keys(next).length === 0;
   };
 
@@ -179,7 +281,7 @@ export default function CreateProductPage() {
       <div className="mb-5">
         <button
           type="button"
-          onClick={() => navigate("/inventory")}
+          onClick={leavePage}
           className="inline-flex min-h-10 items-center gap-2 rounded-full px-1 text-[12px] font-semibold text-[#536057] transition hover:text-[var(--oe-primary)]"
         >
           <ArrowLeft className="h-4 w-4" />
@@ -200,13 +302,23 @@ export default function CreateProductPage() {
             </p>
           </div>
 
-          <button
-            type="submit"
-            className="hidden h-11 items-center justify-center gap-2 rounded-full bg-[var(--peek-brand-900)] px-5 text-[12px] font-semibold text-white transition hover:bg-[var(--oe-primary-hover)] lg:inline-flex"
-          >
-            <Save className="h-4 w-4" />
-            Guardar producto
-          </button>
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={loadExpoExample}
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-[#D8E1D4] bg-white px-4 text-[10px] font-semibold text-[#49614E] transition hover:bg-[#F5F8F2] motion-reduce:transition-none sm:h-11 sm:text-[11px]"
+            >
+              <Sparkles className="h-4 w-4 text-[#6F8E2B]" />
+              Llenar ejemplo para expo
+            </button>
+            <button
+              type="submit"
+              className="hidden h-11 items-center justify-center gap-2 rounded-full bg-[var(--peek-brand-900)] px-5 text-[12px] font-semibold text-white transition hover:bg-[var(--oe-primary-hover)] motion-reduce:transition-none lg:inline-flex"
+            >
+              <Save className="h-4 w-4" />
+              Guardar producto
+            </button>
+          </div>
         </div>
       </div>
 
@@ -235,6 +347,7 @@ export default function CreateProductPage() {
                 className="sm:col-span-2"
               >
                 <input
+                  id="product-name"
                   autoFocus
                   value={form.name}
                   onChange={(event) => update("name", event.target.value)}
@@ -279,29 +392,11 @@ export default function CreateProductPage() {
 
               <div className="sm:col-span-2">
                 <Field label="Imagen">
-                  <div className="mt-1.5 rounded-[16px] border border-[#DDE3DA] bg-[#FAFBF8] p-3">
-                    <div className="flex items-center gap-3">
-                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[12px] bg-[#EEF4E9] text-[#5A7B12]">
-                        <ImagePlus className="h-5 w-5" />
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <p className="text-[11px] font-semibold text-[#344039]">
-                          Agregar imagen
-                        </p>
-                        <p className="mt-0.5 text-[9px] text-[#87918A]">
-                          Por ahora usa una URL de imagen.
-                        </p>
-                      </div>
-                    </div>
-                    <input
-                      value={form.image ?? ""}
-                      onChange={(event) =>
-                        update("image", event.target.value)
-                      }
-                      placeholder="https://..."
-                      className="mt-3 h-10 w-full rounded-[12px] border border-[#E1E6DE] bg-white px-3 text-[11px] text-[#263129] outline-none placeholder:text-[#A0A9A2] focus:border-[#7DA44B]"
-                    />
-                  </div>
+                  <ImageSourcePicker
+                    value={form.image ?? ""}
+                    onChange={(nextValue) => update("image", nextValue)}
+                    description="Elige una imagen de tu equipo o pega una URL."
+                  />
                 </Field>
               </div>
             </div>
@@ -320,6 +415,7 @@ export default function CreateProductPage() {
             <div className="mt-5 grid gap-4 sm:grid-cols-2">
               <Field label="Precio" required error={errors.price}>
                 <MoneyInput
+                  id="product-price"
                   value={form.price}
                   placeholder="620"
                   onChange={(value) => update("price", value)}
@@ -332,6 +428,7 @@ export default function CreateProductPage() {
                 hint="Se usa para calcular la ganancia aproximada."
               >
                 <MoneyInput
+                  id="product-cost"
                   value={form.cost ?? 0}
                   placeholder="320"
                   onChange={(value) => update("cost", value)}
@@ -340,6 +437,7 @@ export default function CreateProductPage() {
 
               <Field label="Cantidad disponible" error={errors.quantity}>
                 <input
+                  id="product-quantity"
                   type="number"
                   min="0"
                   value={form.quantity}
@@ -357,6 +455,7 @@ export default function CreateProductPage() {
                 hint="PÉEK te avisará cuando llegues a esta cantidad."
               >
                 <input
+                  id="product-low-stock"
                   type="number"
                   min="1"
                   value={form.lowStockAt ?? 5}
@@ -418,8 +517,12 @@ export default function CreateProductPage() {
           </details>
 
           {submitted && Object.keys(errors).length > 0 ? (
-            <div className="rounded-[16px] bg-[#FFF1EE] px-4 py-3 text-[11px] text-[#A84E3E]">
-              Revisa los campos marcados antes de guardar.
+            <div
+              role="alert"
+              aria-live="polite"
+              className="rounded-[16px] bg-[#FFF1EE] px-4 py-3 text-[11px] text-[#A84E3E]"
+            >
+              Revisa los campos marcados antes de guardar. Te llevamos al primero que necesita atención.
             </div>
           ) : null}
 
@@ -500,10 +603,12 @@ function Field({
 }
 
 function MoneyInput({
+  id,
   value,
   placeholder,
   onChange,
 }: {
+  id?: string;
   value: number;
   placeholder: string;
   onChange: (value: number) => void;
@@ -514,6 +619,7 @@ function MoneyInput({
         $
       </span>
       <input
+        id={id}
         type="number"
         min="0"
         value={value || ""}
