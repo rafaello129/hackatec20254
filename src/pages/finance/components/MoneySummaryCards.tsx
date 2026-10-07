@@ -67,7 +67,7 @@ export default function MoneySummaryCards({
     <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-12">
       <SpotlightCard
         spotlightColor="rgba(154, 200, 75, 0.12)"
-        className="peek-money-summary-card xl:col-span-3"
+        className="peek-money-summary-card order-2 sm:order-1 xl:col-span-3"
       >
         <div className="peek-money-card-enter relative z-[4] flex min-h-[144px] flex-col justify-between rounded-[20px] bg-white p-5">
           <div className="flex items-start justify-between gap-3">
@@ -106,7 +106,7 @@ export default function MoneySummaryCards({
 
       <SpotlightCard
         spotlightColor="rgba(228, 172, 36, 0.12)"
-        className="peek-money-summary-card xl:col-span-3"
+        className="peek-money-summary-card order-3 sm:order-2 xl:col-span-3"
       >
         <div
           className="peek-money-card-enter relative z-[4] flex min-h-[144px] flex-col justify-between rounded-[20px] bg-white p-5"
@@ -138,7 +138,7 @@ export default function MoneySummaryCards({
 
       <SpotlightCard
         spotlightColor="rgba(182, 226, 81, 0.16)"
-        className="peek-money-summary-card peek-dark-surface sm:col-span-2 xl:col-span-6"
+        className="peek-money-summary-card order-1 sm:order-3 sm:col-span-2 xl:col-span-6"
       >
         <div
           className="peek-money-card-enter relative z-[4] flex min-h-[144px] flex-col justify-between rounded-[20px] bg-[var(--oe-primary)] p-5 sm:flex-row sm:items-center sm:p-6"
