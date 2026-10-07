@@ -668,3 +668,139 @@
     width:68px;
   }
 }
+
+/* Compact selected-stage detail */
+.production-flow-detail-wrap{
+  padding:0 12px 12px;
+}
+.production-detail-glow{
+  border-radius:12px;
+}
+.production-detail-card{
+  grid-template-columns:minmax(155px,.72fr) minmax(220px,1.7fr) auto;
+  gap:14px;
+  min-height:82px;
+  padding:10px 12px;
+  border-radius:12px;
+}
+.production-detail-stage{
+  grid-template-columns:36px minmax(0,1fr);
+  gap:3px 9px;
+}
+.production-detail-kicker{
+  font-size:8px;
+}
+.production-detail-icon{
+  width:36px;
+  height:36px;
+  border-radius:10px;
+}
+.production-detail-stage h3{
+  font-size:15px;
+}
+.production-detail-status{
+  gap:4px;
+  margin-top:2px;
+  font-size:8px;
+}
+.production-detail-copy{
+  padding:0 14px;
+}
+.production-detail-label{
+  font-size:8px;
+}
+.production-detail-copy strong{
+  margin-top:2px;
+  font-size:12px;
+}
+.production-detail-copy p{
+  display:-webkit-box;
+  margin-top:3px;
+  overflow:hidden;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  color:#6b7267;
+  font-size:10px;
+  line-height:1.35;
+}
+.production-detail-action{
+  flex-direction:row;
+  align-items:center;
+  gap:8px;
+}
+.production-detail-action>span{
+  display:none;
+}
+.production-detail-action button{
+  width:auto;
+  min-width:112px;
+  min-height:32px;
+  padding:0 10px;
+  border-radius:8px;
+  gap:9px;
+  font-size:10px;
+}
+
+@media(max-width:900px){
+  .production-detail-card{
+    grid-template-columns:minmax(145px,.8fr) minmax(0,1.5fr) auto;
+    gap:10px;
+  }
+  .production-detail-copy{
+    padding:0 10px;
+  }
+  .production-detail-action{
+    grid-column:auto;
+    padding-top:0;
+    border-top:0;
+  }
+  .production-detail-action button{
+    min-width:100px;
+  }
+}
+
+@media(max-width:700px){
+  .production-flow-detail-wrap{
+    padding:6px 10px 10px;
+  }
+  .production-detail-card{
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:8px 10px;
+    min-height:0;
+    padding:10px 11px;
+  }
+  .production-detail-stage{
+    grid-template-columns:32px minmax(0,1fr);
+  }
+  .production-detail-icon{
+    width:32px;
+    height:32px;
+    border-radius:9px;
+  }
+  .production-detail-stage h3{
+    font-size:14px;
+  }
+  .production-detail-copy{
+    grid-column:1/-1;
+    grid-row:2;
+    padding:7px 0 0;
+    border:0;
+    border-top:1px solid #e5e9e1;
+  }
+  .production-detail-copy p{
+    -webkit-line-clamp:1;
+    font-size:9.5px;
+  }
+  .production-detail-action{
+    grid-column:2;
+    grid-row:1;
+    align-self:center;
+  }
+  .production-detail-action button{
+    width:auto;
+    min-width:0;
+    min-height:30px;
+    padding:0 9px;
+    white-space:nowrap;
+  }
+}
