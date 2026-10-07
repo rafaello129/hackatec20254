@@ -98,7 +98,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
       category: "finished_product",
       description:
         input.description?.trim() ||
-        "Producto artesanal registrado en PÉEK.",
+        "Producto artesanal registrado en MÁAK.",
       quantity,
       unit: "piezas",
       minStock: lowStockAt,
