@@ -390,7 +390,7 @@ export default function CreateProductPage() {
                   <ImageSourcePicker
                     value={form.image ?? ""}
                     onChange={(nextValue) => update("image", nextValue)}
-                    description="Elige una imagen de tu equipo o pega una URL."
+                    description="Selecciona una imagen del producto desde tu equipo."
                   />
                 </Field>
               </div>
