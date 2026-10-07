@@ -1,5 +1,6 @@
 import { Plus, Search } from "lucide-react";
 import { useState } from "react";
+import SpotlightCard from "@/components/react-bits/SpotlightCard";
 import AddCustomerModal from "./components/AddCustomerModal";
 import CustomerBehaviorFilters from "./components/CustomerBehaviorFilters";
 import CustomerDetailDrawer from "./components/CustomerDetailDrawer";
@@ -73,6 +74,7 @@ export default function CustomersPage() {
         <>
           <CustomerSummaryCards
             summary={summary}
+            activeFilter={behaviorFilter}
             onFilter={(filter) => {
               setSearchText("");
               setBehaviorFilter(filter);
@@ -80,8 +82,11 @@ export default function CustomersPage() {
           />
 
           <section className="grid items-start gap-4 xl:grid-cols-[minmax(0,1.9fr)_360px]">
-            <article className="rounded-[24px] border border-[#E3E7DF] bg-white p-5 sm:p-6">
-              <div className="flex items-center justify-between gap-3">
+            <SpotlightCard
+              spotlightColor="rgba(154, 200, 75, 0.12)"
+              className="rounded-[24px] border border-[var(--oe-border)] bg-white p-5 transition-shadow duration-300 hover:shadow-[0_16px_42px_rgba(23,35,27,0.06)] sm:p-6"
+            >
+              <div className="relative z-[4] flex items-center justify-between gap-3">
                 <div>
                   <h2 className="text-[17px] font-semibold text-[#172019]">
                     Tus clientes
@@ -93,7 +98,7 @@ export default function CustomersPage() {
                 </div>
               </div>
 
-              <label className="relative mt-5 block">
+              <label className="relative z-[4] mt-5 block">
                 <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#7E8981]" />
                 <input
                   value={searchText}
@@ -103,20 +108,20 @@ export default function CustomersPage() {
                 />
               </label>
 
-              <div className="mt-4">
+              <div className="relative z-[4] mt-4">
                 <CustomerBehaviorFilters
                   value={behaviorFilter}
                   onChange={setBehaviorFilter}
                 />
               </div>
 
-              <div className="mt-5">
+              <div className="relative z-[4] mt-5">
                 <CustomerTable
                   customers={filteredCustomers}
                   onSelect={openCustomer}
                 />
               </div>
-            </article>
+            </SpotlightCard>
 
             <div className="space-y-4">
               <ReturningCustomersCard metric={returningCustomers} />
