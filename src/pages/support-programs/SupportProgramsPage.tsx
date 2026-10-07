@@ -230,22 +230,26 @@ export default function SupportProgramsPage() {
                   <p>{program.description}</p>
                 </div>
 
-                <div className="support-benefit">
-                  <span>Beneficio estimado</span>
-                  <strong>{program.benefit}</strong>
-                </div>
-
-                <div className="support-card-meta">
-                  <span><MapPin size={14} /> {program.region}</span>
-                  <span>{program.sector}</span>
-                </div>
-
-                <div className="support-card-footer">
-                  <div className="support-deadline">
-                    <small>Cierre</small>
-                    <strong>{formatSupportDeadline(program.deadline)}</strong>
+                <div className="support-card-info-grid">
+                  <div className="support-benefit">
+                    <span>Beneficio estimado</span>
+                    <strong>{program.benefit}</strong>
                   </div>
-                  {applied && <p className="support-applied"><CheckCircle2 size={14} /> Registrada</p>}
+
+                  <div className="support-card-facts">
+                    <div className="support-card-meta">
+                      <span><MapPin size={14} /> {program.region}</span>
+                      <span>{program.sector}</span>
+                    </div>
+
+                    <div className="support-card-footer">
+                      <div className="support-deadline">
+                        <small>Cierre</small>
+                        <strong>{formatSupportDeadline(program.deadline)}</strong>
+                      </div>
+                      {applied && <p className="support-applied"><CheckCircle2 size={14} /> Registrada</p>}
+                    </div>
+                  </div>
                 </div>
 
                 <ProgramDetail program={program} applied={applied} onApply={() => state.apply(program.id)} />
