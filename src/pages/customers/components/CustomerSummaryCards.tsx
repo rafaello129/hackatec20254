@@ -79,7 +79,7 @@ export default function CustomerSummaryCards({
               type="button"
               onClick={() => onFilter(card.key)}
               aria-pressed={active}
-              className="group relative z-[4] flex min-h-[132px] w-full flex-col justify-between overflow-hidden rounded-[20px] px-5 py-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--peek-accent-lime)]"
+              className="peek-customer-kpi__button group relative z-[4] flex min-h-[132px] w-full flex-col justify-between overflow-hidden rounded-[20px] px-5 py-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--peek-accent-lime)]"
               style={{ animationDelay: `${index * 90}ms` }}
             >
               <div className="flex items-start justify-between gap-3">
