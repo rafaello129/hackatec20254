@@ -39,7 +39,7 @@ export default function InvoicesTable({ invoices, selectedInvoiceId, onSelectInv
               <td className="px-3 py-3 font-semibold text-[#1a1c18]">{invoice.folio}</td>
               <td className="px-3 py-3">
                 <p className="truncate font-semibold text-[#1a1c18]">{invoice.customerName}</p>
-                <p className="truncate text-xs text-[#42493f]">{invoice.relatedOpportunityId ?? "Cliente CRM"}</p>
+                <p className="truncate text-xs text-[#42493f]">{invoice.relatedOpportunityId ?? "Venta del negocio"}</p>
               </td>
               <td className="px-3 py-3 text-xs text-[#42493f]">
                 <p>Emisión {invoice.issueDate}</p>
