@@ -1,4 +1,9 @@
-import { ArrowDownRight, HandCoins, WalletCards, WalletMinimal } from "lucide-react";
+import {
+  ArrowDownRight,
+  ArrowUpRight,
+  Landmark,
+  WalletCards,
+} from "lucide-react";
 import SpotlightCard from "@/components/react-bits/SpotlightCard";
 import type { MoneySummary } from "@/types/finance.types";
 
@@ -8,89 +13,171 @@ const money = new Intl.NumberFormat("es-MX", {
   maximumFractionDigits: 0,
 });
 
-export default function MoneySummaryCards({ summary }: { summary: MoneySummary }) {
-  const cards = [
-    {
-      key: "sales",
-      label: "Ventas",
-      value: money.format(summary.sales),
-      hint: "Este mes",
-      icon: WalletCards,
-      tone: "primary",
-      spotlight: "rgba(182, 226, 81, 0.24)" as const,
-    },
-    {
-      key: "expenses",
-      label: "Gastos",
-      value: money.format(summary.expenses),
-      hint: "Este mes",
-      icon: ArrowDownRight,
-      tone: "warning",
-      spotlight: "rgba(228, 172, 36, 0.20)" as const,
-    },
-    {
-      key: "profit",
-      label: "Te quedó",
-      value: money.format(summary.approximateProfit),
-      hint: "Ventas menos gastos registrados",
-      icon: WalletMinimal,
-      tone: "lime",
-      spotlight: "rgba(154, 200, 75, 0.20)" as const,
-    },
-    {
-      key: "receivable",
-      label: "Por cobrar",
-      value: money.format(summary.receivable),
-      hint: `${summary.pendingPayments} ${summary.pendingPayments === 1 ? "pago pendiente" : "pagos pendientes"}`,
-      icon: HandCoins,
-      tone: "soft",
-      spotlight: "rgba(47, 135, 58, 0.16)" as const,
-    },
-  ];
+interface SummaryVisuals {
+  salesTrend: number[];
+  expenseTrend: number[];
+  salesChangePct: number;
+  expensesChange: number;
+  profitChange: number;
+}
+
+interface MoneySummaryCardsProps {
+  summary: MoneySummary;
+  visuals: SummaryVisuals;
+}
+
+function MiniBars({
+  values,
+  tone,
+}: {
+  values: number[];
+  tone: "sales" | "expenses";
+}) {
+  const max = Math.max(...values, 1);
 
   return (
-    <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-      {cards.map((card, index) => {
-        const Icon = card.icon;
-        const toneClass =
-          card.tone === "primary"
-            ? "peek-money-kpi--primary"
-            : card.tone === "warning"
-              ? "peek-money-kpi--warning"
-              : card.tone === "lime"
-                ? "peek-money-kpi--lime"
-                : "peek-money-kpi--soft";
+    <div className="flex h-8 items-end gap-1" aria-hidden="true">
+      {values.map((value, index) => (
+        <span
+          key={`${tone}-${index}`}
+          className={
+            tone === "sales"
+              ? "peek-money-spark-bar w-2 rounded-t-[3px] bg-[var(--oe-primary)]"
+              : "peek-money-spark-bar w-2 rounded-t-[3px] bg-[var(--peek-warning)]"
+          }
+          style={{
+            height: `${Math.max(18, (value / max) * 100)}%`,
+            animationDelay: `${index * 55}ms`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
 
-        return (
-          <SpotlightCard
-            key={card.key}
-            spotlightColor={card.spotlight}
-            className={`peek-money-kpi ${toneClass}`}
-          >
-            <div
-              className="peek-money-kpi__content relative z-[4] flex min-h-[132px] flex-col justify-between rounded-[20px] px-5 py-4"
-              style={{ animationDelay: `${index * 90}ms` }}
-            >
-              <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <p className="peek-money-kpi__label text-[12px] font-semibold">
-                    {card.label}
-                  </p>
-                  <p className="peek-money-kpi__value mt-2 truncate font-['Hanken_Grotesk'] text-[30px] font-bold leading-none tracking-[-0.035em]">
-                    {card.value}
-                  </p>
-                </div>
-                <span className="peek-money-kpi__icon grid h-10 w-10 shrink-0 place-items-center rounded-[14px]">
-                  <Icon className="h-[18px] w-[18px]" strokeWidth={1.9} />
-                </span>
-              </div>
-              <p className="peek-money-kpi__hint mt-4 text-[11px] leading-4">
-                {card.hint}
+export default function MoneySummaryCards({
+  summary,
+  visuals,
+}: MoneySummaryCardsProps) {
+  const salesPositive = visuals.salesChangePct >= 0;
+  const expenseUp = visuals.expensesChange > 0;
+  const profitPositive = visuals.profitChange >= 0;
+
+  return (
+    <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-12">
+      <SpotlightCard
+        spotlightColor="rgba(154, 200, 75, 0.12)"
+        className="peek-money-summary-card xl:col-span-3"
+      >
+        <div className="peek-money-card-enter relative z-[4] flex min-h-[144px] flex-col justify-between rounded-[20px] bg-white p-5">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#718078]">
+                Ventas
+              </p>
+              <p className="mt-2 font-['Hanken_Grotesk'] text-[31px] font-bold leading-none tracking-[-0.04em] text-[var(--oe-text)]">
+                {money.format(summary.sales)}
               </p>
             </div>
-          </SpotlightCard>
-        );
-      })}
+            <span className="grid h-10 w-10 place-items-center rounded-[13px] bg-[var(--peek-success-soft)] text-[var(--oe-primary)]">
+              <WalletCards className="h-[18px] w-[18px]" />
+            </span>
+          </div>
+
+          <div className="mt-5 flex items-end justify-between gap-4">
+            <span
+              className={
+                salesPositive
+                  ? "inline-flex items-center gap-1 text-[10px] font-semibold text-[var(--peek-success)]"
+                  : "inline-flex items-center gap-1 text-[10px] font-semibold text-[var(--peek-danger)]"
+              }
+            >
+              {salesPositive ? (
+                <ArrowUpRight className="h-3.5 w-3.5" />
+              ) : (
+                <ArrowDownRight className="h-3.5 w-3.5" />
+              )}
+              {Math.abs(visuals.salesChangePct).toFixed(1)}% vs mes pasado
+            </span>
+            <MiniBars values={visuals.salesTrend} tone="sales" />
+          </div>
+        </div>
+      </SpotlightCard>
+
+      <SpotlightCard
+        spotlightColor="rgba(228, 172, 36, 0.12)"
+        className="peek-money-summary-card xl:col-span-3"
+      >
+        <div
+          className="peek-money-card-enter relative z-[4] flex min-h-[144px] flex-col justify-between rounded-[20px] bg-white p-5"
+          style={{ animationDelay: "90ms" }}
+        >
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#718078]">
+                Gastos
+              </p>
+              <p className="mt-2 font-['Hanken_Grotesk'] text-[31px] font-bold leading-none tracking-[-0.04em] text-[var(--oe-text)]">
+                {money.format(summary.expenses)}
+              </p>
+            </div>
+            <span className="grid h-10 w-10 place-items-center rounded-[13px] bg-[var(--peek-warning-soft)] text-[#946500]">
+              <ArrowDownRight className="h-[18px] w-[18px]" />
+            </span>
+          </div>
+
+          <div className="mt-5 flex items-end justify-between gap-4">
+            <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-[#8B6205]">
+              {expenseUp ? "+" : "−"}
+              {money.format(Math.abs(visuals.expensesChange))} vs mes pasado
+            </span>
+            <MiniBars values={visuals.expenseTrend} tone="expenses" />
+          </div>
+        </div>
+      </SpotlightCard>
+
+      <SpotlightCard
+        spotlightColor="rgba(182, 226, 81, 0.16)"
+        className="peek-money-summary-card peek-dark-surface sm:col-span-2 xl:col-span-6"
+      >
+        <div
+          className="peek-money-card-enter relative z-[4] flex min-h-[144px] flex-col justify-between rounded-[20px] bg-[var(--oe-primary)] p-5 sm:flex-row sm:items-center sm:p-6"
+          style={{ animationDelay: "180ms" }}
+        >
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.09em] text-[#DCE9DD]">
+              Te quedó
+            </p>
+            <p className="mt-2 font-['Hanken_Grotesk'] text-[38px] font-bold leading-none tracking-[-0.045em] text-white">
+              {money.format(summary.approximateProfit)}
+            </p>
+            <p className="mt-2 text-[10px] text-[#D9E7DB]">
+              Aproximadamente · ventas menos gastos registrados
+            </p>
+          </div>
+
+          <div className="mt-5 flex items-center gap-3 sm:mt-0 sm:min-w-[180px] sm:justify-end">
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-[14px] bg-white/10 text-white">
+              <Landmark className="h-5 w-5" />
+            </span>
+            <div>
+              <p className="text-[9px] uppercase tracking-[0.08em] text-[#C7D8CA]">
+                Vs mes pasado
+              </p>
+              <p
+                className={
+                  profitPositive
+                    ? "mt-1 text-[13px] font-bold text-[var(--peek-primary-light)]"
+                    : "mt-1 text-[13px] font-bold text-[#FFD4CE]"
+                }
+              >
+                {profitPositive ? "+" : "−"}
+                {money.format(Math.abs(visuals.profitChange))}
+              </p>
+            </div>
+          </div>
+        </div>
+      </SpotlightCard>
     </section>
   );
 }
