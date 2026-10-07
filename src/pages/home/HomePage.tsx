@@ -123,9 +123,27 @@ export default function HomePage() {
         <div className="flex min-h-[55px] w-full flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-center sm:gap-[23px]">
             <div className="flex h-[54px] w-[109px] shrink-0 -space-x-[27px]">
-              <div className="h-[54px] w-[54px] shrink-0 rounded-full border-2 border-[#B6E251] bg-[radial-gradient(circle_at_30%_25%,#A77442,#51321E)]" />
-              <div className="h-[54px] w-[54px] shrink-0 rounded-full border-2 border-[#B6E251] bg-[radial-gradient(circle_at_65%_35%,#D74B3D,#315A42)]" />
-              <div className="h-[54px] w-[54px] shrink-0 rounded-full border-2 border-[#B6E251] bg-[radial-gradient(circle_at_50%_20%,#EEE6D7,#B27445)]" />
+              <div className="relative z-10 grid h-[54px] w-[54px] shrink-0 place-items-center overflow-hidden rounded-full border-2 border-[#B6E251] bg-[#F6E6C9] p-[7px] shadow-[0_4px_14px_rgba(0,0,0,0.18)]">
+                <img
+                  src={import.meta.env.BASE_URL + "home-network/package.svg"}
+                  alt="Paquetería"
+                  className="h-full w-full object-contain"
+                />
+              </div>
+              <div className="relative z-20 grid h-[54px] w-[54px] shrink-0 place-items-center overflow-hidden rounded-full border-2 border-[#B6E251] bg-[#E6ECE8] p-[6px] shadow-[0_4px_14px_rgba(0,0,0,0.18)]">
+                <img
+                  src={import.meta.env.BASE_URL + "home-network/delivery.svg"}
+                  alt="Entrega"
+                  className="h-full w-full object-contain"
+                />
+              </div>
+              <div className="relative z-30 grid h-[54px] w-[54px] shrink-0 place-items-center overflow-hidden rounded-full border-2 border-[#B6E251] bg-[#F4E0D2] p-[7px] shadow-[0_4px_14px_rgba(0,0,0,0.18)]">
+                <img
+                  src={import.meta.env.BASE_URL + "home-network/materials.svg"}
+                  alt="Materiales"
+                  className="h-full w-full object-contain"
+                />
+              </div>
             </div>
             <div className="min-w-0">
               <h2 className="text-[20px] font-black leading-none tracking-[0.06em] text-white">
