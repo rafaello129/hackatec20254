@@ -7,8 +7,12 @@ import {
   type ReactNode,
 } from "react";
 import { createEmptyVerification } from "@/data/mocks/product-verification.mock";
-import { getProductVerifications } from "@/services/product-verification.service";
+import {
+  createProductVerification as buildProductVerification,
+  getProductVerifications,
+} from "@/services/product-verification.service";
 import type {
+  CreateProductVerificationInput,
   ProductVerification,
   ProductVerificationEvidence,
 } from "@/types/product-verification.types";
@@ -17,6 +21,10 @@ interface ProductVerificationContextValue {
   isLoading: boolean;
   verifications: ProductVerification[];
   getVerification: (productId: string) => ProductVerification;
+  createProductVerification: (
+    productId: string,
+    input: CreateProductVerificationInput,
+  ) => void;
   requestVerification: (productId: string) => void;
   completeEvidence: (
     productId: string,
@@ -62,6 +70,20 @@ export function ProductVerificationProvider({
 
   const getVerification = (productId: string) =>
     byProduct.get(productId) ?? createEmptyVerification(productId);
+
+  const createProductVerification = (
+    productId: string,
+    input: CreateProductVerificationInput,
+  ) => {
+    const next = buildProductVerification(productId, input);
+
+    setVerifications((current) => {
+      const exists = current.some((item) => item.productId === productId);
+      return exists
+        ? current.map((item) => (item.productId === productId ? next : item))
+        : [...current, next];
+    });
+  };
 
   const requestVerification = (productId: string) => {
     const today = new Date().toISOString().slice(0, 10);
@@ -196,6 +218,7 @@ export function ProductVerificationProvider({
         isLoading,
         verifications,
         getVerification,
+        createProductVerification,
         requestVerification,
         completeEvidence,
       }}
