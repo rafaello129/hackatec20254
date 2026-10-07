@@ -94,9 +94,9 @@ export default function OpportunityCard({ opportunity, variant = "standard" }: O
     return (
       <Link
         to={`/cooperatives/${opportunity.id}`}
-        className="group grid min-h-[190px] grid-cols-[116px_minmax(0,1fr)] items-start gap-5 rounded-[20px] border border-transparent bg-[#FAFAF7] p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#DDE6D8] hover:bg-white hover:shadow-sm sm:grid-cols-[168px_minmax(0,1fr)] sm:p-5 lg:grid-cols-[184px_minmax(0,1fr)_auto]"
+        className="group grid min-h-[190px] grid-cols-[124px_minmax(0,1fr)] items-stretch overflow-hidden rounded-[20px] border border-transparent bg-[#FAFAF7] p-0 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#DDE6D8] hover:bg-white hover:shadow-sm sm:grid-cols-[210px_minmax(0,1fr)] lg:grid-cols-[268px_minmax(0,1fr)_auto]"
       >
-        <div className="relative aspect-square w-full self-start overflow-hidden rounded-[18px] bg-[#EEF1EB]">
+        <div className="relative aspect-square w-full self-start overflow-hidden bg-[#EEF1EB]">
           {opportunity.imageUrl ? (
             <img
               src={opportunity.imageUrl}
@@ -111,7 +111,7 @@ export default function OpportunityCard({ opportunity, variant = "standard" }: O
           )}
         </div>
 
-        <div className="min-w-0">
+        <div className="min-w-0 p-4 sm:p-5">
           <div className="flex flex-wrap items-center gap-2">
             <OpportunityTypeBadge type={opportunity.type} />
             <OpportunityStatusBadge status={opportunity.status} />
@@ -151,7 +151,7 @@ export default function OpportunityCard({ opportunity, variant = "standard" }: O
           </div>
         </div>
 
-        <div className="hidden min-w-[112px] shrink-0 self-start pt-1 text-right lg:block">
+        <div className="hidden min-w-[128px] shrink-0 self-start p-5 text-right lg:block">
           <p className="text-[11px] text-[#87918A]">Meta</p>
           <p className="mt-1 text-[16px] font-semibold text-[#35523B]">{formatCurrency(opportunity.targetAmount)}</p>
           <ArrowUpRight className="ml-auto mt-4 h-5 w-5 text-[#98A29B] transition-transform group-hover:translate-x-0.5" />
