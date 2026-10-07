@@ -9,6 +9,8 @@ import {
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
+import SpotlightCard from "@/components/react-bits/SpotlightCard";
+import Magnet from "@/components/react-bits/Magnet";
 import { useHomeDashboard } from "./hooks/useHomeDashboard";
 
 const money = new Intl.NumberFormat("es-MX", {
@@ -59,6 +61,7 @@ const artisanProducts = [
 ];
 
 type SalesRange = "week" | "fortnight" | "month";
+type InventoryStatusKey = "available" | "lowStock" | "outOfStock";
 
 const salesRangeData = {
   week: {
@@ -137,6 +140,7 @@ function DashboardSkeleton() {
 export default function HomePage() {
   const { data, isLoading, error, reload } = useHomeDashboard();
   const [salesRange, setSalesRange] = useState<SalesRange>("week");
+  const [activeInventoryStatus, setActiveInventoryStatus] = useState<InventoryStatusKey | null>(null);
 
   if (isLoading) return <DashboardSkeleton />;
 
@@ -167,6 +171,40 @@ export default function HomePage() {
   const inventoryTotal = Math.max(inventory.total, 1);
   const inStockPct = (inventory.available / inventoryTotal) * 100;
   const lowStockPct = (inventory.lowStock / inventoryTotal) * 100;
+  const outOfStockPct = (inventory.outOfStock / inventoryTotal) * 100;
+  const inventoryAttention = inventory.lowStock + inventory.outOfStock;
+  const inventorySegments = [
+    {
+      key: "available" as const,
+      label: "Disponibles",
+      description: "Listos para vender",
+      count: inventory.available,
+      percentage: inStockPct,
+      start: 0,
+      color: "#2F873A",
+    },
+    {
+      key: "lowStock" as const,
+      label: "Por agotarse",
+      description: "Conviene reabastecer",
+      count: inventory.lowStock,
+      percentage: lowStockPct,
+      start: inStockPct,
+      color: "#E4AC24",
+    },
+    {
+      key: "outOfStock" as const,
+      label: "Agotados",
+      description: "Sin existencias",
+      count: inventory.outOfStock,
+      percentage: outOfStockPct,
+      start: inStockPct + lowStockPct,
+      color: "#D9564D",
+    },
+  ];
+  const focusedInventory = activeInventoryStatus
+    ? inventorySegments.find((segment) => segment.key === activeInventoryStatus)
+    : null;
 
   const metrics = [
     {
@@ -545,21 +583,26 @@ export default function HomePage() {
         </article>
       </section>
 
-      <section className="grid gap-4 xl:grid-cols-[1.8fr_1fr]">
-        <article className="rounded-[22px] border border-[#E2E6DF] bg-white p-5">
+      <section className="grid items-start gap-5 xl:grid-cols-[1.08fr_1fr]">
+        <article className="rounded-[24px] border border-[#E2E6DF] bg-white p-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-[#17231B]">Actividad reciente</h2>
-            <span className="text-[11px] text-[#87918A]">Últimos movimientos</span>
+            <div>
+              <h2 className="text-base font-semibold text-[#17231B]">Actividad reciente</h2>
+              <p className="mt-1 text-[11px] text-[#87918A]">Últimos movimientos del negocio</p>
+            </div>
+            <span className="rounded-full bg-[#F5F7F2] px-2.5 py-1 text-[10px] font-medium text-[#7A857E]">
+              En tiempo real
+            </span>
           </div>
 
-          <div className="mt-4 divide-y divide-[#EEF0EB]">
+          <div className="mt-5 divide-y divide-[#EEF0EB]">
             {data.recentActivity.map((activity) => (
-              <div key={activity.id} className="flex items-center gap-3 py-3 first:pt-0 last:pb-0">
+              <div key={activity.id} className="flex items-center gap-3 py-3.5 first:pt-0 last:pb-0">
                 <span
                   className={
                     activity.type === "finance"
-                      ? "grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#EDF4E8] text-[#2E7439]"
-                      : "grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#F2F1EA] text-[#6A705F]"
+                      ? "grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#EDF4E8] text-[#2E7439]"
+                      : "grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#F2F1EA] text-[#6A705F]"
                   }
                 >
                   {activity.type === "finance" ? (
@@ -580,54 +623,167 @@ export default function HomePage() {
           </div>
         </article>
 
-        <article className="rounded-[22px] border border-[#E2E6DF] bg-white p-5">
-          <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-[#17231B]">Estado de tus productos</h2>
-            <Link to="/inventory" className="text-[11px] font-medium text-[#287839]">
-              Ver todos →
+        <SpotlightCard
+          spotlightColor="rgba(154, 200, 75, 0.18)"
+          className="rounded-[28px] border border-[#DDE4D8] bg-[linear-gradient(145deg,#FFFFFF_0%,#FBFCF8_58%,#F1F7E9_100%)] p-6 sm:p-7"
+        >
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#7D8B81]">
+                Inventario
+              </p>
+              <h2 className="mt-1 text-lg font-semibold text-[#17231B]">Estado de tus productos</h2>
+              <p className="mt-1 max-w-[310px] text-[11px] leading-5 text-[#7B867E]">
+                Identifica rápido qué está disponible y qué necesita atención.
+              </p>
+            </div>
+            <Link
+              to="/inventory"
+              className="inline-flex shrink-0 items-center gap-1 text-[11px] font-semibold text-[#287839] transition hover:gap-1.5"
+            >
+              Ver todos
+              <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
 
-          <div className="mt-6 flex flex-col items-center gap-6 sm:flex-row sm:justify-center">
-            <div
-              className="grid h-[128px] w-[128px] shrink-0 place-items-center rounded-full"
-              style={{
-                background:
-                  "conic-gradient(#2F873A 0 " +
-                  inStockPct +
-                  "%, #E4AC24 " +
-                  inStockPct +
-                  "% " +
-                  (inStockPct + lowStockPct) +
-                  "%, #D9564D " +
-                  (inStockPct + lowStockPct) +
-                  "% 100%)",
-              }}
-            >
-              <div className="grid h-[88px] w-[88px] place-items-center rounded-full bg-white text-center">
-                <div>
-                  <p className="text-3xl font-semibold leading-none text-[#17231B]">{inventory.total}</p>
-                  <p className="mt-1 text-[10px] text-[#8A938D]">productos</p>
+          <div className="mt-6 grid gap-6 md:grid-cols-[0.92fr_1.08fr] md:items-center">
+            <div className="flex justify-center">
+              <Magnet
+                padding={56}
+                magnetStrength={14}
+                wrapperClassName="rounded-full"
+                aria-label="Gráfica interactiva del estado del inventario"
+              >
+                <div className="relative grid h-[210px] w-[210px] place-items-center">
+                  <div className="absolute inset-[17px] rounded-full bg-white shadow-[0_16px_40px_rgba(43,79,35,0.08)]" />
+                  <svg
+                    viewBox="0 0 220 220"
+                    className="peek-inventory-donut relative h-[210px] w-[210px] -rotate-90"
+                    role="img"
+                    aria-label="Distribución de productos disponibles, por agotarse y agotados"
+                  >
+                    <circle
+                      cx="110"
+                      cy="110"
+                      r="82"
+                      fill="none"
+                      stroke="#EDF1EA"
+                      strokeWidth="20"
+                    />
+                    {inventorySegments.map((segment, index) => {
+                      const visibleLength = Math.max(segment.percentage - 1.8, 0);
+                      const isDimmed =
+                        activeInventoryStatus !== null && activeInventoryStatus !== segment.key;
+                      const isActive = activeInventoryStatus === segment.key;
+
+                      return (
+                        <circle
+                          key={segment.key}
+                          cx="110"
+                          cy="110"
+                          r="82"
+                          pathLength="100"
+                          fill="none"
+                          stroke={segment.color}
+                          strokeWidth={isActive ? 24 : 20}
+                          strokeLinecap="round"
+                          strokeDasharray={visibleLength + " " + (100 - visibleLength)}
+                          strokeDashoffset={-segment.start}
+                          className="peek-inventory-ring-segment"
+                          style={{
+                            opacity: isDimmed ? 0.28 : 1,
+                            animationDelay: index * 120 + "ms",
+                          }}
+                        />
+                      );
+                    })}
+                  </svg>
+
+                  <div className="pointer-events-none absolute inset-0 grid place-items-center text-center">
+                    <div className="max-w-[118px]">
+                      <p className="text-[42px] font-semibold leading-none tracking-[-0.05em] text-[#17231B]">
+                        {focusedInventory ? focusedInventory.count : inventory.total}
+                      </p>
+                      <p className="mt-2 text-[11px] font-medium leading-4 text-[#7E8981]">
+                        {focusedInventory ? focusedInventory.label.toLowerCase() : "productos en total"}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </Magnet>
             </div>
 
-            <div className="space-y-3 text-xs text-[#67716A]">
-              <div className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-[#2F873A]" />
-                <strong className="text-[#38443C]">{inventory.available}</strong> disponibles
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-[#E4AC24]" />
-                <strong className="text-[#38443C]">{inventory.lowStock}</strong> por agotarse
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-[#D9564D]" />
-                <strong className="text-[#38443C]">{inventory.outOfStock}</strong> agotados
-              </div>
+            <div className="space-y-2.5">
+              {inventorySegments.map((segment) => {
+                const active = activeInventoryStatus === segment.key;
+                return (
+                  <button
+                    key={segment.key}
+                    type="button"
+                    onMouseEnter={() => setActiveInventoryStatus(segment.key)}
+                    onMouseLeave={() => setActiveInventoryStatus(null)}
+                    onFocus={() => setActiveInventoryStatus(segment.key)}
+                    onBlur={() => setActiveInventoryStatus(null)}
+                    className={
+                      active
+                        ? "group flex w-full items-center gap-3 rounded-[16px] border border-[#DCE6D6] bg-white px-3.5 py-3 text-left shadow-sm transition-all duration-200"
+                        : "group flex w-full items-center gap-3 rounded-[16px] border border-transparent px-3.5 py-3 text-left transition-all duration-200 hover:border-[#E5EAE1] hover:bg-white/80"
+                    }
+                  >
+                    <span
+                      className="h-3 w-3 shrink-0 rounded-full shadow-[0_0_0_4px_rgba(255,255,255,0.85)]"
+                      style={{ backgroundColor: segment.color }}
+                    />
+                    <span className="min-w-0 flex-1">
+                      <span className="flex items-baseline justify-between gap-3">
+                        <span className="text-[12px] font-semibold text-[#344039]">{segment.label}</span>
+                        <span className="text-[15px] font-bold text-[#17231B]">{segment.count}</span>
+                      </span>
+                      <span className="mt-1 flex items-center justify-between gap-3">
+                        <span className="truncate text-[10px] text-[#8B958E]">{segment.description}</span>
+                        <span className="text-[10px] font-semibold text-[#69756D]">
+                          {Math.round(segment.percentage)}%
+                        </span>
+                      </span>
+                      <span className="mt-2 block h-1.5 overflow-hidden rounded-full bg-[#EEF1EB]">
+                        <span
+                          className="block h-full rounded-full transition-all duration-300"
+                          style={{
+                            width: segment.percentage + "%",
+                            backgroundColor: segment.color,
+                          }}
+                        />
+                      </span>
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </div>
-        </article>
+
+          <div className="mt-6 flex flex-col gap-3 rounded-[18px] border border-[#E4E9DF] bg-white/75 px-4 py-3.5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-3">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-[#FFF3CF] text-[#A96C00]">
+                <Package className="h-4 w-4" />
+              </span>
+              <div>
+                <p className="text-xs font-semibold text-[#344039]">
+                  {inventoryAttention} productos necesitan atención
+                </p>
+                <p className="mt-0.5 text-[10px] text-[#87918A]">
+                  {inventory.lowStock} por agotarse y {inventory.outOfStock} agotados.
+                </p>
+              </div>
+            </div>
+            <Link
+              to="/inventory"
+              className="inline-flex items-center gap-1 self-start text-[11px] font-semibold text-[#287839] sm:self-center"
+            >
+              Revisar inventario
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+        </SpotlightCard>
       </section>
 
 
