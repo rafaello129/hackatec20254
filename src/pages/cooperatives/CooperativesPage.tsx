@@ -139,8 +139,8 @@ export default function CooperativesPage() {
         <article className="rounded-[24px] border border-[#E2E6DF] bg-white p-6 sm:p-7">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h2 className="text-base font-semibold text-[#17231B]">Oportunidades prioritarias</h2>
-              <p className="mt-1 text-[12px] leading-5 text-[#7C867F]">
+              <h2 className="text-lg font-semibold text-[#17231B]">Oportunidades prioritarias</h2>
+              <p className="mt-1 text-[13px] leading-5 text-[#7C867F]">
                 Iniciativas con movimiento reciente y espacio para nuevos aliados.
               </p>
             </div>
@@ -153,7 +153,7 @@ export default function CooperativesPage() {
             </Link>
           </div>
 
-          <div className="mt-5">
+          <div className="mt-6">
             {isLoading ? (
               <div className="h-52 animate-pulse rounded-[18px] bg-[#F3F3EE]" />
             ) : (
