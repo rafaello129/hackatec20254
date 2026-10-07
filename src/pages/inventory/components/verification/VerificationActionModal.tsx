@@ -97,7 +97,7 @@ export default function VerificationActionModal({
 
         {isRequest ? (
           <div className="mt-5 rounded-[18px] bg-[#F6F8F3] p-4 text-[11px] leading-5 text-[#66736A]">
-            PÉEK abrirá una revisión de identidad, origen, proceso artesanal y
+            MÁAK abrirá una revisión de identidad, origen, proceso artesanal y
             vínculo del producto con el productor. Esta acción es una
             demostración y no crea una certificación oficial.
           </div>
