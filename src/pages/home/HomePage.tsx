@@ -7,6 +7,7 @@ import {
   Users,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import { useHomeDashboard } from "./hooks/useHomeDashboard";
 
 const money = new Intl.NumberFormat("es-MX", {
@@ -55,6 +56,19 @@ const artisanProducts = [
       "https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=320&h=320&q=82",
   },
 ];
+
+const salesDetails: Record<
+  string,
+  { label: string; transactions: number; topProduct: string }
+> = {
+  Lun: { label: "Lunes", transactions: 5, topProduct: "Tazón de cerámica" },
+  Mar: { label: "Martes", transactions: 7, topProduct: "Bolsa bordada" },
+  Mié: { label: "Miércoles", transactions: 6, topProduct: "Canasta tejida" },
+  Jue: { label: "Jueves", transactions: 8, topProduct: "Tazón de cerámica" },
+  Vie: { label: "Viernes", transactions: 9, topProduct: "Bolsa bordada" },
+  Sáb: { label: "Sábado", transactions: 10, topProduct: "Canasta tejida" },
+  Dom: { label: "Domingo", transactions: 12, topProduct: "Canasta tejida" },
+};
 
 function DashboardSkeleton() {
   return (
@@ -239,45 +253,151 @@ export default function HomePage() {
         })}
       </section>
 
-      <section className="grid gap-5 xl:grid-cols-[1.55fr_1.15fr]">
-        <article className="rounded-[22px] border border-[#E2E6DF] bg-white p-5">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+      <section className="grid items-start gap-5 xl:grid-cols-[1.55fr_1.15fr]">
+        <article className="self-start rounded-[24px] border border-[#E2E6DF] bg-white p-6 sm:p-7">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <p className="text-sm font-semibold text-[#17231B]">Tus ventas</p>
-              <div className="mt-0.5 flex flex-wrap items-baseline gap-3">
-                <p className="text-2xl font-bold text-[#17231B]">{money.format(data.summary.sales)}</p>
-                <p className="text-xs font-medium text-[#2E8A3D]">
-                  ↑ {data.summary.salesChange}% más que la semana pasada
+              <div className="flex items-center gap-2">
+                <h2 className="text-base font-semibold text-[#17231B]">Tus ventas</h2>
+                <span className="rounded-full bg-[#F1F4EE] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#758178]">
+                  Datos simulados
+                </span>
+              </div>
+              <div className="mt-1.5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <p className="text-[32px] font-bold leading-none tracking-[-0.03em] text-[#17231B]">
+                  {money.format(data.summary.sales)}
+                </p>
+                <p className="inline-flex items-center gap-1 text-xs font-semibold text-[#2E8A3D]">
+                  <TrendingUp className="h-3.5 w-3.5" />
+                  {data.summary.salesChange}% más que la semana pasada
                 </p>
               </div>
+              <p className="mt-2 text-[11px] text-[#8A938D]">
+                Pasa el cursor sobre cada día para ver el detalle.
+              </p>
             </div>
-            <span className="inline-flex h-9 w-fit items-center gap-2 rounded-xl border border-[#E2E6DF] px-3 text-xs text-[#68736B]">
-              <CalendarDays className="h-4 w-4" />
+
+            <span className="inline-flex h-10 w-fit items-center gap-2 rounded-xl border border-[#E1E6DE] bg-[#FCFCFA] px-3.5 text-xs font-medium text-[#5F6B63]">
+              <CalendarDays className="h-4 w-4 text-[#748078]" />
               {data.periodLabel}
             </span>
           </div>
 
-          <div className="mt-7 grid h-[190px] grid-cols-7 items-end gap-3 border-b border-[#EDF0EA] px-2">
-            {data.weeklySales.map((sale) => {
-              const height = Math.max(18, (sale.value / maxSale) * 100);
-              return (
-                <div key={sale.day} className="flex h-full flex-col items-center justify-end gap-2">
-                  <div className="relative flex h-[154px] w-full items-end justify-center">
+          <TooltipPrimitive.Provider delayDuration={220} skipDelayDuration={400}>
+            <div className="relative mt-7 h-[228px]">
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-[184px]">
+                {[0, 1, 2, 3].map((line) => (
+                  <div
+                    key={line}
+                    className="absolute inset-x-0 border-t border-dashed border-[#E9EDE6]"
+                    style={{ top: line * 33.333 + "%" }}
+                  />
+                ))}
+              </div>
+
+              <div className="absolute inset-x-0 top-0 grid h-[214px] grid-cols-7 gap-2 sm:gap-3">
+                {data.weeklySales.map((sale) => {
+                  const height = Math.max(18, (sale.value / maxSale) * 100);
+                  const details = salesDetails[sale.day];
+                  const averageTicket = sale.value / Math.max(details?.transactions ?? 1, 1);
+
+                  return (
                     <div
-                      className={
-                        sale.isCurrent
-                          ? "w-full max-w-[72px] rounded-t-[9px] bg-[linear-gradient(180deg,#075A24_0%,#9AC84B_100%)] transition-opacity hover:opacity-90"
-                          : "w-full max-w-[72px] rounded-t-[9px] bg-[#C9DDB6] transition-colors hover:bg-[#B6D197]"
-                      }
-                      style={{ height: height + "%" }}
-                      title={sale.day + ": " + money.format(sale.value)}
-                    />
-                  </div>
-                  <span className="pb-2 text-[11px] text-[#7A837D]">{sale.day}</span>
-                </div>
-              );
-            })}
-          </div>
+                      key={sale.day}
+                      className="flex min-w-0 flex-col items-center justify-end gap-3"
+                    >
+                      <TooltipPrimitive.Root>
+                        <TooltipPrimitive.Trigger asChild>
+                          <button
+                            type="button"
+                            aria-label={
+                              (details?.label ?? sale.day) +
+                              ": " +
+                              money.format(sale.value) +
+                              " en ventas"
+                            }
+                            className="group relative flex h-[184px] w-full items-end justify-center rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-[#86B64D]/50 focus-visible:ring-offset-2"
+                          >
+                            <span
+                              className={
+                                sale.isCurrent
+                                  ? "block w-[58%] min-w-[24px] max-w-[58px] rounded-t-[12px] bg-[linear-gradient(180deg,#0B6C31_0%,#9AC84B_100%)] shadow-[0_8px_18px_rgba(19,92,47,0.12)] transition-all duration-200 group-hover:-translate-y-1 group-hover:shadow-[0_12px_22px_rgba(19,92,47,0.18)]"
+                                  : "block w-[58%] min-w-[24px] max-w-[58px] rounded-t-[12px] bg-[#C8DDB6] transition-all duration-200 group-hover:-translate-y-1 group-hover:bg-[#B3D096]"
+                              }
+                              style={{ height: height + "%" }}
+                            />
+                          </button>
+                        </TooltipPrimitive.Trigger>
+
+                        <TooltipPrimitive.Portal>
+                          <TooltipPrimitive.Content
+                            side="top"
+                            sideOffset={12}
+                            collisionPadding={12}
+                            className="z-50 min-w-[218px] rounded-[14px] border border-white/10 bg-[#022601] px-3.5 py-3 text-white shadow-[0_14px_34px_rgba(2,38,1,0.28)]"
+                          >
+                            <div className="flex items-start justify-between gap-4">
+                              <div>
+                                <p className="text-[11px] font-medium text-white/65">
+                                  {details?.label ?? sale.day}
+                                </p>
+                                <p className="mt-0.5 text-lg font-bold leading-none text-white">
+                                  {money.format(sale.value)}
+                                </p>
+                              </div>
+                              <span className="rounded-full bg-white/10 px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.08em] text-white/80">
+                                Simulado
+                              </span>
+                            </div>
+
+                            <div className="mt-3 grid grid-cols-2 gap-2 border-t border-white/10 pt-3">
+                              <div>
+                                <p className="text-[9px] uppercase tracking-[0.08em] text-white/50">
+                                  Ventas
+                                </p>
+                                <p className="mt-0.5 text-xs font-semibold text-white">
+                                  {details?.transactions ?? 0} operaciones
+                                </p>
+                              </div>
+                              <div>
+                                <p className="text-[9px] uppercase tracking-[0.08em] text-white/50">
+                                  Ticket promedio
+                                </p>
+                                <p className="mt-0.5 text-xs font-semibold text-white">
+                                  {money.format(averageTicket)}
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className="mt-2 rounded-lg bg-white/[0.07] px-2.5 py-2">
+                              <p className="text-[9px] uppercase tracking-[0.08em] text-white/50">
+                                Más vendido
+                              </p>
+                              <p className="mt-0.5 text-[11px] font-medium text-white">
+                                {details?.topProduct ?? "Artesanía local"}
+                              </p>
+                            </div>
+
+                            <TooltipPrimitive.Arrow className="fill-[#022601]" />
+                          </TooltipPrimitive.Content>
+                        </TooltipPrimitive.Portal>
+                      </TooltipPrimitive.Root>
+
+                      <span
+                        className={
+                          sale.isCurrent
+                            ? "text-[11px] font-semibold text-[#245F31]"
+                            : "text-[11px] font-medium text-[#7C867F]"
+                        }
+                      >
+                        {sale.day}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </TooltipPrimitive.Provider>
         </article>
 
         <article className="rounded-[24px] border border-[#E2E6DF] bg-white p-6">
