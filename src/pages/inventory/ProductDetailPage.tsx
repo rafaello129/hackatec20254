@@ -54,12 +54,12 @@ export default function ProductDetailPage() {
 
   if (isLoading || verificationLoading) {
     return (
-      <div className="space-y-4 pb-6">
-        <div className="h-9 w-32 animate-pulse rounded-full bg-[#EEF1EB]" />
-        <div className="h-[440px] animate-pulse rounded-[24px] border border-[var(--oe-border)] bg-white" />
-        <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_340px]">
-          <div className="h-[180px] animate-pulse rounded-[22px] border border-[var(--oe-border)] bg-white" />
-          <div className="h-[180px] animate-pulse rounded-[22px] border border-[var(--oe-border)] bg-white" />
+      <div className="space-y-5 pb-8">
+        <div className="h-10 w-36 animate-pulse rounded-full bg-[#EEF1EB]" />
+        <div className="h-[470px] animate-pulse rounded-[26px] border border-[var(--oe-border)] bg-white" />
+        <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_360px]">
+          <div className="h-[220px] animate-pulse rounded-[24px] border border-[var(--oe-border)] bg-white" />
+          <div className="h-[220px] animate-pulse rounded-[24px] border border-[var(--oe-border)] bg-white" />
         </div>
       </div>
     );
@@ -68,7 +68,7 @@ export default function ProductDetailPage() {
   if (!product || !productId) {
     return (
       <div className="grid min-h-[60vh] place-items-center">
-        <section className="max-w-[440px] rounded-[24px] border border-[var(--oe-border)] bg-white p-8 text-center">
+        <section className="max-w-[440px] rounded-[26px] border border-[var(--oe-border)] bg-white p-8 text-center">
           <span className="mx-auto grid h-14 w-14 place-items-center rounded-[18px] bg-[#F2F5EF] text-[#66736A]">
             <FileQuestion className="h-6 w-6" />
           </span>
@@ -96,11 +96,11 @@ export default function ProductDetailPage() {
   const hasTimeline = verification.timeline.length > 0;
 
   return (
-    <div className="space-y-4 pb-6">
+    <div className="space-y-5 pb-8">
       <button
         type="button"
         onClick={() => navigate("/inventory")}
-        className="inline-flex min-h-9 items-center gap-2 rounded-full px-1 text-[11px] font-semibold text-[#536057] transition hover:text-[var(--oe-primary)]"
+        className="inline-flex min-h-10 items-center gap-2 rounded-full px-1 text-[12px] font-semibold text-[#536057] transition hover:text-[var(--oe-primary)]"
       >
         <ArrowLeft className="h-4 w-4" />
         Volver a Productos
@@ -112,7 +112,7 @@ export default function ProductDetailPage() {
         onAdjust={setStockDirection}
       />
 
-      <section className="grid items-stretch gap-4 xl:grid-cols-[minmax(0,1fr)_340px]">
+      <section className="grid items-start gap-4 xl:grid-cols-[minmax(0,1fr)_360px]">
         <ProductVerificationHero
           verification={verification}
           onAction={() => setActionOpen(true)}
@@ -127,7 +127,7 @@ export default function ProductDetailPage() {
       </section>
 
       {(hasChecks || verification.origin) ? (
-        <section className="grid items-stretch gap-4 lg:grid-cols-2">
+        <section className="grid items-start gap-4 lg:grid-cols-2">
           <VerificationChecklist checks={verification.checks} />
           <ProductOriginCard origin={verification.origin} />
         </section>
@@ -152,17 +152,17 @@ export default function ProductDetailPage() {
         />
       </section>
 
-      <section className="grid items-stretch gap-4 xl:grid-cols-[minmax(0,1.5fr)_340px]">
+      <section className="grid items-start gap-4 xl:grid-cols-[minmax(0,1.5fr)_360px]">
         <ProductMovementTimeline movements={movements} />
 
-        <aside className="rounded-[22px] border border-[var(--oe-border)] bg-white p-4 sm:p-5">
-          <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-[#7A867E]">
+        <aside className="rounded-[24px] border border-[var(--oe-border)] bg-white p-5 sm:p-6">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-[#7A867E]">
             Notas
           </p>
-          <h2 className="mt-1 text-[16px] font-semibold text-[#263129]">
+          <h2 className="mt-1 text-[18px] font-semibold text-[#263129]">
             Contexto del producto
           </h2>
-          <div className="mt-3 rounded-[14px] bg-[#F6F7F3] p-3.5 text-[10px] leading-5 text-[#657068]">
+          <div className="mt-4 rounded-[16px] bg-[#F6F7F3] p-4 text-[11px] leading-5 text-[#657068]">
             {product.notes || "No hay notas registradas para este producto."}
           </div>
         </aside>
