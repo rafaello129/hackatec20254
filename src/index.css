@@ -193,15 +193,29 @@ h6 {
   transition:
     transform 240ms cubic-bezier(.22, 1, .36, 1),
     border-color 240ms ease,
-    box-shadow 240ms ease,
-    background 300ms ease;
+    box-shadow 240ms ease;
+}
+
+.peek-customer-kpi::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: var(--kpi-bg-hover);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms ease;
 }
 
 .peek-customer-kpi:hover {
   transform: translateY(-3px);
   border-color: #cbd8c6;
-  background: var(--kpi-bg-hover);
   box-shadow: 0 16px 34px rgba(23, 35, 27, 0.08);
+}
+
+.peek-customer-kpi:hover::after {
+  opacity: 1;
 }
 
 .peek-customer-kpi.is-active {
@@ -336,5 +350,27 @@ h6 {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .peek-customer-kpi::after {
+    transition: none;
+  }
+
+  .peek-customer-kpi,
+  .peek-customer-kpi__value,
+  .peek-customer-kpi__icon,
+  .peek-customer-kpi__dot,
+  .peek-customer-row,
+  .peek-customer-row-mobile {
+    transition: none;
+  }
+
+  .peek-customer-kpi__button,
+  .peek-customer-row,
+  .peek-customer-row-mobile {
+    animation: none;
   }
 }
