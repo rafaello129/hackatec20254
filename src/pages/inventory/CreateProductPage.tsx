@@ -36,7 +36,7 @@ const expoForm: NewProductInput = {
   lowStockAt: 5,
   supplier: "Taller Manos del Mayab",
   image:
-    "https://images.unsplash.com/photo-1590739225287-bd31519780c3?auto=format&fit=crop&w=900&q=82",
+    "https://images.unsplash.com/photo-1767771322982-8041f4a5da8e?auto=format&fit=crop&w=900&h=900&q=82",
 };
 
 const expoVerification: ProductVerificationDraft = {
