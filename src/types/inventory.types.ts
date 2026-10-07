@@ -1,3 +1,5 @@
+import type { ProductVerificationStatus } from "./product-verification.types";
+
 export type InventoryStatus =
   | "in_stock"
   | "low_stock"
@@ -30,6 +32,27 @@ export type ProductCategory =
   | "Regalos";
 
 export type ProductAvailability = "available" | "low_stock" | "out_of_stock";
+export type ProductAvailabilityFilter = "all" | ProductAvailability;
+export type ProductCategoryFilter = "all" | ProductCategory;
+export type ProductVerificationFilter = "all" | ProductVerificationStatus;
+
+export interface NewProductInput {
+  name: string;
+  category: ProductCategory;
+  price: number;
+  cost?: number;
+  quantity: number;
+  lowStockAt?: number;
+  supplier?: string;
+  image?: string;
+  notes?: string;
+}
+
+export interface StockAdjustmentInput {
+  quantity: number;
+  direction: "add" | "remove";
+  reason?: string;
+}
 
 export interface InventoryItem {
   id: string;
@@ -52,7 +75,6 @@ export interface InventoryItem {
   cooperativeUseCase: CooperativeUseCase;
   bulkPurchaseEligible: boolean;
   minimumBulkQuantity: number;
-
   image?: string;
   displayCategory?: ProductCategory;
   price?: number;
@@ -103,7 +125,6 @@ export interface CatalogItem {
   bulkPurchaseEligible: boolean;
   minimumBulkQuantity: number;
 }
-
 
 export interface ProductDisplayData {
   id: string;
