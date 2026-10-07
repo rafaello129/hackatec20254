@@ -15,15 +15,15 @@ export default function VerificationTimeline({
   if (timeline.length === 0) return null;
 
   return (
-    <section className="rounded-[24px] border border-[var(--oe-border)] bg-white p-5 sm:p-6">
-      <p className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#7A867E]">
+    <section className="rounded-[22px] border border-[var(--oe-border)] bg-white p-4 sm:p-5">
+      <p className="text-[9px] font-semibold uppercase tracking-[0.09em] text-[#7A867E]">
         Historial de verificación
       </p>
-      <h3 className="mt-1 text-[17px] font-semibold text-[#263129]">
+      <h3 className="mt-0.5 text-[16px] font-semibold text-[#263129]">
         Progreso de la revisión
       </h3>
 
-      <ol className="mt-5">
+      <ol className="mt-4">
         {timeline.map((event, index) => {
           const Icon =
             event.status === "complete"
@@ -39,26 +39,31 @@ export default function VerificationTimeline({
                 : "bg-[#F1F3EF] text-[#9AA39C]";
 
           return (
-            <li key={event.id} className="relative flex gap-3 pb-5 last:pb-0">
+            <li key={event.id} className="relative flex gap-2.5 pb-3.5 last:pb-0">
               {index < timeline.length - 1 ? (
-                <span className="absolute left-[15px] top-8 h-[calc(100%-20px)] w-px bg-[#E3E8DF]" />
+                <span className="absolute left-[13px] top-7 h-[calc(100%-14px)] w-px bg-[#E3E8DF]" />
               ) : null}
-              <span className={["relative z-10 grid h-8 w-8 shrink-0 place-items-center rounded-full", circle].join(" ")}>
-                <Icon className="h-3.5 w-3.5" />
+              <span
+                className={[
+                  "relative z-10 grid h-7 w-7 shrink-0 place-items-center rounded-full",
+                  circle,
+                ].join(" ")}
+              >
+                <Icon className="h-3 w-3" />
               </span>
-              <div className="min-w-0 flex-1 pt-0.5">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <p className="text-[11px] font-semibold text-[#344039]">
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-start justify-between gap-1.5">
+                  <p className="text-[10px] font-semibold text-[#344039]">
                     {event.label}
                   </p>
                   {event.date ? (
-                    <span className="text-[9px] text-[#8A948D]">
+                    <span className="text-[8px] text-[#8A948D]">
                       {date.format(new Date(event.date + "T00:00:00"))}
                     </span>
                   ) : null}
                 </div>
                 {event.description ? (
-                  <p className="mt-1 text-[10px] leading-4 text-[#7A867E]">
+                  <p className="mt-0.5 text-[8px] leading-4 text-[#7A867E]">
                     {event.description}
                   </p>
                 ) : null}
