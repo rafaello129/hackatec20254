@@ -53,3 +53,8 @@
 @media(min-width:651px) and (max-width:1200px){.production-stage:nth-child(3n) .production-stage-node:before{display:none}}
 @media(max-width:650px){.production-stage:not(:last-child) .production-stage-node:before{display:none}.production-stage-reveal{display:grid;grid-template-columns:46px minmax(0,1fr);gap:14px}.production-stage-glow{min-width:0}}
 @media(prefers-reduced-motion:reduce){.production-stage:not(:last-child) .production-stage-node:before{display:none}.production-chain-track span{transition:none}}
+
+@media(max-width:650px){
+  .network-chain .network-chain-steps .production-stage{display:block;grid-template-columns:none}
+  .network-chain .production-stage .production-stage-reveal{display:grid;grid-template-columns:46px minmax(0,1fr);gap:14px}
+}

@@ -205,3 +205,6 @@
 @media(max-width:650px){.network-project-bento{padding:8px;border-radius:13px}.network-project-bento-main{padding:16px}.network-next-glare{width:100%!important;margin-left:0}.network-next-action .network-next-glare button{width:100%;justify-content:space-between}.network-summary>div{padding:14px!important}}
 @media(max-width:440px){.network-project-bento-facts,.network-summary{grid-template-columns:minmax(0,1fr)}}
 @media(prefers-reduced-motion:reduce){.network-page{scroll-behavior:auto}.network-page *, .network-page *:before,.network-page *:after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}.network-project-bento-facts>div:hover,.network-plan-item:active{transform:none}}
+
+/* Final composition fixes */
+.network-hero-grid{z-index:0}.network-hero-content,.network-hero-signal{position:relative;z-index:1}
