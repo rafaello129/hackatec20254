@@ -1,0 +1,289 @@
+/* Home + Customers visual language for the business-network header. */
+
+.network-page {
+  grid-template-columns: minmax(360px, .9fr) minmax(520px, 1.1fr);
+  column-gap: 16px;
+}
+
+.network-page > .network-hero.network-hero-compact {
+  min-height: 176px;
+  margin: 0;
+  padding: 24px 26px;
+  overflow: hidden;
+  border: 1px solid #E3E7DF;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 86% 14%, rgba(154, 200, 75, .18), transparent 34%),
+    linear-gradient(135deg, #FBFCF8 0%, #F5F8F1 64%, #EDF3E4 100%);
+  box-shadow: 0 12px 34px rgba(23, 35, 27, .045);
+}
+
+.network-page > .network-hero.network-hero-compact .network-hero-grid {
+  opacity: .58;
+}
+
+.network-page > .network-hero.network-hero-compact .network-hero-content {
+  position: relative;
+  z-index: 2;
+  align-self: center;
+}
+
+.network-page > .network-hero.network-hero-compact .network-hero-eyebrow {
+  margin-bottom: 7px;
+  color: #4F7302;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .065em;
+  text-transform: uppercase;
+}
+
+.network-page > .network-hero.network-hero-compact h1 {
+  margin-top: 0;
+  color: #172019;
+  font-family: "Hanken Grotesk", sans-serif;
+  font-size: clamp(34px, 3.1vw, 40px);
+  font-weight: 700;
+  line-height: .98;
+  letter-spacing: -.035em;
+}
+
+.network-page > .network-hero.network-hero-compact .network-hero-content > p:last-child {
+  max-width: 470px;
+  margin-top: 10px;
+  color: #657068;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.network-page > .network-hero .network-hero-signal-compact {
+  position: relative;
+  z-index: 3;
+  align-self: center;
+  gap: 6px;
+  padding: 7px 10px;
+  border: 1px solid #DDE5D8;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .86);
+  box-shadow: 0 7px 20px rgba(23, 35, 27, .055);
+  backdrop-filter: blur(10px);
+}
+
+.network-page > .network-hero .network-hero-signal-compact > span {
+  color: #5E685F;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+
+.network-page > .network-hero .network-hero-signal-compact strong {
+  color: #35523B;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.network-page > .network-hero .network-hero-signal-compact small {
+  color: #818A83;
+  font-size: 9px;
+}
+
+.network-page > .network-hero.network-hero-compact + * > .network-launcher.network-launcher-compact {
+  min-height: 176px;
+  height: 100%;
+  margin: 0;
+  padding: 18px 20px;
+  border: 1px solid #E3E7DF;
+  border-radius: 24px;
+  background: #FFFFFF;
+  box-shadow: 0 12px 34px rgba(23, 35, 27, .04);
+}
+
+.network-page > .network-hero.network-hero-compact + * .network-launcher-toolbar {
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.network-page .network-launcher-title > div {
+  align-items: baseline;
+  gap: 8px;
+}
+
+.network-page .network-launcher-title h2 {
+  color: #172019;
+  font-family: "Hanken Grotesk", sans-serif;
+  font-size: 17px;
+  font-weight: 650;
+  line-height: 1.15;
+}
+
+.network-page .network-launcher-title > div > span {
+  color: #7B867E;
+  font-size: 10.5px;
+  font-weight: 500;
+}
+
+.network-page .network-primary-compact {
+  min-height: 40px;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: #073B1E;
+  color: #fff;
+  font-size: 11.5px;
+  font-weight: 650;
+  box-shadow: 0 5px 14px rgba(7, 59, 30, .13);
+  transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
+}
+
+.network-page .network-primary-compact:hover {
+  background: #0B4D29;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(7, 59, 30, .16);
+}
+
+.network-page .network-plan-search {
+  min-height: 40px;
+  border-radius: 999px;
+  background: #F6F7F2;
+}
+
+.network-page > .network-hero.network-hero-compact + * .network-plan-list.network-plan-list-compact {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+}
+
+.network-page .network-plan-spotlight {
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+.network-page .network-plan-item.network-plan-item-compact {
+  min-height: 80px;
+  width: 100%;
+  gap: 11px;
+  padding: 12px 14px;
+  border: 1px solid #E3E7DF;
+  border-radius: 18px;
+  background: #FBFCF9;
+  box-shadow: none;
+  transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease;
+}
+
+.network-page .network-plan-item.network-plan-item-compact:hover {
+  transform: translateY(-1px);
+  border-color: #D2DDD0;
+  background: #FFFFFF;
+  box-shadow: 0 8px 22px rgba(23, 35, 27, .05);
+}
+
+.network-page .network-plan-item.network-plan-item-compact[aria-pressed="true"] {
+  border-color: #B9CEA7;
+  background: #F3F7EE;
+  box-shadow: 0 8px 22px rgba(79, 115, 2, .075);
+}
+
+.network-page .network-plan-item-compact > svg:first-child {
+  box-sizing: content-box;
+  width: 18px;
+  height: 18px;
+  margin-top: 0;
+  padding: 7px;
+  border-radius: 10px;
+  background: #EDF3E7;
+  color: #4F7302;
+}
+
+.network-page .network-plan-item-compact > svg:last-child {
+  width: 17px;
+  height: 17px;
+  margin-top: 2px;
+  color: #5D7754;
+}
+
+.network-page .network-plan-item-compact strong {
+  color: #263129;
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.network-page .network-plan-item-compact small {
+  margin: 3px 0 5px;
+  color: #758178;
+  font-size: 10.5px;
+  line-height: 1.25;
+}
+
+.network-page .network-plan-item-compact .network-plan-meta {
+  color: #4F7302;
+  font-size: 9.5px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.network-page .network-development.network-development-compact {
+  margin-top: 18px;
+}
+
+@media (max-width: 1100px) {
+  .network-page {
+    grid-template-columns: minmax(320px, .85fr) minmax(430px, 1.15fr);
+  }
+
+  .network-page > .network-hero.network-hero-compact h1 {
+    font-size: 34px;
+  }
+}
+
+@media (max-width: 900px) {
+  .network-page {
+    display: block;
+  }
+
+  .network-page > .network-hero.network-hero-compact {
+    min-height: 0;
+    margin: 0;
+    padding: 22px;
+    border-radius: 24px;
+  }
+
+  .network-page > .network-hero.network-hero-compact + * > .network-launcher.network-launcher-compact {
+    min-height: 0;
+    height: auto;
+    margin: 12px 0 0;
+    padding: 18px;
+    border: 1px solid #E3E7DF;
+    border-radius: 24px;
+  }
+}
+
+@media (max-width: 600px) {
+  .network-page > .network-hero.network-hero-compact {
+    padding: 20px;
+  }
+
+  .network-page > .network-hero.network-hero-compact h1 {
+    font-size: 32px;
+  }
+
+  .network-page > .network-hero.network-hero-compact .network-hero-content > p:last-child {
+    font-size: 12.5px;
+  }
+
+  .network-page .network-launcher-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .network-page .network-launcher-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .network-page .network-primary-compact {
+    min-width: max-content;
+  }
+
+  .network-page .network-plan-item.network-plan-item-compact {
+    min-height: 76px;
+  }
+}
