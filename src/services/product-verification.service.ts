@@ -78,14 +78,14 @@ export function createProductVerification(
           {
             id: "requested-" + timestamp,
             label: "Solicitud recibida",
-            description: "PÉEK recibió la solicitud de verificación.",
+            description: "MÁAK recibió la solicitud de verificación.",
             date: today,
             status: "complete",
           },
           {
             id: "review-" + timestamp,
             label: "Revisión en curso",
-            description: "La información será revisada por PÉEK.",
+            description: "La información será revisada por MÁAK.",
             date: today,
             status: "current",
           },
