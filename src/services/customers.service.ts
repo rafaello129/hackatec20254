@@ -1,5 +1,6 @@
 import { customerInteractionsMock, customersMock } from "@/data/mocks/customers.mock";
-import type { Customer, CustomerInsight, CustomerInteraction, CustomerKpi } from "@/types/customer.types";
+import { customerPurchasesMock } from "@/data/mocks/customer-purchases.mock";
+import type { Customer, CustomerInsight, CustomerInteraction, CustomerKpi, CustomerPurchase } from "@/types/customer.types";
 
 const MS_IN_DAY = 1000 * 60 * 60 * 24;
 
@@ -29,6 +30,10 @@ export async function getCustomerById(id: string): Promise<Customer | undefined>
 
 export async function getCustomerInteractions(): Promise<CustomerInteraction[]> {
   return customerInteractionsMock;
+}
+
+export async function getCustomerPurchases(): Promise<CustomerPurchase[]> {
+  return customerPurchasesMock;
 }
 
 export async function getCustomerKpis(customersInput?: Customer[]): Promise<CustomerKpi[]> {
