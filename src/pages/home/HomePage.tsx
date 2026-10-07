@@ -20,6 +20,42 @@ const shortDate = new Intl.DateTimeFormat("es-MX", {
   month: "short",
 });
 
+const artisanProducts = [
+  {
+    id: "basket",
+    name: "Canasta tejida con cuentas",
+    category: "Cestería",
+    sales: 38,
+    revenue: 5320,
+    stock: 12,
+    status: "Alta demanda",
+    image:
+      "https://images.unsplash.com/photo-1755716302361-3d2c12bfa008?auto=format&fit=crop&w=320&h=320&q=82",
+  },
+  {
+    id: "bag",
+    name: "Bolsa bordada artesanal",
+    category: "Textil",
+    sales: 24,
+    revenue: 4080,
+    stock: 8,
+    status: "Últimas piezas",
+    image:
+      "https://images.unsplash.com/photo-1767771322982-8041f4a5da8e?auto=format&fit=crop&w=320&h=320&q=82",
+  },
+  {
+    id: "ceramic",
+    name: "Tazón de cerámica hecho a mano",
+    category: "Cerámica",
+    sales: 19,
+    revenue: 3230,
+    stock: 15,
+    status: "Venta estable",
+    image:
+      "https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=320&h=320&q=82",
+  },
+];
+
 function DashboardSkeleton() {
   return (
     <div className="animate-pulse space-y-4">
@@ -203,7 +239,7 @@ export default function HomePage() {
         })}
       </section>
 
-      <section className="grid gap-4 xl:grid-cols-[1.8fr_1fr]">
+      <section className="grid gap-5 xl:grid-cols-[1.55fr_1.15fr]">
         <article className="rounded-[22px] border border-[#E2E6DF] bg-white p-5">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div>
@@ -244,46 +280,76 @@ export default function HomePage() {
           </div>
         </article>
 
-        <article className="rounded-[22px] border border-[#E2E6DF] bg-white p-5">
-          <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-[#17231B]">Productos por revisar</h2>
-            <Link to="/inventory" className="text-[11px] font-medium text-[#287839]">
-              Ver todos →
+        <article className="rounded-[24px] border border-[#E2E6DF] bg-white p-6">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h2 className="text-base font-semibold text-[#17231B]">Artesanías más vendidas</h2>
+              <p className="mt-1 text-[12px] leading-5 text-[#7C867F]">
+                Los productos con mayor movimiento durante este mes.
+              </p>
+            </div>
+            <Link
+              to="/inventory"
+              className="mt-0.5 shrink-0 text-[11px] font-semibold text-[#287839]"
+            >
+              Ver catálogo →
             </Link>
           </div>
 
-          <div className="mt-4 space-y-2">
-            {data.productsAttention.length === 0 ? (
-              <div className="rounded-2xl bg-[#F4F8F1] p-4 text-sm text-[#47604B]">
-                Todo en orden. No tienes productos por agotarse.
-              </div>
-            ) : (
-              data.productsAttention.map((product, index) => (
-                <Link
-                  key={product.id}
-                  to="/inventory"
-                  className="flex items-center gap-3 rounded-xl p-2 transition hover:bg-[#F7F8F5]"
-                >
-                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[#EEF3EA] text-xs font-semibold text-[#56715B]">
+          <div className="mt-5 space-y-3">
+            {artisanProducts.map((product, index) => (
+              <Link
+                key={product.id}
+                to="/inventory"
+                className="group flex items-center gap-4 rounded-[18px] border border-transparent bg-[#FAFAF7] p-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#DDE6D8] hover:bg-white hover:shadow-sm"
+              >
+                <div className="relative h-[68px] w-[68px] shrink-0 overflow-hidden rounded-[16px] bg-[#EEF1EB]">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.04]"
+                    loading="lazy"
+                  />
+                  <span className="absolute left-2 top-2 grid h-5 w-5 place-items-center rounded-full bg-white/90 text-[10px] font-bold text-[#35523B] shadow-sm backdrop-blur">
                     {index + 1}
                   </span>
-                  <div
-                    className={
-                      product.status === "out_of_stock"
-                        ? "h-10 w-12 shrink-0 rounded-lg bg-[#BE5B4C]"
-                        : "h-10 w-12 shrink-0 rounded-lg bg-[#C6A86D]"
-                    }
-                  />
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-xs font-medium text-[#28322B]">{product.name}</p>
-                    <p className="mt-0.5 text-[10px] text-[#8A938D]">
-                      {product.status === "out_of_stock" ? "Agotado" : product.stockLabel}
-                    </p>
+                </div>
+
+                <div className="min-w-0 flex-1">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-[#839087]">
+                    {product.category}
+                  </p>
+                  <h3 className="mt-1 line-clamp-2 text-[13px] font-semibold leading-[1.2] text-[#28322B]">
+                    {product.name}
+                  </h3>
+
+                  <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-[#748078]">
+                    <span>
+                      <strong className="font-semibold text-[#344039]">{product.sales}</strong> ventas
+                    </span>
+                    <span className="h-1 w-1 rounded-full bg-[#C5CCC6]" />
+                    <span>{money.format(product.revenue)}</span>
+                    <span className="h-1 w-1 rounded-full bg-[#C5CCC6]" />
+                    <span>{product.stock} en stock</span>
                   </div>
-                  <ArrowRight className="h-4 w-4 text-[#87918A]" />
-                </Link>
-              ))
-            )}
+                </div>
+
+                <div className="hidden shrink-0 text-right sm:block">
+                  <span
+                    className={
+                      product.status === "Alta demanda"
+                        ? "inline-flex rounded-full bg-[#E6F3C8] px-2.5 py-1 text-[10px] font-semibold text-[#42610A]"
+                        : product.status === "Últimas piezas"
+                          ? "inline-flex rounded-full bg-[#FBE2D8] px-2.5 py-1 text-[10px] font-semibold text-[#8B4A2B]"
+                          : "inline-flex rounded-full bg-[#EEF2EA] px-2.5 py-1 text-[10px] font-semibold text-[#607064]"
+                    }
+                  >
+                    {product.status}
+                  </span>
+                  <ArrowRight className="ml-auto mt-3 h-4 w-4 text-[#98A29B] transition-transform group-hover:translate-x-0.5" />
+                </div>
+              </Link>
+            ))}
           </div>
         </article>
       </section>
